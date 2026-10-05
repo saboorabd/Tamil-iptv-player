@@ -1,1 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0f19">
+  <title>Tamil IPTV Player</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.6.15/dist/hls.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>தமிழ் IPTV</h1>
+      <p>Low-latency HLS player</p>
+    </div>
+    <button id="reloadBtn" class="ghost">Reload</button>
+  </header>
 
+  <main class="layout">
+    <section class="player-card">
+      <video id="video" controls playsinline></video>
+
+      <div class="status-row">
+        <span id="status">Ready</span>
+        <span id="latency">Latency: --</span>
+        <span id="quality">Quality: --</span>
+      </div>
+
+      <div class="controls">
+        <label>
+          Quality
+          <select id="qualitySelect">
+            <option value="-1">Auto</option>
+          </select>
+        </label>
+
+        <label>
+          Live edge
+          <select id="edgeSelect">
+            <option value="safe">Safe</option>
+            <option value="near">Near edge</option>
+          </select>
+        </label>
+
+        <button id="liveBtn">Go Live</button>
+      </div>
+    </section>
+
+    <aside class="channels-card">
+      <div class="search-row">
+        <input id="search" type="search" placeholder="Search channels...">
+        <select id="group">
+          <option value="all">All</option>
+        </select>
+      </div>
+      <div id="channels" class="channels"></div>
+    </aside>
+  </main>
+
+  <footer>
+    Use only streams you own or are authorized to access/redistribute.
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
