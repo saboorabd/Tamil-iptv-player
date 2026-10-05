@@ -210,8 +210,8 @@ setInterval(() => {
 async function loadPlaylist() {
   setStatus("Loading playlist...");
   try {
-    const response = await fetch("/playlist.m3u", { cache: "no-store" });
-    if (!response.ok) throw new Error("playlist.m3u not found");
+    const response = await fetch("/tamil channe.m3u", { cache: "no-store" });
+    if (!response.ok) throw new Error("tamil channe.m3u not found");
     channels = parseM3U(await response.text());
     renderGroups();
     renderChannels();
@@ -221,7 +221,7 @@ async function loadPlaylist() {
       setStatus("Playlist is empty");
     }
   } catch (err) {
-    setStatus("Add your authorized playlist as public/playlist.m3u");
+    setStatus("Add your authorized own playlist as public/tamil channe.m3u");
     console.error(err);
   }
 }
