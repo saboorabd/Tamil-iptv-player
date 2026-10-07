@@ -7,25 +7,25 @@ const axios = require("axios");
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// All CORS Origins Allowed
+// 1. பிரௌசரின் CORS தடையை முழுமையாக நீக்குகிறது
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['*']
 }));
 
-// Serve Static Files from both 'public' directory and root
-app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, "public")));
 
-// IPTV CORS & Header Injector Proxy Route
+// 2. Universal IPTV CORS & Header Injector Proxy Route
 app.get("/proxy", async (req, res) => {
   const streamUrl = req.query.url;
   if (!streamUrl) {
-    return res.status(400).json({ error: "Missing 'url' query parameter" });
+    return res.status(400).json({ error: "Missing 'url' parameter" });
   }
 
-  const customUserAgent = req.query.ua || req.headers['user-agent'] || 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)';
+  // ஒரிஜினல் ஆப் போல நடிக்கத் தேவையான Fake Headers
+  const customUserAgent = req.query.ua || req.headers['user-agent'] || 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
   const customCookie = req.query.cookie || '';
   const customReferer = req.query.referer || '';
 
@@ -40,10 +40,12 @@ app.get("/proxy", async (req, res) => {
         'Referer': customReferer,
         'Origin': customReferer ? new URL(customReferer).origin : ''
       },
-      timeout: 12000
+      timeout: 15000
     });
 
+    // பிரௌசருக்கு CORS அனுமதி வழங்குதல்
     res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
     if (response.headers['content-type']) {
       res.setHeader("Content-Type", response.headers['content-type']);
     }
@@ -51,30 +53,17 @@ app.get("/proxy", async (req, res) => {
     response.data.pipe(res);
 
   } catch (error) {
-    console.error("Proxy Fetch Error:", error.message);
-    res.status(500).json({ error: "Failed to fetch video stream", details: error.message });
+    console.error("Proxy Error:", error.message);
+    res.status(500).json({ error: "Bypass failed", details: error.message });
   }
 });
 
-// Fallback Route for HTML serving
 app.get("/", (_req, res) => {
-  const publicIndexPath = path.join(__dirname, "public", "index.html");
-  const rootIndexPath = path.join(__dirname, "index.html");
-
-  if (fs.existsSync(publicIndexPath)) {
-    return res.sendFile(publicIndexPath);
-  } else if (fs.existsSync(rootIndexPath)) {
-    return res.sendFile(rootIndexPath);
-  } else {
-    return res.status(404).send("index.html not found in root or public folder");
+  const rootIndex = path.join(__dirname, "index.html");
+  if (fs.existsSync(rootIndex)) {
+    return res.sendFile(rootIndex);
   }
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Health Check API for Render
-app.get("/health", (_req, res) => {
-  res.json({ ok: true, service: "tamil-iptv-player" });
-});
-
-app.listen(PORT, () => {
-  console.log(`IPTV server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Proxy running on port ${PORT}`));
