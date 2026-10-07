@@ -1,230 +1,193 @@
-const video = document.getElementById("videoPlayer");
-const channelListEl = document.getElementById("channelList");
-const searchInput = document.getElementById("searchInput");
-const groupSelect = document.getElementById("groupSelect");
-const statusOverlay = document.getElementById("statusOverlay");
-const currentChannelName = document.getElementById("currentChannelName");
-const currentGroup = document.getElementById("currentGroup");
-const channelCountEl = document.getElementById("channelCount");
+const $ = id => document.getElementById(id);
+const video = $('video'), statusEl = $('status');
+const store = {
+  get(k, d) { try { const v = JSON.parse(localStorage.getItem(k)); return v ?? d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+const NOLOGO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='42'%3E%3Crect width='42' height='42' rx='8' fill='%23121c30'/%3E%3Ctext x='21' y='26' font-size='12' fill='%238da2bd' text-anchor='middle' font-family='sans-serif'%3ETV%3C/text%3E%3C/svg%3E";
 
-let channels = [];
-let hlsPlayer = null;
-let shakaPlayer = null;
+let channels = [], cur = null, hls = null, sk = null, token = 0;
+let favs = new Set(store.get('favs', []));
+$('modeSelect').value = store.get('mode', 'auto');
+$('edgeSelect').value = store.get('edge', 'default');
 
-/* ----------------------------------------------------
-   1. FIXED M3U PARSER
----------------------------------------------------- */
-function parseM3U(content) {
-  const lines = content.split(/\r?\n/);
-  const list = [];
-  let currentObj = { headers: {}, drm: null };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const setStatus = (t, err) => { statusEl.textContent = t; statusEl.className = err ? 'err' : ''; };
+const proxied = c => `/proxy?ch=${c.id}&url=${encodeURIComponent(c.url)}`;
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
-
-    if (line.startsWith("#EXTINF:")) {
-      const commaIndex = line.lastIndexOf(",");
-      const title = commaIndex !== -1 ? line.substring(commaIndex + 1).trim() : "Unknown Channel";
-
-      const logoMatch = line.match(/tvg-logo="([^"]*)"/i);
-      const groupMatch = line.match(/group-title="([^"]*)"/i);
-
-      currentObj.name = title;
-      currentObj.logo = logoMatch ? logoMatch[1] : "https://via.placeholder.com/50?text=TV";
-      currentObj.group = groupMatch ? groupMatch[1] : "General";
-    } 
-    else if (line.startsWith("#KODIPROP:inputstream.adaptive.license_key=")) {
-      const keyStr = line.split("=")[1]?.trim();
-      if (keyStr && keyStr.includes(":")) {
-        const [kid, key] = keyStr.split(":");
-        currentObj.drm = { kid, key };
-      }
-    } 
-    else if (line.startsWith("#EXTHTTP:")) {
-      try {
-        const jsonStr = line.replace("#EXTHTTP:", "").trim();
-        currentObj.headers = JSON.parse(jsonStr);
-      } catch (err) {
-        console.error("EXTHTTP JSON Error:", err);
-      }
-    } 
-    else if (!line.startsWith("#") && line.startsWith("http")) {
-      currentObj.url = line;
-      if (currentObj.name) {
-        list.push({ ...currentObj });
-      }
-      currentObj = { headers: {}, drm: null };
-    }
-  }
-  return list;
-}
-
-/* ----------------------------------------------------
-   2. FETCH PLAYLIST
----------------------------------------------------- */
-async function loadChannels() {
-  if (statusOverlay) statusOverlay.textContent = "Loading Playlist...";
-
-  const filesToTry = ["/playlist.m3u", "./playlist.m3u", "/tamil_playlist.m3u", "/tamil%20channe.m3u"];
-  let text = "";
-
-  for (const file of filesToTry) {
-    try {
-      const res = await fetch(`${file}?t=${Date.now()}`);
-      if (res.ok) {
-        text = await res.text();
-        console.log("M3U Loaded from:", file);
-        break;
-      }
-    } catch (e) {}
-  }
-
-  if (!text) {
-    if (statusOverlay) statusOverlay.textContent = "Error: Playlist file not found";
-    return;
-  }
-
-  channels = parseM3U(text);
-
-  if (channels.length === 0) {
-    if (statusOverlay) statusOverlay.textContent = "No Channels Found in M3U";
-    return;
-  }
-
-  populateGroups();
-  renderChannels();
-  if (statusOverlay) statusOverlay.textContent = "Select a Channel to Play";
-}
-
-/* ----------------------------------------------------
-   3. UI RENDER
----------------------------------------------------- */
-function populateGroups() {
-  if (!groupSelect) return;
-  const groups = [...new Set(channels.map(c => c.group))].sort();
-  groupSelect.innerHTML = `<option value="all">All Categories (${groups.length})</option>` +
-    groups.map(g => `<option value="${g}">${g}</option>`).join("");
-}
-
-function renderChannels() {
-  if (!channelListEl) return;
-  const query = searchInput ? searchInput.value.toLowerCase() : "";
-  const selectedGroup = groupSelect ? groupSelect.value : "all";
-
-  const filtered = channels.filter(c => {
-    const matchesSearch = c.name.toLowerCase().includes(query);
-    const matchesGroup = selectedGroup === "all" || c.group === selectedGroup;
-    return matchesSearch && matchesGroup;
-  });
-
-  if (channelCountEl) channelCountEl.textContent = `${filtered.length} Channels`;
-
-  if (filtered.length === 0) {
-    channelListEl.innerHTML = `<div style="text-align:center; padding: 20px; color: #aaa;">No channels found</div>`;
-    return;
-  }
-
-  channelListEl.innerHTML = filtered.map((c) => {
-    const originalIndex = channels.indexOf(c);
-    return `
-      <div class="channel-item" onclick="playChannel(${originalIndex})" style="display:flex; align-items:center; gap:10px; padding:10px; cursor:pointer; border-bottom:1px solid #222;">
-        <img src="${c.logo}" style="width:40px; height:40px; object-fit:contain; border-radius:4px;" onerror="this.src='https://via.placeholder.com/40?text=TV'">
-        <div>
-          <h4 style="margin:0; font-size:14px; color:#fff;">${c.name}</h4>
-          <p style="margin:0; font-size:11px; color:#888;">${c.group}</p>
-        </div>
-      </div>
-    `;
-  }).join("");
-}
-
-/* ----------------------------------------------------
-   4. STREAM PLAYER
----------------------------------------------------- */
-async function playChannel(index) {
-  const channel = channels[index];
-  if (!channel) return;
-
-  if (currentChannelName) currentChannelName.textContent = channel.name;
-  if (currentGroup) currentGroup.textContent = channel.group;
-  if (statusOverlay) statusOverlay.textContent = `Connecting to ${channel.name}...`;
-
-  await stopCurrentPlayer();
-
-  let proxiedUrl = `/proxy?url=${encodeURIComponent(channel.url)}`;
-
-  if (channel.headers) {
-    if (channel.headers.Cookie || channel.headers.cookie) {
-      proxiedUrl += `&cookie=${encodeURIComponent(channel.headers.Cookie || channel.headers.cookie)}`;
-    }
-    if (channel.headers.Referer || channel.headers.referer) {
-      proxiedUrl += `&referer=${encodeURIComponent(channel.headers.Referer || channel.headers.referer)}`;
-    }
-  }
-
-  if (channel.url.includes(".mpd") || channel.drm) {
-    playDashStream(proxiedUrl, channel.drm);
-  } else {
-    playHlsStream(proxiedUrl);
-  }
-}
-
-async function stopCurrentPlayer() {
-  if (hlsPlayer) {
-    hlsPlayer.destroy();
-    hlsPlayer = null;
-  }
-  if (shakaPlayer) {
-    await shakaPlayer.destroy();
-    shakaPlayer = null;
-  }
-  if (video) {
-    video.pause();
-    video.src = "";
-  }
-}
-
-function playHlsStream(url) {
-  if (typeof Hls !== 'undefined' && Hls.isSupported()) {
-    hlsPlayer = new Hls({ enableWorker: true });
-    hlsPlayer.loadSource(url);
-    hlsPlayer.attachMedia(video);
-
-    hlsPlayer.on(Hls.Events.MANIFEST_PARSED, () => {
-      video.play().catch(() => {});
-      if (statusOverlay) statusOverlay.textContent = "LIVE";
-    });
-  } else if (video && video.canPlayType('application/vnd.apple.mpegurl')) {
-    video.src = url;
-    video.play();
-    if (statusOverlay) statusOverlay.textContent = "LIVE";
-  }
-}
-
-async function playDashStream(url, drm) {
-  if (typeof shaka === 'undefined') return;
-  shaka.polyfill.installAll();
-  shakaPlayer = new shaka.Player(video);
-
-  if (drm && drm.kid && drm.key) {
-    const clearKeys = {};
-    clearKeys[drm.kid] = drm.key;
-    shakaPlayer.configure({ drm: { clearKeys: clearKeys } });
-  }
-
+/* ---------- playlist ---------- */
+async function loadChannels(fresh) {
+  setStatus('Playlist ஏற்றுகிறது…');
   try {
-    await shakaPlayer.load(url);
-    video.play();
-    if (statusOverlay) statusOverlay.textContent = "LIVE";
+    const r = await fetch('/api/channels' + (fresh ? '?fresh=1' : ''));
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || r.status);
+    if (!data.length) throw new Error('playlist-ல் channel இல்லை (#EXTINF வரிகளைச் சரிபார்க்கவும்)');
+    channels = data;
+    const groups = [...new Set(channels.map(c => c.group))].sort();
+    $('group').innerHTML = '<option value="all">All</option><option value="fav">★ Favourites</option>' +
+      groups.map(g => `<option value="${esc(g)}">${esc(g)}</option>`).join('');
+    render();
+    setStatus('Channel ஒன்றைத் தேர்ந்தெடுக்கவும்');
   } catch (e) {
-    console.error("Shaka Player Error:", e);
+    channels = []; render();
+    setStatus('Playlist பிழை: ' + e.message, true);
   }
 }
 
-// Event Listeners
-if (searchInput) searchInput.addEventListener("input", renderChannels);
-if (groupSelect) groupSelect.addEventListener("change", renderChannels);
+function render() {
+  const q = $('search').value.trim().toLowerCase(), g = $('group').value;
+  const rows = channels.filter(c =>
+    (g === 'all' || (g === 'fav' ? favs.has(c.name) : c.group === g)) && (!q || c.name.toLowerCase().includes(q)));
+  $('count').textContent = rows.length + ' channels';
+  $('channels').innerHTML = rows.length ? rows.map(c => `
+    <button class="ch ${cur && cur.id === c.id ? 'cur' : ''}" data-id="${c.id}">
+      <img src="${esc(c.logo || NOLOGO)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${NOLOGO}'">
+      <span class="t"><b>${esc(c.name)}</b><small>${esc(c.group)}</small></span>
+      <span class="star ${favs.has(c.name) ? 'on' : ''}" data-fav="${esc(c.name)}">${favs.has(c.name) ? '★' : '☆'}</span>
+    </button>`).join('') : '<div class="empty">Channels இல்லை</div>';
+}
 
-// Run Engine
+function toggleFav(name) {
+  favs.has(name) ? favs.delete(name) : favs.add(name);
+  store.set('favs', [...favs]);
+  favBtn(); render();
+}
+function favBtn() {
+  if (!cur) return;
+  const on = favs.has(cur.name);
+  $('favBtn').textContent = (on ? '★' : '☆') + ' Favourite';
+  $('favBtn').classList.toggle('on', on);
+}
+
+/* ---------- playback ---------- */
+function teardown() {
+  if (hls) { hls.destroy(); hls = null; }
+  if (sk) { sk.destroy(); sk = null; }
+  video.pause(); video.removeAttribute('src'); video.load();
+  $('qualitySelect').innerHTML = '<option value="-1">Auto</option>';
+  $('quality').textContent = 'Quality: --';
+}
+
+async function play(c) {
+  const my = ++token;
+  cur = c; store.set('last', c.id);
+  $('nowName').textContent = c.name; $('nowGroup').textContent = c.group;
+  favBtn(); render(); teardown(); setStatus('Connecting: ' + c.name + '…');
+
+  const mode = $('modeSelect').value;
+  const insecure = location.protocol === 'https:' && c.url.startsWith('http:');
+  const tries = (mode === 'proxy' || insecure || c.proxy) ? [proxied(c)]
+              : mode === 'direct' ? [c.url] : [c.url, proxied(c)];
+  const dash = /\.mpd(\?|$)/i.test(c.url) || !!c.drm;
+
+  for (let i = 0; i < tries.length; i++) {
+    try {
+      await (dash ? startShaka(tries[i], c, my) : startHls(tries[i], my));
+      if (my === token) setStatus('LIVE');
+      return;
+    } catch (e) {
+      if (my !== token) return;
+      teardown();
+      if (i < tries.length - 1) setStatus('Direct fail → Proxy முயற்சி…');
+      else setStatus('Play ஆகவில்லை: ' + e.message, true);
+    }
+  }
+}
+
+function startHls(src, my) {
+  return new Promise((ok, no) => {
+    if (window.Hls && Hls.isSupported()) {
+      const near = $('edgeSelect').value === 'near';
+      let recovers = 0;
+      hls = new Hls({
+        lowLatencyMode: near, liveSyncDurationCount: near ? 2 : 3, liveMaxLatencyDurationCount: near ? 5 : 10,
+        backBufferLength: 30, manifestLoadingMaxRetry: 2, fragLoadingMaxRetry: 3
+      });
+      hls.on(Hls.Events.MANIFEST_PARSED, (e, d) => {
+        if (my !== token) return;
+        const q = $('qualitySelect');
+        if (d.levels.length > 1) q.innerHTML = '<option value="-1">Auto</option>' +
+          d.levels.map((l, i) => `<option value="${i}">${l.height ? l.height + 'p' : Math.round(l.bitrate / 1000) + 'k'}</option>`).join('');
+        video.play().catch(() => {});
+        ok();
+      });
+      hls.on(Hls.Events.LEVEL_SWITCHED, (e, d) => {
+        const l = hls.levels[d.level];
+        if (l) $('quality').textContent = 'Quality: ' + (l.height ? l.height + 'p' : Math.round(l.bitrate / 1000) + 'k');
+      });
+      hls.on(Hls.Events.ERROR, (e, d) => {
+        if (!d.fatal || my !== token) return;
+        if (d.type === Hls.ErrorTypes.MEDIA_ERROR && recovers++ < 2) return hls.recoverMediaError();
+        no(new Error(d.details));
+      });
+      hls.loadSource(src); hls.attachMedia(video);
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = src;
+      video.onloadedmetadata = () => ok();
+      video.onerror = () => no(new Error('native playback error'));
+      video.play().catch(() => {});
+    } else no(new Error('HLS support இல்லை (hls.js load ஆகவில்லை)'));
+  });
+}
+
+async function startShaka(src, c, my) {
+  if (!window.shaka) throw new Error('Shaka load ஆகவில்லை');
+  shaka.polyfill.installAll();
+  if (!shaka.Player.isBrowserSupported()) throw new Error('DASH/DRM இந்த browser-ல் இல்லை');
+  sk = new shaka.Player();
+  await sk.attach(video);
+  const cfg = {};
+  if (c.drm && c.drm.key) {                       // உங்கள் license — standard EME playback
+    if (!c.drm.type || /clearkey/i.test(c.drm.type)) {
+      const [kid, k] = c.drm.key.split(':');
+      cfg.drm = { clearKeys: { [kid]: k } };
+    } else cfg.drm = { servers: { [c.drm.type]: c.drm.key } };
+  }
+  sk.configure(cfg);
+  sk.addEventListener('error', e => { if (my === token) setStatus('Shaka error ' + e.detail.code, true); });
+  await sk.load(src);
+  if (my !== token) return;
+  const tracks = sk.getVariantTracks();
+  const hs = [...new Set(tracks.map(t => t.height).filter(Boolean))].sort((a, b) => b - a);
+  if (hs.length > 1) $('qualitySelect').innerHTML = '<option value="-1">Auto</option>' + hs.map(h => `<option value="${h}">${h}p</option>`).join('');
+  video.play().catch(() => {});
+}
+
+/* ---------- controls ---------- */
+$('qualitySelect').onchange = e => {
+  const v = +e.target.value;
+  if (hls) hls.currentLevel = v;
+  else if (sk) {
+    sk.configure({ abr: { enabled: v < 0 } });
+    if (v > 0) sk.selectVariantTrack(sk.getVariantTracks().filter(t => t.height === v).sort((a, b) => b.bandwidth - a.bandwidth)[0], true);
+  }
+};
+$('liveBtn').onclick = () => {
+  if (hls && hls.liveSyncPosition) video.currentTime = hls.liveSyncPosition;
+  else if (sk) video.currentTime = sk.seekRange().end;
+  video.play().catch(() => {});
+};
+$('edgeSelect').onchange = e => { store.set('edge', e.target.value); cur && play(cur); };
+$('modeSelect').onchange = e => { store.set('mode', e.target.value); cur && play(cur); };
+$('favBtn').onclick = () => cur && toggleFav(cur.name);
+$('reloadBtn').onclick = () => loadChannels(true);
+$('channels').addEventListener('click', e => {
+  const f = e.target.closest('[data-fav]');
+  if (f) { e.stopPropagation(); return toggleFav(f.dataset.fav); }
+  const b = e.target.closest('.ch');
+  if (b) play(channels[+b.dataset.id]);
+});
+let t; $('search').addEventListener('input', () => { clearTimeout(t); t = setTimeout(render, 150); });
+$('group').addEventListener('change', render);
+video.addEventListener('waiting', () => cur && setStatus('Buffering…'));
+video.addEventListener('playing', () => cur && setStatus('LIVE'));
+
+setInterval(() => {
+  let l = null;
+  if (hls && typeof hls.latency === 'number' && hls.latency > 0) l = hls.latency;
+  else if (sk) { try { const e = sk.seekRange().end; if (e) l = e - video.currentTime; } catch {} }
+  $('latency').textContent = 'Latency: ' + (l == null ? '--' : l.toFixed(1) + 's');
+}, 1000);
+
 loadChannels();
