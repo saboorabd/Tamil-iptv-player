@@ -1,56 +1,71 @@
 const express = require("express");
 const path = require("path");
-const cors = require("cors"); // CORS இணைக்கப்பட்டுள்ளது
+const cors = require("cors");
+const axios = require("axios");
 
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// அனைத்து டொமைன்களுக்கும் முழு CORS அனுமதி
+// All CORS Origins Allowed
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['*']
 }));
 
-// IPTV .m3u8 ஸ்ட்ரீம்களுக்கான CORS Proxy (இதுதான் முக்கியம்!)
+// IPTV CORS & Header Injector Proxy Route
 app.get("/proxy", async (req, res) => {
   const streamUrl = req.query.url;
   if (!streamUrl) {
     return res.status(400).json({ error: "Missing 'url' query parameter" });
   }
 
-  try {
-    const response = await fetch(streamUrl);
-    
-    // ஒரிஜினல் வீடியோ சர்வரில் இருந்து வரும் ஹெடர்களை பாஸ் செய்யவும்
-    res.setHeader("Content-Type", response.headers.get("content-type") || "application/x-mpegURL");
-    res.setHeader("Access-Control-Allow-Origin", "*");
+  // Frontend-ல் இருந்து வரும் Headers
+  const customUserAgent = req.query.ua || req.headers['user-agent'] || 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)';
+  const customCookie = req.query.cookie || '';
+  const customReferer = req.query.referer || '';
 
-    const body = response.body;
-    if (body) {
-      const reader = body.getReader();
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        res.write(value);
-      }
+  try {
+    const response = await axios({
+      method: 'get',
+      url: streamUrl,
+      responseType: 'stream',
+      headers: {
+        'User-Agent': customUserAgent,
+        'Cookie': customCookie,
+        'Referer': customReferer,
+        'Origin': customReferer ? new URL(customReferer).origin : ''
+      },
+      timeout: 12000
+    });
+
+    // Pass Response Headers
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    if (response.headers['content-type']) {
+      res.setHeader("Content-Type", response.headers['content-type']);
     }
-    res.end();
+
+    // Direct Pipe
+    response.data.pipe(res);
+
   } catch (error) {
+    console.error("Proxy Fetch Error:", error.message);
     res.status(500).json({ error: "Failed to fetch video stream", details: error.message });
   }
 });
 
-// Static ஃபைல்களை சேர்வ் செய்ய
-app.use(express.static(path.join(__dirname, "public"), {
-  extensions: ["html"]
-}));
+// Serve HTML/CSS/JS Files
+app.use(express.static(__dirname, { extensions: ["html"] }));
 
-// Health Check
+app.get("/", (_req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+// Health Check API for Render
 app.get("/health", (_req, res) => {
   res.json({ ok: true, service: "tamil-iptv-player" });
 });
 
 app.listen(PORT, () => {
-  console.log(`IPTV player running on port ${PORT}`);
+  console.log(`IPTV server running on port ${PORT}`);
 });
