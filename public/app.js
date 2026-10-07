@@ -6,19 +6,18 @@ const statusOverlay = document.getElementById("statusOverlay");
 const currentChannelName = document.getElementById("currentChannelName");
 const currentGroup = document.getElementById("currentGroup");
 const channelCountEl = document.getElementById("channelCount");
-const reloadBtn = document.getElementById("reloadBtn");
 
 let channels = [];
 let hlsPlayer = null;
 let shakaPlayer = null;
 
 /* ----------------------------------------------------
-   1. M3U PARSER (EXTHTTP & KODIPROP SUPPORT)
+   1. FIXED M3U PARSER
 ---------------------------------------------------- */
 function parseM3U(content) {
   const lines = content.split(/\r?\n/);
   const list = [];
-  let currentObj = {};
+  let currentObj = { headers: {}, drm: null };
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
@@ -28,16 +27,12 @@ function parseM3U(content) {
       const commaIndex = line.lastIndexOf(",");
       const title = commaIndex !== -1 ? line.substring(commaIndex + 1).trim() : "Unknown Channel";
 
-      const logoMatch = line.match(/tvg-logo="([^"]*)"/);
-      const groupMatch = line.match(/group-title="([^"]*)"/);
+      const logoMatch = line.match(/tvg-logo="([^"]*)"/i);
+      const groupMatch = line.match(/group-title="([^"]*)"/i);
 
-      currentObj = {
-        name: title,
-        logo: logoMatch ? logoMatch[1] : "",
-        group: groupMatch ? groupMatch[1] : "General",
-        drm: null,
-        headers: {}
-      };
+      currentObj.name = title;
+      currentObj.logo = logoMatch ? logoMatch[1] : "https://via.placeholder.com/50?text=TV";
+      currentObj.group = groupMatch ? groupMatch[1] : "General";
     } 
     else if (line.startsWith("#KODIPROP:inputstream.adaptive.license_key=")) {
       const keyStr = line.split("=")[1]?.trim();
@@ -51,69 +46,71 @@ function parseM3U(content) {
         const jsonStr = line.replace("#EXTHTTP:", "").trim();
         currentObj.headers = JSON.parse(jsonStr);
       } catch (err) {
-        console.error("EXTHTTP JSON Parse Error:", err);
+        console.error("EXTHTTP JSON Error:", err);
       }
     } 
-    else if (!line.startsWith("#")) {
+    else if (!line.startsWith("#") && line.startsWith("http")) {
       currentObj.url = line;
       if (currentObj.name) {
         list.push({ ...currentObj });
       }
-      currentObj = {};
+      currentObj = { headers: {}, drm: null };
     }
   }
   return list;
 }
 
 /* ----------------------------------------------------
-   2. LOAD PLAYLIST FROM SERVER
+   2. FETCH PLAYLIST
 ---------------------------------------------------- */
 async function loadChannels() {
-  statusOverlay.textContent = "Loading Playlist...";
-  
-  // Multiple fallback filename check
-  const filesToTry = ["/tamil_playlist.m3u", "/tamil channe.m3u", "/tamil%20channe.m3u"];
+  if (statusOverlay) statusOverlay.textContent = "Loading Playlist...";
+
+  const filesToTry = ["/playlist.m3u", "./playlist.m3u", "/tamil_playlist.m3u", "/tamil%20channe.m3u"];
   let text = "";
 
   for (const file of filesToTry) {
     try {
-      const res = await fetch(file, { cache: "no-store" });
+      const res = await fetch(`${file}?t=${Date.now()}`);
       if (res.ok) {
         text = await res.text();
+        console.log("M3U Loaded from:", file);
         break;
       }
     } catch (e) {}
   }
 
   if (!text) {
-    statusOverlay.textContent = "Error: M3U playlist file not found";
+    if (statusOverlay) statusOverlay.textContent = "Error: Playlist file not found";
     return;
   }
 
   channels = parseM3U(text);
 
   if (channels.length === 0) {
-    statusOverlay.textContent = "No valid channels found in M3U";
+    if (statusOverlay) statusOverlay.textContent = "No Channels Found in M3U";
     return;
   }
 
   populateGroups();
   renderChannels();
-  statusOverlay.textContent = "Select a Channel to Play";
+  if (statusOverlay) statusOverlay.textContent = "Select a Channel to Play";
 }
 
 /* ----------------------------------------------------
-   3. UI RENDER FUNCTIONS
+   3. UI RENDER
 ---------------------------------------------------- */
 function populateGroups() {
+  if (!groupSelect) return;
   const groups = [...new Set(channels.map(c => c.group))].sort();
   groupSelect.innerHTML = `<option value="all">All Categories (${groups.length})</option>` +
     groups.map(g => `<option value="${g}">${g}</option>`).join("");
 }
 
 function renderChannels() {
-  const query = searchInput.value.toLowerCase();
-  const selectedGroup = groupSelect.value;
+  if (!channelListEl) return;
+  const query = searchInput ? searchInput.value.toLowerCase() : "";
+  const selectedGroup = groupSelect ? groupSelect.value : "all";
 
   const filtered = channels.filter(c => {
     const matchesSearch = c.name.toLowerCase().includes(query);
@@ -121,21 +118,21 @@ function renderChannels() {
     return matchesSearch && matchesGroup;
   });
 
-  channelCountEl.textContent = `${filtered.length} Channels Found`;
+  if (channelCountEl) channelCountEl.textContent = `${filtered.length} Channels`;
 
   if (filtered.length === 0) {
-    channelListEl.innerHTML = `<div style="text-align:center; padding: 20px; color: #64748b;">No channels match search</div>`;
+    channelListEl.innerHTML = `<div style="text-align:center; padding: 20px; color: #aaa;">No channels found</div>`;
     return;
   }
 
   channelListEl.innerHTML = filtered.map((c) => {
     const originalIndex = channels.indexOf(c);
     return `
-      <div class="channel-item" onclick="playChannel(${originalIndex})">
-        <img src="${c.logo}" class="channel-logo" onerror="this.src='https://via.placeholder.com/40?text=TV'">
-        <div class="channel-info">
-          <h4>${c.name}</h4>
-          <p>${c.group}</p>
+      <div class="channel-item" onclick="playChannel(${originalIndex})" style="display:flex; align-items:center; gap:10px; padding:10px; cursor:pointer; border-bottom:1px solid #222;">
+        <img src="${c.logo}" style="width:40px; height:40px; object-fit:contain; border-radius:4px;" onerror="this.src='https://via.placeholder.com/40?text=TV'">
+        <div>
+          <h4 style="margin:0; font-size:14px; color:#fff;">${c.name}</h4>
+          <p style="margin:0; font-size:11px; color:#888;">${c.group}</p>
         </div>
       </div>
     `;
@@ -143,34 +140,29 @@ function renderChannels() {
 }
 
 /* ----------------------------------------------------
-   4. PLAYBACK CONTROLLER
+   4. STREAM PLAYER
 ---------------------------------------------------- */
 async function playChannel(index) {
   const channel = channels[index];
   if (!channel) return;
 
-  currentChannelName.textContent = channel.name;
-  currentGroup.textContent = channel.group;
-  statusOverlay.textContent = `Connecting to ${channel.name}...`;
+  if (currentChannelName) currentChannelName.textContent = channel.name;
+  if (currentGroup) currentGroup.textContent = channel.group;
+  if (statusOverlay) statusOverlay.textContent = `Connecting to ${channel.name}...`;
 
   await stopCurrentPlayer();
 
-  // Construct Proxy URL with Headers Query Parameters
   let proxiedUrl = `/proxy?url=${encodeURIComponent(channel.url)}`;
 
   if (channel.headers) {
     if (channel.headers.Cookie || channel.headers.cookie) {
       proxiedUrl += `&cookie=${encodeURIComponent(channel.headers.Cookie || channel.headers.cookie)}`;
     }
-    if (channel.headers.Referer || channel.headers.referer || channel.headers.Origin) {
-      proxiedUrl += `&referer=${encodeURIComponent(channel.headers.Referer || channel.headers.referer || channel.headers.Origin)}`;
-    }
-    if (channel.headers['User-Agent'] || channel.headers['user-agent']) {
-      proxiedUrl += `&ua=${encodeURIComponent(channel.headers['User-Agent'] || channel.headers['user-agent'])}`;
+    if (channel.headers.Referer || channel.headers.referer) {
+      proxiedUrl += `&referer=${encodeURIComponent(channel.headers.Referer || channel.headers.referer)}`;
     }
   }
 
-  // Route DASH vs HLS
   if (channel.url.includes(".mpd") || channel.drm) {
     playDashStream(proxiedUrl, channel.drm);
   } else {
@@ -187,62 +179,52 @@ async function stopCurrentPlayer() {
     await shakaPlayer.destroy();
     shakaPlayer = null;
   }
-  video.pause();
-  video.src = "";
+  if (video) {
+    video.pause();
+    video.src = "";
+  }
 }
 
-/* ----------------------------------------------------
-   5. HLS & SHAKA DASH PLAYERS
----------------------------------------------------- */
 function playHlsStream(url) {
-  if (Hls.isSupported()) {
+  if (typeof Hls !== 'undefined' && Hls.isSupported()) {
     hlsPlayer = new Hls({ enableWorker: true });
     hlsPlayer.loadSource(url);
     hlsPlayer.attachMedia(video);
 
     hlsPlayer.on(Hls.Events.MANIFEST_PARSED, () => {
       video.play().catch(() => {});
-      statusOverlay.textContent = "LIVE";
+      if (statusOverlay) statusOverlay.textContent = "LIVE";
     });
-
-    hlsPlayer.on(Hls.Events.ERROR, (_event, data) => {
-      if (data.fatal) {
-        statusOverlay.textContent = "HLS Stream Connection Failed";
-      }
-    });
-  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+  } else if (video && video.canPlayType('application/vnd.apple.mpegurl')) {
     video.src = url;
     video.play();
-    statusOverlay.textContent = "LIVE";
+    if (statusOverlay) statusOverlay.textContent = "LIVE";
   }
 }
 
 async function playDashStream(url, drm) {
+  if (typeof shaka === 'undefined') return;
   shaka.polyfill.installAll();
   shakaPlayer = new shaka.Player(video);
 
   if (drm && drm.kid && drm.key) {
     const clearKeys = {};
     clearKeys[drm.kid] = drm.key;
-    shakaPlayer.configure({
-      drm: { clearKeys: clearKeys }
-    });
+    shakaPlayer.configure({ drm: { clearKeys: clearKeys } });
   }
 
   try {
     await shakaPlayer.load(url);
     video.play();
-    statusOverlay.textContent = "LIVE";
+    if (statusOverlay) statusOverlay.textContent = "LIVE";
   } catch (e) {
     console.error("Shaka Player Error:", e);
-    statusOverlay.textContent = "DASH/DRM Stream Error";
   }
 }
 
-// Global Event Handlers
-searchInput.addEventListener("input", renderChannels);
-groupSelect.addEventListener("change", renderChannels);
-if (reloadBtn) reloadBtn.addEventListener("click", loadChannels);
+// Event Listeners
+if (searchInput) searchInput.addEventListener("input", renderChannels);
+if (groupSelect) groupSelect.addEventListener("change", renderChannels);
 
 // Run Engine
 loadChannels();
