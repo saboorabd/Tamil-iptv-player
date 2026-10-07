@@ -1,6 +1,4 @@
 #EXTM3U
-#EXTINF:-1 tvg-id="1" tvg-name="kalaignar sirippoli" tvg-logo="https://i.imgur.com/nsplwFc.png" tvg-country="india" tvg-language="tamil" group-title="comedy",sirippoli
-http://livebox.pro/live/abdul1/abdul1/5932.m3u8
 #EXTINF:-1 tvg-id="1" tvg-name="kalaignar sirippoli" tvg-logo="https://i.imgur.com/nsplwFc.png" tvg-country="india" tvg-language="tamil" group-title="comedy",sirippoli (source 2)
 https://segment.yuppcdn.net/240122/siripoli/playlist.m3u8
 #EXTINF:-1 tvg-id="1" tvg-name="kalaignar sirippoli" tvg-logo="https://i.imgur.com/nsplwFc.png" tvg-country="india" tvg-language="tamil" group-title="comedy",sirippoli (source 4)
@@ -29,7 +27,42 @@ https://segment.yuppcdn.net/050522/murasu/050522/murasu_1800/chunks.m3u8
 https://segment.yuppcdn.net/050522/murasu/playlist.m3u8
 #EXTINF:-1 tvg-id="4" tvg-name="murasu" tvg-logo="https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Murasu%20TV.png" tvg-country="india" tvg-language="tamil" group-title="Entertainment",murasu tv (source 4)
 https://ssai.vgcdn.net/v1/master/b505192a-b731-4e1e-9dbd-6270fc444d00/bboclassic/main.m3u8
-#EXTINF:-1 tvg-id="5" tvg-name="Zeethirai" tvg-logo="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_ZEE_THIRAI/images/LOGO_HD/LOGO_HD_image.png" tvg-country="india" tvg-language="tamil" group-title="Entertainment",Zeethirai (source 1)
-https://livebox.pro/live/abdul1/abdul1/181966.m3u8
+#EXTINF:-1 tvg-id="ts1182" tvg-logo="https://raw.githubusercontent.com/vijay-iptv/logos/refs/heads/main/Zee_Thirai_HD.png" group-title="Movies" http-user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",Zee Thirai HD
+#EXTVLCOPT:http-user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36"
+https://premiumplug.fun/zee/zee5.php/0-9-224.m3u8
 #EXTINF:-1,sonyyay
 https://drk6xq0vhn.gpcdn.net/live/sony_yay_abr/index.m3u8
+#EXTINF:-1 tvg-id="9649000" tvg-name="Zee Thirai | GmaxHub" tvg-logo="https://imagesv2.dsp1.ott.kaltura.com/Service.svc/GetImage/p/5093/entry_id/cef53bf4b0cd4d79913452f6f645c13f/version/0" group-title="VZY" tvg-category="Movies" group-logo="https://play-lh.googleusercontent.com/U5hCC5eI3y7NKBOs1xFMHddHFWKuxV2vJj3rKbWo5fsmRzHVJMl7AmbqfOMxLsXKC4e5qf7L7h8LKZMU6U0fIJM" type="dash",Zee Thirai
+#KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
+#KODIPROP:inputstream.adaptive.license_key=c7b73ae470d6440f895cac4fa0d0b441:bdce22e88eb66c8a5ea4fe7ec73d1b2d
+https://d2o8pibksxtln6.cloudfront.net/live/media/Zee_Thirai_SD/dash/Zee_Thirai_SD.mpd
+#EXTINF:-1 tvg-id="873" tvg-name="Sony Yay Tamil | GmaxHub" tvg-logo="https://jiotv.catchup.cdn.jio.com/dare_images/images/SonyYAYTam.png" group-title="Tamil" http-user-agent="plaYtv/7.1.3 (Linux;Android 13) ygx/824.1 ExoPlayerLib/824.0",Sony Yay Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=e28fc2f196045ad5a74c7eee8e4973f3:41e9517d0be1f231017a04ad93a866a1
+#EXTVLCOPT:http-user-agent="plaYtv/7.1.3 (Linux;Android 13) ygx/824.1 ExoPlayerLib/824.0"
+#EXTVLCOPT:http-cookie=__hdnea__=st=1791356424~exp=1791378024~acl=/*~hmac=cfd3a090d8d8f85996f8eba6e6d8b0e1dae3be210477125c21278260d2c9718f
+#EXTHTTP:{"cookie": "__hdnea__=st=1791356424~exp=1791378024~acl=/*~hmac=cfd3a090d8d8f85996f8eba6e6d8b0e1dae3be210477125c21278260d2c9718f", "Origin": "https://www.jiotv.com/", "Referer": "https://www.jiotv.com/"}
+https://jiotvmblive.cdn.jio.com/bpk-tv/SonyYAYTam_MOB/WDVLive/index.mpd
+#EXTINF:-1 tvg-id="3051" tvg-name="Zee Thirai HD | GmaxHub" tvg-logo="https://jiotv.catchup.cdn.jio.com/dare_images/images/ZeeThiraiHD.png" group-title="Tamil" http-user-agent="plaYtv/7.1.3 (Linux;Android 13) ygx/824.1 ExoPlayerLib/824.0",Zee Thirai HD
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=9ecfc67bf2dd54fa84495c4c299c51ec:85337048d7be42ef66f6198a99376fa7
+#EXTVLCOPT:http-user-agent="plaYtv/7.1.3 (Linux;Android 13) ygx/824.1 ExoPlayerLib/824.0"
+#EXTVLCOPT:http-cookie=__hdnea__=st=1791356424~exp=1791378024~acl=/*~hmac=cfd3a090d8d8f85996f8eba6e6d8b0e1dae3be210477125c21278260d2c9718f
+#EXTHTTP:{"cookie": "__hdnea__=st=1791356424~exp=1791378024~acl=/*~hmac=cfd3a090d8d8f85996f8eba6e6d8b0e1dae3be210477125c21278260d2c9718f", "Origin": "https://www.jiotv.com/", "Referer": "https://www.jiotv.com/"}
+https://jiotvpllive.cdn.jio.com/bpk-tv/ZeeThiraiHD_BTS/WDVLive/index.mpd?__hdnea__=st=1791364110~exp=1791367710~acl=/bpk-tv/ZeeThiraiHD_BTS/WDVLive/*~hmac=76fc2ea1aa6a46e1284917fc86f9d0a64a9f97620a51ccf2d2b72c1e94e49c92
+#EXTINF:-1 tvg-id="SONY YAY!.in" tvg-name="Sony Yay | GmaxHub" tvg-logo="https://i.postimg.cc/FRwMWQ8R/sonyyay.webp" group-title="⛨ 𝔼𝕩𝕥𝕣𝕒 | SonyLiv Channel",Sony Yay
+#EXTHTTP:{"Origin":"https://www.sonyliv.com","Referer":"https://www.sonyliv.com","User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"}
+https://sonychannel.neyini4157.workers.dev/channel/Sony%20Yay.m3u8
+#EXTINF:-1 tvg-id="873" tvg-logo="https://jiotv.catchup.cdn.jio.com/dare_images/images/SonyYAYTam.png" group-title="Tamil" http-user-agent="GmaxHub",Sony Yay Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=e28fc2f196045ad5a74c7eee8e4973f3:41e9517d0be1f231017a04ad93a866a1
+#EXTVLCOPT:http-user-agent=GmaxHub
+#EXTVLCOPT:http-cookie=__hdnea__=st=1791356424~exp=1791378024~acl=/*~hmac=cfd3a090d8d8f85996f8eba6e6d8b0e1dae3be210477125c21278260d2c9718f
+#EXTHTTP:{"Cookie":"__hdnea__=st=1791356424~exp=1791378024~acl=/*~hmac=cfd3a090d8d8f85996f8eba6e6d8b0e1dae3be210477125c21278260d2c9718f","Origin":"https://www.jiotv.com/","Referer":"https://www.jiotv.com/"}
+https://jiotvmblive.cdn.jio.com/bpk-tv/SonyYAYTam_MOB/WDVLive/index.mpd
