@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 const cors = require("cors");
 const axios = require("axios");
 
@@ -13,6 +14,10 @@ app.use(cors({
   allowedHeaders: ['*']
 }));
 
+// Serve Static Files from both 'public' directory and root
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(__dirname));
+
 // IPTV CORS & Header Injector Proxy Route
 app.get("/proxy", async (req, res) => {
   const streamUrl = req.query.url;
@@ -20,7 +25,6 @@ app.get("/proxy", async (req, res) => {
     return res.status(400).json({ error: "Missing 'url' query parameter" });
   }
 
-  // Frontend-ல் இருந்து வரும் Headers
   const customUserAgent = req.query.ua || req.headers['user-agent'] || 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)';
   const customCookie = req.query.cookie || '';
   const customReferer = req.query.referer || '';
@@ -39,13 +43,11 @@ app.get("/proxy", async (req, res) => {
       timeout: 12000
     });
 
-    // Pass Response Headers
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (response.headers['content-type']) {
       res.setHeader("Content-Type", response.headers['content-type']);
     }
 
-    // Direct Pipe
     response.data.pipe(res);
 
   } catch (error) {
@@ -54,11 +56,18 @@ app.get("/proxy", async (req, res) => {
   }
 });
 
-// Serve HTML/CSS/JS Files
-app.use(express.static(__dirname, { extensions: ["html"] }));
-
+// Fallback Route for HTML serving
 app.get("/", (_req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  const publicIndexPath = path.join(__dirname, "public", "index.html");
+  const rootIndexPath = path.join(__dirname, "index.html");
+
+  if (fs.existsSync(publicIndexPath)) {
+    return res.sendFile(publicIndexPath);
+  } else if (fs.existsSync(rootIndexPath)) {
+    return res.sendFile(rootIndexPath);
+  } else {
+    return res.status(404).send("index.html not found in root or public folder");
+  }
 });
 
 // Health Check API for Render
