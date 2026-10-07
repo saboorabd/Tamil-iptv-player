@@ -1,9 +1,12 @@
 services:
   - type: web
     name: tamil-iptv-player
-    runtime: node
+    env: node
     plan: free
     buildCommand: npm install
-    startCommand: npm start
+    startCommand: node server.js
     healthCheckPath: /health
     autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 20.0.0
