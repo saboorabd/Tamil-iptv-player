@@ -2,70 +2,46 @@
 <html lang="ta">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Tamil IPTV Player</title>
   <link rel="stylesheet" href="style.css">
-
-  <!-- HLS.js Library -->
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
-  <!-- Shaka Player Library (For DASH & ClearKey DRM) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.6/shaka-player.compiled.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/shaka-player.compiled.js"></script>
+  <script defer src="app.js"></script>
 </head>
 <body>
+<div class="app">
+  <aside class="sidebar">
+    <header class="header">
+      <h1>Tamil IPTV</h1>
+      <span id="count" class="muted"></span>
+      <button id="reloadBtn" title="Playlist reload">⟳</button>
+    </header>
+    <div class="controls">
+      <input type="search" id="search" placeholder="Channel தேடு…" autocomplete="off">
+      <select id="group"><option value="all">All</option></select>
+    </div>
+    <div id="channels" class="channels-list"></div>
+  </aside>
 
-  <div class="app">
-    <!-- Sidebar Channels List -->
-    <aside class="sidebar">
-      <header class="header">
-        <h1>Tamil IPTV</h1>
-        <button id="reloadBtn" title="Reload Playlist">🔄</button>
-      </header>
-
-      <div class="controls">
-        <input type="text" id="search" placeholder="Search channel...">
-        <select id="group">
-          <option value="all">All Channels</option>
-        </select>
+  <main class="player-container">
+    <div class="video-wrapper">
+      <video id="video" controls autoplay playsinline crossorigin="anonymous"></video>
+      <div class="player-overlay">
+        <span id="status">Loading playlist…</span>
+        <span id="latency">Latency: --</span>
+        <span id="quality">Quality: --</span>
       </div>
-
-      <div id="channels" class="channels-list"></div>
-    </aside>
-
-    <!-- Main Player Area -->
-    <main class="player-container">
-      <div class="video-wrapper">
-        <video id="video" controls autoplay crossorigin="anonymous"></video>
-        
-        <div class="player-overlay">
-          <span id="status">Loading playlist...</span>
-          <span id="latency">Latency: --</span>
-          <span id="quality">Quality: --</span>
-        </div>
-      </div>
-
-      <!-- Player Controls -->
-      <div class="player-controls">
-        <button id="liveBtn">🔴 GO LIVE</button>
-        
-        <div class="select-group">
-          <label for="qualitySelect">Quality:</label>
-          <select id="qualitySelect">
-            <option value="-1">Auto</option>
-          </select>
-        </div>
-
-        <div class="select-group">
-          <label for="edgeSelect">Latency Mode:</label>
-          <select id="edgeSelect">
-            <option value="default">Default</option>
-            <option value="near">Low Latency</option>
-          </select>
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <script src="app.js"></script>
+    </div>
+    <div class="now"><b id="nowName">—</b><span id="nowGroup" class="muted"></span></div>
+    <div class="player-controls">
+      <button id="liveBtn">Go live</button>
+      <button id="favBtn">☆ Favourite</button>
+      <label>Quality <select id="qualitySelect"><option value="-1">Auto</option></select></label>
+      <label>Latency <select id="edgeSelect"><option value="default">Default</option><option value="near">Low</option></select></label>
+      <label>Connection <select id="modeSelect"><option value="auto">Auto</option><option value="direct">Direct</option><option value="proxy">Proxy</option></select></label>
+    </div>
+  </main>
+</div>
 </body>
 </html>
