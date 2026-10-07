@@ -1,67 +1,71 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ta">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b0f19">
   <title>Tamil IPTV Player</title>
-  <link rel="stylesheet" href="/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.6.15/dist/hls.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- HLS.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+  <!-- Shaka Player Library (For DASH & ClearKey DRM) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.6/shaka-player.compiled.js"></script>
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <h1>தமிழ் IPTV</h1>
-      <p>Low-latency HLS player</p>
-    </div>
-    <button id="reloadBtn" class="ghost">Reload</button>
-  </header>
 
-  <main class="layout">
-    <section class="player-card">
-      <video id="video" controls playsinline></video>
-
-      <div class="status-row">
-        <span id="status">Ready</span>
-        <span id="latency">Latency: --</span>
-        <span id="quality">Quality: --</span>
-      </div>
+  <div class="app">
+    <!-- Sidebar Channels List -->
+    <aside class="sidebar">
+      <header class="header">
+        <h1>Tamil IPTV</h1>
+        <button id="reloadBtn" title="Reload Playlist">🔄</button>
+      </header>
 
       <div class="controls">
-        <label>
-          Quality
+        <input type="text" id="search" placeholder="Search channel...">
+        <select id="group">
+          <option value="all">All Channels</option>
+        </select>
+      </div>
+
+      <div id="channels" class="channels-list"></div>
+    </aside>
+
+    <!-- Main Player Area -->
+    <main class="player-container">
+      <div class="video-wrapper">
+        <video id="video" controls autoplay crossorigin="anonymous"></video>
+        
+        <div class="player-overlay">
+          <span id="status">Loading playlist...</span>
+          <span id="latency">Latency: --</span>
+          <span id="quality">Quality: --</span>
+        </div>
+      </div>
+
+      <!-- Player Controls -->
+      <div class="player-controls">
+        <button id="liveBtn">🔴 GO LIVE</button>
+        
+        <div class="select-group">
+          <label for="qualitySelect">Quality:</label>
           <select id="qualitySelect">
             <option value="-1">Auto</option>
           </select>
-        </label>
+        </div>
 
-        <label>
-          Live edge
+        <div class="select-group">
+          <label for="edgeSelect">Latency Mode:</label>
           <select id="edgeSelect">
-            <option value="safe">Safe</option>
-            <option value="near">Near edge</option>
+            <option value="default">Default</option>
+            <option value="near">Low Latency</option>
           </select>
-        </label>
-
-        <button id="liveBtn">Go Live</button>
+        </div>
       </div>
-    </section>
+    </main>
+  </div>
 
-    <aside class="channels-card">
-      <div class="search-row">
-        <input id="search" type="search" placeholder="Search channels...">
-        <select id="group">
-          <option value="all">All</option>
-        </select>
-      </div>
-      <div id="channels" class="channels"></div>
-    </aside>
-  </main>
-
-  <footer>
-    Enjoy watching.
-  </footer>
-
-  <script src="/app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
