@@ -182,6 +182,7 @@ app.get('/proxy', async (req, res) => {
   }
 });
 
+require('./pulse')(app);   // PULSE: health radar + smart failover + live viewers
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: '5m' }));
 app.use((req, res) => res.status(404).send('Not found'));
 process.on('unhandledRejection', e => console.error('unhandled:', e));
