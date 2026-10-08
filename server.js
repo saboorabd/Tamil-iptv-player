@@ -25,6 +25,7 @@ function parseM3U(text) {
       const attr = k => (line.match(new RegExp(k + '="([^"]*)"', 'i')) || [])[1] || '';
       cur = {
         name: line.slice(line.lastIndexOf(',') + 1).trim() || attr('tvg-name') || 'Channel',
+        tvg: attr('tvg-id'),
         logo: attr('tvg-logo'),
         group: attr('group-title') || 'Others',
       };
@@ -50,6 +51,7 @@ function parseM3U(text) {
       }
       delete cur._k;
       try { allowed.add(new URL(cur.url).hostname.toLowerCase()); } catch {}
+      if (out.some(o => o.url === cur.url && o.name === cur.name)) { cur = null; continue; }
       cur.proxy = !!(cur._h && Object.keys(cur._h).length);
       cur.id = out.length;
       out.push(cur);
@@ -84,7 +86,7 @@ function isPrivate(ip) {
 async function assertPublic(url) {
   if (!/^https?:$/.test(url.protocol)) throw new Error('bad protocol');
   const addrs = await dns.lookup(url.hostname, { all: true });
-  if (addrs.some(a => isPrivate(a.address))) throw new Error('private address blocked');
+  if (!process.env.ALLOW_PRIVATE && addrs.some(a => isPrivate(a.address))) throw new Error('private address blocked');
 }
 
 async function fetchFollow(start, headers, signal) {
@@ -126,7 +128,7 @@ app.get('/api/channels', async (req, res) => {
 });
 
 app.options('/proxy', (req, res) => {
-  res.set({ 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Range' }).sendStatus(204);
+  res.set({ 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Range, Content-Type', 'Access-Control-Allow-Methods': 'GET, OPTIONS' }).sendStatus(204);
 });
 
 app.get('/proxy', async (req, res) => {
@@ -142,21 +144,41 @@ app.get('/proxy', async (req, res) => {
     const headers = { 'User-Agent': UA, ...((chan && chan._h) || {}) };
     if (req.headers.range) headers.Range = req.headers.range;
     const up = await fetchFollow(url, headers, ac.signal);
-    res.status(up.status).set('Access-Control-Allow-Origin', '*');
+    res.status(up.status).set({ 'Access-Control-Allow-Origin': '*', 'Access-Control-Expose-Headers': 'Content-Length, Content-Range' });
     const ct = up.headers.get('content-type') || '';
-    if (/mpegurl/i.test(ct) || /\.m3u8(\?|$)/i.test(url.pathname)) {
-      const body = rewriteM3U8(await up.text(), up.finalUrl, chan ? chan.id : null);
-      return res.type('application/vnd.apple.mpegurl').set('Cache-Control', 'no-store').send(body);
+    const looksPlaylist = /mpegurl/i.test(ct) || /\.m3u8?(\?|$)/i.test(url.pathname);
+    const maybePlaylist = !looksPlaylist && /^(text\/|application\/(octet-stream|x-?unknown)|$)/i.test(ct) && !req.headers.range;
+    const sendPlaylist = text => res.type('application/vnd.apple.mpegurl').set('Cache-Control', 'no-store')
+      .send(rewriteM3U8(text, up.finalUrl, chan ? chan.id : null));
+
+    if (looksPlaylist) {
+      const text = await up.text();
+      if (up.ok && !/^\s*#EXTM3U/.test(text)) return res.status(502).send('upstream did not return a valid playlist');
+      return up.ok ? sendPlaylist(text) : res.send(text);
     }
-    for (const h of ['content-type', 'content-length', 'content-range', 'accept-ranges']) {
+    if (!up.body) return res.end();
+    const reader = Readable.fromWeb(up.body);
+    if (maybePlaylist) {                       // playlist served without a proper content-type (e.g. /?id=812)
+      const first = await new Promise((ok, no) => {
+        reader.once('readable', () => ok(reader.read() || Buffer.alloc(0)));
+        reader.once('end', () => ok(Buffer.alloc(0))); reader.once('error', no);
+      });
+      if (first.slice(0, 64).toString('utf8').replace(/^\uFEFF/, '').trimStart().startsWith('#EXTM3U')) {
+        const chunks = [first]; for await (const c of reader) chunks.push(c);
+        return sendPlaylist(Buffer.concat(chunks).toString('utf8'));
+      }
+      reader.unshift(first);
+    }
+    // fetch() already decoded gzip/br, so the upstream length/encoding no longer match the bytes we send
+    for (const h of ['content-type', 'content-range', 'accept-ranges']) {
       const v = up.headers.get(h);
       if (v) res.set(h, v);
     }
+    if (!up.headers.get('content-encoding')) { const l = up.headers.get('content-length'); if (l) res.set('content-length', l); }
     res.set('Cache-Control', 'public, max-age=5');
-    if (!up.body) return res.end();
-    Readable.fromWeb(up.body).on('error', () => res.end()).pipe(res);
+    reader.on('error', () => res.end()).pipe(res);
   } catch (e) {
-    if (!res.headersSent) res.status(502).send('upstream error: ' + e.message);
+    if (!res.headersSent) res.status(502).set('Access-Control-Allow-Origin', '*').send('upstream error: ' + e.message);
   }
 });
 
