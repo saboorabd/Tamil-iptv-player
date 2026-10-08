@@ -69,7 +69,10 @@ function teardown() {
   $('quality').textContent = 'Quality: --';
 }
 
-async function play(c) {
+const siblings = c => channels.filter(x => x.id !== c.id && c.tvg && x.tvg === c.tvg && x.name.replace(/\s*\(.*\)\s*$/, '') === c.name.replace(/\s*\(.*\)\s*$/, ''));
+
+async function play(c, tried = new Set()) {
+  tried.add(c.id);
   const my = ++token;
   cur = c; store.set('last', c.id);
   $('nowName').textContent = c.name; $('nowGroup').textContent = c.group;
@@ -90,7 +93,11 @@ async function play(c) {
       if (my !== token) return;
       teardown();
       if (i < tries.length - 1) setStatus('Direct fail → Proxy முயற்சி…');
-      else setStatus('Play ஆகவில்லை: ' + e.message, true);
+      else {
+        const next = siblings(c).find(x => !tried.has(x.id));
+        if (next) { setStatus('Source மாற்றுகிறது…'); return play(next, tried); }
+        setStatus('Play ஆகவில்லை: ' + e.message, true);
+      }
     }
   }
 }
@@ -102,16 +109,19 @@ function startHls(src, my) {
       let recovers = 0;
       hls = new Hls({
         lowLatencyMode: near, liveSyncDurationCount: near ? 2 : 3, liveMaxLatencyDurationCount: near ? 5 : 10,
-        backBufferLength: 30, manifestLoadingMaxRetry: 2, fragLoadingMaxRetry: 3
+        backBufferLength: 30, manifestLoadingMaxRetry: 1, manifestLoadingTimeOut: 8000, manifestLoadingRetryDelay: 500,
+        levelLoadingMaxRetry: 3, fragLoadingMaxRetry: 4, xhrSetup: x => { x.withCredentials = false; }
       });
+      let started = false, netRecovers = 0;
       hls.on(Hls.Events.MANIFEST_PARSED, (e, d) => {
         if (my !== token) return;
         const q = $('qualitySelect');
         if (d.levels.length > 1) q.innerHTML = '<option value="-1">Auto</option>' +
           d.levels.map((l, i) => `<option value="${i}">${l.height ? l.height + 'p' : Math.round(l.bitrate / 1000) + 'k'}</option>`).join('');
         video.play().catch(() => {});
-        ok();
+        started = true; ok();
       });
+      hls.on(Hls.Events.FRAG_LOADED, () => { netRecovers = 0; });
       hls.on(Hls.Events.LEVEL_SWITCHED, (e, d) => {
         const l = hls.levels[d.level];
         if (l) $('quality').textContent = 'Quality: ' + (l.height ? l.height + 'p' : Math.round(l.bitrate / 1000) + 'k');
@@ -119,6 +129,8 @@ function startHls(src, my) {
       hls.on(Hls.Events.ERROR, (e, d) => {
         if (!d.fatal || my !== token) return;
         if (d.type === Hls.ErrorTypes.MEDIA_ERROR && recovers++ < 2) return hls.recoverMediaError();
+        if (started && d.type === Hls.ErrorTypes.NETWORK_ERROR && netRecovers++ < 3) return hls.startLoad();
+        if (started) { setStatus('Stream நின்றுவிட்டது — மீண்டும் இணைக்கிறது…', true); return setTimeout(() => my === token && cur && play(cur), 1500); }
         no(new Error(d.details));
       });
       hls.loadSource(src); hls.attachMedia(video);
