@@ -303,6 +303,34 @@ function clientMain() {
     padding:9px 16px;border-radius:999px;background:rgba(10,16,32,.92);border:1px solid var(--line-strong);color:var(--text);
     font-size:13px;transition:.3s;max-width:90vw;text-align:center}
   #pulseToast.show{opacity:1;transform:translate(-50%,0)}
+
+  /* ---- player skin: LIVE badge, in-video quality menu, enhance ---- */
+  #latency,#quality,.player-controls label:has(#qualitySelect){display:none!important}
+  #pulseLive{font-weight:800;letter-spacing:.9px;color:#fff;pointer-events:none}
+  #pulseLive::before{content:"";display:inline-block;width:8px;height:8px;margin-right:7px;border-radius:50%;
+    background:#ff3b4a;box-shadow:0 0 9px #ff3b4a;vertical-align:middle;animation:pulse 1.4s ease-in-out infinite}
+  #pulseLive.behind{pointer-events:auto;cursor:pointer;color:var(--acc)}
+  #pulseLive.behind::before{background:var(--mute);box-shadow:none;animation:none}
+  #pulseTools{position:absolute;right:12px;bottom:62px;z-index:5;display:flex;gap:8px;align-items:center;transition:opacity .25s}
+  .pulse-idle #pulseTools{opacity:0;pointer-events:none}
+  #pulseTools button{padding:6px 12px;font-size:13px;font-weight:700;border-radius:999px;color:#fff;cursor:pointer;
+    background:rgba(8,14,28,.62);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  #pulseTools button:hover{border-color:var(--acc);color:var(--acc)}
+  #pulseMenu{position:absolute;right:12px;bottom:106px;z-index:6;width:210px;max-height:68%;overflow:auto;padding:8px;
+    border-radius:14px;background:rgba(10,16,32,.95);border:1px solid var(--line-strong);box-shadow:var(--shadow);display:none}
+  #pulseMenu.open{display:block}
+  #pulseMenu h4{margin:6px 8px 4px;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--mute);font-weight:700}
+  #pulseMenu button{display:flex;justify-content:space-between;width:100%;padding:8px 10px;margin:1px 0;border:0;border-radius:9px;
+    background:transparent;color:var(--text);font-size:14px;text-align:left;cursor:pointer}
+  #pulseMenu button:hover{background:rgba(245,176,66,.14)}
+  #pulseMenu button.sel{color:var(--acc);font-weight:700}
+  #pulseMenu button.sel::after{content:"✓"}
+  #pulseMenu .enh{display:flex;gap:6px;padding:2px 4px 4px}
+  #pulseMenu .enh button{justify-content:center;border:1px solid var(--line);margin:0}
+  #pulseMenu .enh button.sel{border-color:var(--acc)}
+  #pulseMenu .enh button.sel::after{content:""}
+  #pulseMenu small{display:block;margin:4px 8px 2px;color:var(--mute);font-size:11px;line-height:1.35}
+  .video-wrapper:fullscreen{max-height:none;aspect-ratio:auto;border-radius:0;border:0;width:100%;height:100%}
   `;
   document.head.appendChild(css);
 
@@ -403,6 +431,106 @@ function clientMain() {
       return orig.apply(this, arguments);
     };
   }
+
+  /* ---- player skin ---- */
+  const video = $('video'), wrap = document.querySelector('.video-wrapper'), qSel = $('qualitySelect'), statusEl = $('status');
+
+  // 1) "Latency: 3.2s" -> plain LIVE badge (status pill hides itself while it only says LIVE)
+  const liveEl = document.createElement('span'); liveEl.id = 'pulseLive'; liveEl.style.display = 'none';
+  const latEl = $('latency');
+  latEl ? latEl.after(liveEl) : overlay && overlay.appendChild(liveEl);
+  liveEl.onclick = () => $('liveBtn').click();
+
+  const lagSeconds = () => {
+    try {
+      if (typeof hls !== 'undefined' && hls && typeof hls.latency === 'number' && hls.latency > 0) return hls.latency;
+      if (typeof sk !== 'undefined' && sk) { const e = sk.seekRange().end; if (e) return e - video.currentTime; }
+    } catch {}
+    return null;
+  };
+  function syncLive() {
+    const isLive = statusEl.textContent.trim() === 'LIVE';
+    statusEl.style.display = isLive ? 'none' : '';
+    if (!isLive) { liveEl.style.display = 'none'; return; }
+    const lag = lagSeconds(), behind = lag != null && lag > 20;
+    liveEl.style.display = '';
+    liveEl.classList.toggle('behind', behind);
+    liveEl.textContent = behind ? 'GO LIVE' : 'LIVE';
+  }
+  new MutationObserver(syncLive).observe(statusEl, { childList: true, characterData: true, subtree: true });
+  setInterval(syncLive, 1000);
+
+  // 2) quality button inside the video (+ fullscreen of the wrapper so it survives fullscreen)
+  const tools = document.createElement('div'); tools.id = 'pulseTools';
+  const qBtn = document.createElement('button'); qBtn.id = 'pulseQ'; qBtn.type = 'button'; qBtn.textContent = '⚙ Auto';
+  const fsBtn = document.createElement('button'); fsBtn.id = 'pulseFs'; fsBtn.type = 'button'; fsBtn.title = 'Fullscreen'; fsBtn.textContent = '⛶';
+  const menu = document.createElement('div'); menu.id = 'pulseMenu';
+  tools.append(qBtn);
+  if (wrap.requestFullscreen) { tools.append(fsBtn); video.setAttribute('controlslist', 'nofullscreen'); }
+  wrap.append(tools, menu);
+
+  const num = o => parseInt(o.textContent, 10) || 0;
+  const actualQuality = () => ($('quality').textContent.split(':')[1] || '').trim().replace('--', '');
+  function qLabel() {
+    const o = qSel.options[qSel.selectedIndex], act = actualQuality();
+    qBtn.textContent = '⚙ ' + (qSel.value === '-1' ? 'Auto' + (act ? ' · ' + act : '') : (o ? o.textContent : 'Auto'));
+  }
+  setInterval(qLabel, 1000);
+
+  // 3) enhance: real-time sharpen (+ contrast/saturation) on the video element
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('width', '0'); svg.setAttribute('height', '0'); svg.setAttribute('aria-hidden', 'true'); svg.style.position = 'absolute';
+  svg.innerHTML = '<defs>' +
+    '<filter id="pulseCrisp" color-interpolation-filters="sRGB"><feConvolveMatrix order="3" kernelMatrix="0 -0.5 0 -0.5 3 -0.5 0 -0.5 0" preserveAlpha="true"/></filter>' +
+    '<filter id="pulseVivid" color-interpolation-filters="sRGB"><feConvolveMatrix order="3" kernelMatrix="0 -0.8 0 -0.8 4.2 -0.8 0 -0.8 0" preserveAlpha="true"/></filter></defs>';
+  document.body.appendChild(svg);
+  const FILTERS = { off: '', crisp: 'url(#pulseCrisp)', vivid: 'url(#pulseVivid) contrast(1.06) saturate(1.15)' };
+  let enh = 'off';
+  try { enh = localStorage.getItem('pulse-enh') || 'off'; } catch {}
+  if (!(enh in FILTERS)) enh = 'off';
+  const applyEnh = () => { video.style.filter = FILTERS[enh]; };
+  applyEnh();
+
+  function buildMenu() {
+    const opts = [...qSel.options];
+    const auto = opts.find(o => o.value === '-1');
+    const rest = opts.filter(o => o.value !== '-1').sort((a, b) => num(b) - num(a));
+    const row = (o, extra) => `<button data-q="${esc(o.value)}" class="${qSel.value === o.value ? 'sel' : ''}">${esc(o.textContent)}${extra || ''}</button>`;
+    const enhBtn = (k, t) => `<button data-enh="${k}" class="${enh === k ? 'sel' : ''}">${t}</button>`;
+    menu.innerHTML = '<h4>Quality</h4>' +
+      (auto ? row(auto) : '') + rest.map((o, i) => row(o, i === 0 ? ' ★' : '')).join('') +
+      (rest.length ? '' : '<small>Indha stream-la oru quality mattum thaan irukku.</small>') +
+      '<h4>Enhance</h4><div class="enh">' + enhBtn('off', 'Off') + enhBtn('crisp', 'Crisp') + enhBtn('vivid', 'Vivid') + '</div>' +
+      '<small>Sharpen filter — source quality-a vida sooda maatradhu. Lag aana Off pannunga.</small>';
+  }
+  qBtn.onclick = e => { e.stopPropagation(); if (!menu.classList.contains('open')) buildMenu(); menu.classList.toggle('open'); };
+  menu.onclick = e => {
+    e.stopPropagation();
+    const q = e.target.closest('[data-q]'), h = e.target.closest('[data-enh]');
+    if (q) {
+      qSel.value = q.dataset.q; qSel.dispatchEvent(new Event('change'));
+      qLabel(); menu.classList.remove('open');
+    } else if (h) {
+      enh = h.dataset.enh; applyEnh();
+      try { localStorage.setItem('pulse-enh', enh); } catch {}
+      buildMenu();
+    }
+  };
+  document.addEventListener('click', () => menu.classList.remove('open'));
+  fsBtn.onclick = e => {
+    e.stopPropagation();
+    document.fullscreenElement ? document.exitFullscreen() : wrap.requestFullscreen().catch(() => {});
+  };
+
+  // auto-hide tools together with the native controls
+  let idleT;
+  const wake = () => {
+    wrap.classList.remove('pulse-idle'); clearTimeout(idleT);
+    idleT = setTimeout(() => { if (!video.paused && !menu.classList.contains('open')) wrap.classList.add('pulse-idle'); }, 3000);
+  };
+  ['mousemove', 'touchstart', 'click', 'keydown'].forEach(ev => wrap.addEventListener(ev, wake, { passive: true }));
+  video.addEventListener('pause', wake); wake();
 
   /* ---- polling + heartbeat ---- */
   async function poll() {
