@@ -6,32 +6,65 @@ const store = {
 };
 const NOLOGO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='42'%3E%3Crect width='42' height='42' rx='8' fill='%23121c30'/%3E%3Ctext x='21' y='26' font-size='12' fill='%238da2bd' text-anchor='middle' font-family='sans-serif'%3ETV%3C/text%3E%3C/svg%3E";
 
+// NOTE: pulse.js reads these globals (channels, cur, hls, sk, play) - keep the names.
 let channels = [], cur = null, hls = null, sk = null, token = 0;
 let favs = new Set(store.get('favs', []));
-$('modeSelect').value = store.get('mode', 'auto');
-$('edgeSelect').value = store.get('edge', 'default');
+
+const START_TIMEOUT = 20000;   // ms to wait for a stream to actually start playing
+const pick = (v, allowed, d) => (allowed.includes(v) ? v : d);
+$('modeSelect').value = pick(store.get('mode', 'auto'), ['auto', 'direct', 'proxy'], 'auto');
+$('edgeSelect').value = pick(store.get('edge', 'default'), ['default', 'near'], 'default');
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const setStatus = (t, err) => { statusEl.textContent = t; statusEl.className = err ? 'err' : ''; };
-const proxied = c => `/proxy?ch=${c.id}&url=${encodeURIComponent(c.url)}`;
+const proxied = (c, url) => `/proxy?ch=${c.id}&url=${encodeURIComponent(url || c.url)}`;
+
+/* ---------- library loading (CDN fallback) ---------- */
+const LIBS = {
+  Hls: ['https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js',
+        'https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js'],
+  shaka: ['https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/shaka-player.compiled.js',
+          'https://cdn.jsdelivr.net/npm/shaka-player@4.7.11/dist/shaka-player.compiled.js']
+};
+const libLoads = {};
+function ensureLib(name) {
+  if (window[name]) return Promise.resolve(true);
+  if (libLoads[name]) return libLoads[name];
+  libLoads[name] = (async () => {
+    for (const src of LIBS[name]) {
+      const ok = await new Promise(res => {
+        const s = document.createElement('script');
+        s.src = src; s.onload = () => res(true); s.onerror = () => { s.remove(); res(false); };
+        document.head.appendChild(s);
+      });
+      if (ok && window[name]) return true;
+    }
+    delete libLoads[name];
+    return false;
+  })();
+  return libLoads[name];
+}
 
 /* ---------- playlist ---------- */
 async function loadChannels(fresh) {
-  setStatus('Playlist ஏற்றுகிறது…');
+  setStatus('Loading playlist…');
   try {
     const r = await fetch('/api/channels' + (fresh ? '?fresh=1' : ''));
-    const data = await r.json();
+    let data;
+    try { data = await r.json(); } catch { throw new Error('Server returned an invalid response (HTTP ' + r.status + ')'); }
     if (!r.ok) throw new Error(data.error || r.status);
-    if (!data.length) throw new Error('playlist-ல் channel இல்லை (#EXTINF வரிகளைச் சரிபார்க்கவும்)');
+    if (!Array.isArray(data) || !data.length) throw new Error('no channels found in the playlist (check the #EXTINF lines)');
     channels = data;
     const groups = [...new Set(channels.map(c => c.group))].sort();
+    const prev = $('group').value;
     $('group').innerHTML = '<option value="all">All</option><option value="fav">★ Favourites</option>' +
       groups.map(g => `<option value="${esc(g)}">${esc(g)}</option>`).join('');
+    if ([...$('group').options].some(o => o.value === prev)) $('group').value = prev;
     render();
-    setStatus('Channel ஒன்றைத் தேர்ந்தெடுக்கவும்');
+    setStatus('Select a channel');
   } catch (e) {
     channels = []; render();
-    setStatus('Playlist பிழை: ' + e.message, true);
+    setStatus('Playlist error: ' + e.message, true);
   }
 }
 
@@ -45,7 +78,7 @@ function render() {
       <img src="${esc(c.logo || NOLOGO)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${NOLOGO}'">
       <span class="t"><b>${esc(c.name)}</b><small>${esc(c.group)}</small></span>
       <span class="star ${favs.has(c.name) ? 'on' : ''}" data-fav="${esc(c.name)}">${favs.has(c.name) ? '★' : '☆'}</span>
-    </button>`).join('') : '<div class="empty">Channels இல்லை</div>';
+    </button>`).join('') : '<div class="empty">No channels</div>';
 }
 
 function toggleFav(name) {
@@ -60,16 +93,47 @@ function favBtn() {
   $('favBtn').classList.toggle('on', on);
 }
 
-/* ---------- playback ---------- */
+/* ---------- playback helpers ---------- */
 function teardown() {
-  if (hls) { hls.destroy(); hls = null; }
-  if (sk) { sk.destroy(); sk = null; }
+  if (hls) { try { hls.destroy(); } catch {} hls = null; }
+  if (sk) { try { sk.destroy(); } catch {} sk = null; }
+  video.onloadedmetadata = null; video.onerror = null;
   video.pause(); video.removeAttribute('src'); video.load();
   $('qualitySelect').innerHTML = '<option value="-1">Auto</option>';
   $('quality').textContent = 'Quality: --';
 }
 
+// Autoplay can be blocked by the browser; fall back to muted playback instead of silently staying paused.
+function tryPlay() {
+  const p = video.play();
+  if (p && p.catch) p.catch(err => {
+    if (err && err.name === 'NotAllowedError') { video.muted = true; video.play().catch(() => {}); }
+  });
+}
+
+class Superseded extends Error {}   // a newer play() call replaced this attempt
+
+/* One attempt = one source URL. Resolves only when the video is really playing,
+   so a "manifest OK but segments blocked" failure still triggers the proxy fallback. */
+function startGate(my, fail) {
+  let settled = false, started = false, timer, onPlaying;
+  const promise = new Promise((resolve, reject) => {
+    const done = err => {
+      if (settled) return;
+      settled = true; clearTimeout(timer); video.removeEventListener('playing', onPlaying);
+      err ? reject(err) : resolve();
+    };
+    onPlaying = () => { if (my === token) { started = true; done(); } };
+    video.addEventListener('playing', onPlaying);
+    timer = setTimeout(() => done(video.readyState >= 3 && my === token ? null : new Error('Stream did not start in time')), START_TIMEOUT);
+    fail.current = done;
+  });
+  return { promise, isStarted: () => started };
+}
+
+/* ---------- play ---------- */
 async function play(c) {
+  if (!c) return;
   const my = ++token;
   cur = c; store.set('last', c.id);
   $('nowName').textContent = c.name; $('nowGroup').textContent = c.group;
@@ -77,81 +141,203 @@ async function play(c) {
 
   const mode = $('modeSelect').value;
   const insecure = location.protocol === 'https:' && c.url.startsWith('http:');
-  const tries = (mode === 'proxy' || insecure || c.proxy) ? [proxied(c)]
-              : mode === 'direct' ? [c.url] : [c.url, proxied(c)];
-  const dash = /\.mpd(\?|$)/i.test(c.url) || !!c.drm;
+  const forceProxy = mode === 'proxy' || insecure || c.proxy;
+  const tries = forceProxy ? [true] : mode === 'direct' ? [false] : [false, true];   // true = through /proxy
+  const dash = c.type === 'mpd' || /\.mpd(\?|$)/i.test(c.url) || !!c.drm;
 
   for (let i = 0; i < tries.length; i++) {
     try {
-      await (dash ? startShaka(tries[i], c, my) : startHls(tries[i], my));
+      await (dash ? startShaka(c, my, tries[i]) : startHls(c, my, tries[i]));
       if (my === token) setStatus('LIVE');
       return;
     } catch (e) {
       if (my !== token) return;
       teardown();
-      if (i < tries.length - 1) setStatus('Direct fail → Proxy முயற்சி…');
-      else setStatus('Play ஆகவில்லை: ' + e.message, true);
+      if (i < tries.length - 1) setStatus('Direct playback failed → trying proxy…');
+      else setStatus('Cannot play: ' + (e && e.message ? e.message : e), true);
     }
   }
 }
 
-function startHls(src, my) {
-  return new Promise((ok, no) => {
-    if (window.Hls && Hls.isSupported()) {
-      const near = $('edgeSelect').value === 'near';
-      let recovers = 0;
-      hls = new Hls({
-        lowLatencyMode: near, liveSyncDurationCount: near ? 2 : 3, liveMaxLatencyDurationCount: near ? 5 : 10,
-        backBufferLength: 30, manifestLoadingMaxRetry: 2, fragLoadingMaxRetry: 3
-      });
-      hls.on(Hls.Events.MANIFEST_PARSED, (e, d) => {
-        if (my !== token) return;
-        const q = $('qualitySelect');
-        if (d.levels.length > 1) q.innerHTML = '<option value="-1">Auto</option>' +
-          d.levels.map((l, i) => `<option value="${i}">${l.height ? l.height + 'p' : Math.round(l.bitrate / 1000) + 'k'}</option>`).join('');
-        video.play().catch(() => {});
-        ok();
-      });
-      hls.on(Hls.Events.LEVEL_SWITCHED, (e, d) => {
-        const l = hls.levels[d.level];
-        if (l) $('quality').textContent = 'Quality: ' + (l.height ? l.height + 'p' : Math.round(l.bitrate / 1000) + 'k');
-      });
-      hls.on(Hls.Events.ERROR, (e, d) => {
-        if (!d.fatal || my !== token) return;
-        if (d.type === Hls.ErrorTypes.MEDIA_ERROR && recovers++ < 2) return hls.recoverMediaError();
-        no(new Error(d.details));
-      });
-      hls.loadSource(src); hls.attachMedia(video);
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = src;
-      video.onloadedmetadata = () => ok();
-      video.onerror = () => no(new Error('native playback error'));
-      video.play().catch(() => {});
-    } else no(new Error('HLS support இல்லை (hls.js load ஆகவில்லை)'));
-  });
+/* ---------- HLS ---------- */
+const hlsMsg = d => d.details + (d.response && d.response.code ? ' (HTTP ' + d.response.code + ')' : '');
+
+async function startHls(c, my, viaProxy) {
+  const src = viaProxy ? proxied(c) : c.url;
+  if (!(await ensureLib('Hls')) && !video.canPlayType('application/vnd.apple.mpegurl'))
+    throw new Error('hls.js failed to load (check your internet connection)');
+  if (my !== token) throw new Superseded();
+
+  const fail = { current: () => {} };
+  const gate = startGate(my, fail);
+
+  if (window.Hls && Hls.isSupported()) {
+    const near = $('edgeSelect').value === 'near';
+    let netRetries = 0, mediaRetries = 0;
+    const h = new Hls({
+      lowLatencyMode: near, liveSyncDurationCount: near ? 2 : 3, liveMaxLatencyDurationCount: near ? 5 : 10,
+      backBufferLength: 30, manifestLoadingMaxRetry: 2, levelLoadingMaxRetry: 3, fragLoadingMaxRetry: 4,
+      manifestLoadingTimeOut: 15000, levelLoadingTimeOut: 15000, fragLoadingTimeOut: 20000
+    });
+    hls = h;
+    h.on(Hls.Events.MANIFEST_PARSED, (e, d) => {
+      if (my !== token || hls !== h) return;
+      if (d.levels.length > 1) $('qualitySelect').innerHTML = '<option value="-1">Auto</option>' +
+        d.levels.map((l, i) => `<option value="${i}">${l.height ? l.height + 'p' : Math.round(l.bitrate / 1000) + 'k'}</option>`).join('');
+      tryPlay();
+    });
+    h.on(Hls.Events.LEVEL_SWITCHED, (e, d) => {
+      const l = h.levels[d.level];
+      if (l) $('quality').textContent = 'Quality: ' + (l.height ? l.height + 'p' : Math.round(l.bitrate / 1000) + 'k');
+    });
+    h.on(Hls.Events.FRAG_LOADED, () => { netRetries = 0; });
+    h.on(Hls.Events.ERROR, (e, d) => {
+      if (!d.fatal || my !== token || hls !== h) return;
+      if (!gate.isStarted()) return fail.current(new Error(hlsMsg(d)));   // before playback: let play() fall back
+      // already playing: try to recover instead of freezing silently
+      if (d.type === Hls.ErrorTypes.NETWORK_ERROR && netRetries < 5) {
+        netRetries++; setStatus('Network problem, reconnecting (' + netRetries + '/5)…');
+        setTimeout(() => { if (hls === h && my === token) h.startLoad(); }, 1000 * netRetries);
+      } else if (d.type === Hls.ErrorTypes.MEDIA_ERROR && mediaRetries < 3) {
+        mediaRetries++; setStatus('Media error, recovering…');
+        if (mediaRetries === 2) h.swapAudioCodec();
+        h.recoverMediaError();
+      } else {
+        setStatus('Playback stopped: ' + hlsMsg(d) + ' — select the channel again to retry', true);
+      }
+    });
+    h.loadSource(src); h.attachMedia(video);
+  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {     // Safari / iOS native HLS
+    video.onerror = () => fail.current(new Error('native playback error'));
+    video.src = src;
+    tryPlay();
+  } else {
+    throw new Error('This browser does not support HLS playback');
+  }
+  return gate.promise;
 }
 
-async function startShaka(src, c, my) {
-  if (!window.shaka) throw new Error('Shaka load ஆகவில்லை');
-  shaka.polyfill.installAll();
-  if (!shaka.Player.isBrowserSupported()) throw new Error('DASH/DRM இந்த browser-ல் இல்லை');
-  sk = new shaka.Player();
-  await sk.attach(video);
-  const cfg = {};
-  if (c.drm && c.drm.key) {                       // உங்கள் license — standard EME playback
-    if (!c.drm.type || /clearkey/i.test(c.drm.type)) {
-      const [kid, k] = c.drm.key.split(':');
-      cfg.drm = { clearKeys: { [kid]: k } };
-    } else cfg.drm = { servers: { [c.drm.type]: c.drm.key } };
+/* ---------- Shaka (DASH / DRM) ---------- */
+const shakaName = (map, v) => Object.keys(map).find(k => map[k] === v) || v;
+function shakaMsg(err) {
+  if (!err || err.code === undefined) return String((err && err.message) || err);
+  const E = shaka.util.Error;
+  const code = shakaName(E.Code, err.code), cat = shakaName(E.Category, err.category);
+  let hint = '';
+  if (err.code === 1001) hint = ' - server returned an HTTP error' + (err.data && err.data[1] ? ' ' + err.data[1] : '');
+  else if (err.code === 1002 || err.code === 1003) hint = ' - network/CORS problem or timeout';
+  else if (err.code === 4012 || err.code === 4015) hint = ' - unsupported/invalid manifest';
+  else if (err.category === E.Category.DRM) hint = ' - DRM license/key problem';
+  return `Shaka ${err.code} ${code} [${cat}]${hint}`;
+}
+
+const b64hex = s => Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), ch => ch.charCodeAt(0).toString(16).padStart(2, '0')).join('');
+const parseHeaders = s => { const o = {}; (s || '').split('&').forEach(p => { const i = p.indexOf('='); if (i > 0) o[p.slice(0, i).trim()] = decodeURIComponent(p.slice(i + 1).trim()); }); return o; };
+
+// Converts the playlist's DRM info (Kodi style) to a Shaka drm config. Returns { drm, licenseHeaders }.
+function drmConfig(drm) {
+  if (!drm || !drm.key) return {};
+  const type = (drm.type || '').trim().toLowerCase();
+  const raw = drm.key.trim();
+  const clearish = !type || type.includes('clearkey');
+
+  if (clearish) {
+    const clearKeys = {};
+    raw.split(',').map(s => s.trim()).forEach(p => {                  // "kidhex:keyhex[,kidhex:keyhex]"
+      const m = p.match(/^([0-9a-f]{32}):([0-9a-f]{32})$/i);
+      if (m) clearKeys[m[1].toLowerCase()] = m[2].toLowerCase();
+    });
+    if (raw.startsWith('{')) {                                        // JSON: {"keys":[{"kid","k"}]} or {"kid":"key"}
+      try {
+        const j = JSON.parse(raw);
+        (j.keys || []).forEach(k => { if (k.kid && k.k) clearKeys[b64hex(k.kid)] = b64hex(k.k); });
+        if (!j.keys) Object.entries(j).forEach(([kid, k]) => { clearKeys[kid] = k; });
+      } catch {}
+    }
+    if (Object.keys(clearKeys).length) return { drm: { clearKeys } };
+    if (/^https?:/i.test(raw)) return { drm: { servers: { 'org.w3.clearkey': raw.split('|')[0] } } };
+    throw new Error('ClearKey license_key format is not recognised (expected kid:key in hex)');
   }
-  sk.configure(cfg);
-  sk.addEventListener('error', e => { if (my === token) setStatus('Shaka error ' + e.detail.code, true); });
-  await sk.load(src);
-  if (my !== token) return;
-  const tracks = sk.getVariantTracks();
-  const hs = [...new Set(tracks.map(t => t.height).filter(Boolean))].sort((a, b) => b - a);
-  if (hs.length > 1) $('qualitySelect').innerHTML = '<option value="-1">Auto</option>' + hs.map(h => `<option value="${h}">${h}p</option>`).join('');
-  video.play().catch(() => {});
+  // Widevine / PlayReady etc.: "https://license/url|Header=Value&H2=V2|R{SSM}|"
+  const [url, headers] = raw.split('|');
+  if (!/^https?:/i.test(url)) throw new Error('DRM license server URL is missing or invalid');
+  return { drm: { servers: { [drm.type.trim()]: url } }, licenseHeaders: parseHeaders(headers) };
+}
+
+async function startShaka(c, my, viaProxy) {
+  if (!(await ensureLib('shaka'))) throw new Error('Shaka Player failed to load (check your internet connection)');
+  if (my !== token) throw new Superseded();
+  shaka.polyfill.installAll();
+  if (!shaka.Player.isBrowserSupported()) throw new Error('This browser does not support DASH/DRM playback');
+
+  const near = $('edgeSelect').value === 'near';
+  let retries = 0;
+
+  const p = new shaka.Player();
+  sk = p;
+  await p.attach(video);
+  if (my !== token || sk !== p) throw new Superseded();
+  const fail = { current: () => {} };
+  const gate = startGate(my, fail);
+
+  const dc = drmConfig(c.drm);
+  const retry = { maxAttempts: 4, baseDelay: 1000, backoffFactor: 2, fuzzFactor: 0.5, timeout: 20000 };
+  p.configure({
+    ...(dc.drm ? { drm: dc.drm } : {}),
+    manifest: { retryParameters: { ...retry, maxAttempts: 3, timeout: 15000 } },
+    streaming: { lowLatencyMode: near, bufferingGoal: 30, rebufferingGoal: 2, bufferBehind: 30, retryParameters: retry }
+  });
+
+  const net = p.getNetworkingEngine();
+  const RT = shaka.net.NetworkingEngine.RequestType;
+  if (dc.licenseHeaders && Object.keys(dc.licenseHeaders).length)
+    net.registerRequestFilter((type, req) => { if (type === RT.LICENSE) Object.assign(req.headers, dc.licenseHeaders); });
+
+  if (viaProxy) {
+    // The proxy only rewrites .m3u8, so for DASH we route every manifest/segment request through it here.
+    const isProxy = u => { try { const x = new URL(u, location.href); return x.origin === location.origin && x.pathname === '/proxy'; } catch { return false; } };
+    net.registerRequestFilter((type, req) => {
+      if (type === RT.LICENSE) return;                                  // license servers are contacted directly
+      req.uris = req.uris.map(u => (/^https?:/i.test(u) && !isProxy(u)) ? location.origin + proxied(c, u) : u);
+    });
+    // Make relative BaseURLs/segment paths resolve against the real server, not against /proxy
+    net.registerResponseFilter((type, resp) => {
+      const real = resp.headers && resp.headers['x-final-url'];
+      if (real) resp.uri = real;
+      else { try { const x = new URL(resp.uri); if (x.pathname === '/proxy' && x.searchParams.get('url')) resp.uri = x.searchParams.get('url'); } catch {} }
+    });
+  }
+
+  const updateQuality = () => {
+    const t = p.getVariantTracks().find(x => x.active);
+    if (t) $('quality').textContent = 'Quality: ' + (t.height ? t.height + 'p' : Math.round(t.bandwidth / 1000) + 'k');
+  };
+  p.addEventListener('variantchanged', updateQuality);
+  p.addEventListener('adaptation', updateQuality);
+  p.addEventListener('error', ev => {
+    const err = ev.detail;
+    if (my !== token || sk !== p) return;
+    if (!gate.isStarted()) return fail.current(new Error(shakaMsg(err)));
+    if (err.severity === shaka.util.Error.Severity.CRITICAL) {
+      const E = shaka.util.Error;
+      if ((err.category === E.Category.NETWORK || err.category === E.Category.STREAMING) && retries < 5) {
+        retries++; setStatus('Network problem, reconnecting (' + retries + '/5)…');
+        setTimeout(() => { if (sk === p && my === token) p.retryStreaming(); }, 1000 * retries);
+      } else setStatus('Playback stopped: ' + shakaMsg(err) + ' — select the channel again to retry', true);
+    }
+  });
+
+  p.load(c.url).then(() => {
+    if (my !== token || sk !== p) return;
+    const hs = [...new Set(p.getVariantTracks().map(t => t.height).filter(Boolean))].sort((a, b) => b - a);
+    if (hs.length > 1) $('qualitySelect').innerHTML = '<option value="-1">Auto</option>' + hs.map(h => `<option value="${h}">${h}p</option>`).join('');
+    updateQuality();
+    tryPlay();
+  }).catch(err => {
+    if (my !== token || sk !== p) return;                             // LOAD_INTERRUPTED etc. from a newer play()
+    fail.current(new Error(shakaMsg(err)));
+  });
+  return gate.promise;
 }
 
 /* ---------- controls ---------- */
@@ -159,14 +345,17 @@ $('qualitySelect').onchange = e => {
   const v = +e.target.value;
   if (hls) hls.currentLevel = v;
   else if (sk) {
-    sk.configure({ abr: { enabled: v < 0 } });
-    if (v > 0) sk.selectVariantTrack(sk.getVariantTracks().filter(t => t.height === v).sort((a, b) => b.bandwidth - a.bandwidth)[0], true);
+    if (v < 0) { sk.configure({ abr: { enabled: true } }); return; }
+    const track = sk.getVariantTracks().filter(t => t.height === v).sort((a, b) => b.bandwidth - a.bandwidth)[0];
+    if (track) { sk.configure({ abr: { enabled: false } }); sk.selectVariantTrack(track, true); }
   }
 };
 $('liveBtn').onclick = () => {
-  if (hls && hls.liveSyncPosition) video.currentTime = hls.liveSyncPosition;
-  else if (sk) video.currentTime = sk.seekRange().end;
-  video.play().catch(() => {});
+  try {
+    if (hls && hls.liveSyncPosition) video.currentTime = hls.liveSyncPosition;
+    else if (sk) video.currentTime = sk.seekRange().end;
+  } catch {}
+  tryPlay();
 };
 $('edgeSelect').onchange = e => { store.set('edge', e.target.value); cur && play(cur); };
 $('modeSelect').onchange = e => { store.set('mode', e.target.value); cur && play(cur); };
