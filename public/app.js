@@ -7,8 +7,9 @@ const store = {
 const NOLOGO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='42'%3E%3Crect width='42' height='42' rx='8' fill='%23121c30'/%3E%3Ctext x='21' y='26' font-size='12' fill='%238da2bd' text-anchor='middle' font-family='sans-serif'%3ETV%3C/text%3E%3C/svg%3E";
 
 // NOTE: pulse.js reads these globals (channels, cur, hls, sk, play) - keep the names.
-let channels = [], cur = null, hls = null, sk = null, token = 0;
+let channels = [], cur = null, hls = null, sk = null, ts = null, token = 0;   // ts = mpegts.js player (raw MPEG-TS / FLV)
 let favs = new Set(store.get('favs', []));
+let epgAll = {}, epgSig = '', epgList = null, epgListAt = 0, epgOpen = false;   // EPG state (see "EPG" section below)
 
 const START_TIMEOUT = 20000;   // ms to wait for a stream to actually start playing
 const pick = (v, allowed, d) => (allowed.includes(v) ? v : d);
@@ -22,6 +23,9 @@ const proxied = (c, url) => `/proxy?ch=${c.id}&url=${encodeURIComponent(url || c
 const LIBS = {
   Hls: ['https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js',
         'https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js'],
+  mpegts: ['https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.js',
+           'https://unpkg.com/mpegts.js@1.7.3/dist/mpegts.js',
+           'https://cdn.jsdelivr.net/npm/mpegts.js@latest/dist/mpegts.js'],
   shaka: ['https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/shaka-player.compiled.js',
           'https://cdn.jsdelivr.net/npm/shaka-player@4.7.11/dist/shaka-player.compiled.js']
 };
@@ -67,6 +71,11 @@ async function loadChannels(fresh) {
   }
 }
 
+function npLine(c) {                                       // "▶ programme title" under the channel name (from the EPG)
+  const e = epgAll[c.id], n = e && e.n;
+  return n && n.e > Date.now() ? `<small class="np">▶ ${esc(n.t)}</small>` : '';
+}
+
 function render() {
   const q = $('search').value.trim().toLowerCase(), g = $('group').value;
   const rows = channels.filter(c =>
@@ -75,7 +84,7 @@ function render() {
   $('channels').innerHTML = rows.length ? rows.map(c => `
     <button class="ch ${cur && cur.id === c.id ? 'cur' : ''}" data-id="${c.id}">
       <img src="${esc(c.logo || NOLOGO)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${NOLOGO}'">
-      <span class="t"><b>${esc(c.name)}</b><small>${esc(c.group)}</small></span>
+      <span class="t"><b>${esc(c.name)}</b><small>${esc(c.group)}</small>${npLine(c)}</span>
       <span class="star ${favs.has(c.name) ? 'on' : ''}" data-fav="${esc(c.name)}">${favs.has(c.name) ? '★' : '☆'}</span>
     </button>`).join('') : '<div class="empty">No channels</div>';
 }
@@ -96,6 +105,7 @@ function favBtn() {
 function teardown() {
   if (hls) { try { hls.destroy(); } catch {} hls = null; }
   if (sk) { try { sk.destroy(); } catch {} sk = null; }
+  if (ts) { try { ts.pause(); ts.unload(); ts.detachMediaElement(); ts.destroy(); } catch {} ts = null; }
   video.onloadedmetadata = null; video.onerror = null;
   video.pause(); video.removeAttribute('src'); video.load();
   $('qualitySelect').innerHTML = '<option value="-1">Auto</option>';
@@ -131,29 +141,72 @@ function startGate(my, fail) {
 }
 
 /* ---------- play ---------- */
+// What kind of stream is this, judging by the URL only? null = cannot tell (e.g. xtream links like /live/user/pass/123).
+function guessKind(c) {
+  if (c.type === 'mpd' || c.drm || /\.mpd(\?|$)/i.test(c.url)) return 'dash';
+  if (c.type === 'hls' || /\.m3u8?(\?|$)|[?&/]m3u8/i.test(c.url)) return 'hls';
+  if (/\.(ts|mts|m2ts)(\?|$)/i.test(c.url)) return 'ts';
+  if (/\.flv(\?|$)/i.test(c.url)) return 'flv';
+  if (/\.(mp4|m4v|webm)(\?|$)/i.test(c.url)) return 'mp4';
+  if (/\.(mp3|aac|m4a|ogg|opus)(\?|$)/i.test(c.url)) return 'audio';
+  return null;
+}
+
+// Ask the server what the link really delivers (it fetches the first bytes with the same User-Agent tricks as the proxy).
+async function sniff(c) {
+  try { const r = await fetch('/api/sniff?ch=' + c.id, { cache: 'no-store' }); return await r.json(); }
+  catch { return { ok: false, reason: 'Could not reach the player server.' }; }
+}
+
+const STARTERS = {
+  hls: (c, my) => startHls(c, my, true),
+  dash: (c, my) => startShaka(c, my, true),
+  ts: (c, my) => startMpegts(c, my, 'mpegts'),
+  flv: (c, my) => startMpegts(c, my, 'flv'),
+  mp4: (c, my) => startNative(c, my),
+  audio: (c, my) => startNative(c, my)
+};
+
 async function play(c) {
   if (!c) return;
   const my = ++token;
   cur = c; store.set('last', c.id);
   $('nowName').textContent = c.name; $('nowGroup').textContent = c.group;
   favBtn(); render(); teardown(); setStatus('Connecting: ' + c.name + '…');
+  epgList = null; paintEpg(); loadEpgList(c);
 
-  // Always play through our own /proxy. The browser then only talks to this site (same origin), so CORS
-  // errors (and mixed-content errors for http:// streams) cannot happen.
-  const tries = [true];
-  const dash = c.type === 'mpd' || /\.mpd(\?|$)/i.test(c.url) || !!c.drm;
-
-  for (let i = 0; i < tries.length; i++) {
+  // Always play through our own /proxy: the browser only talks to this site (same origin), so CORS and
+  // mixed-content (http:// stream on an https:// page) errors cannot happen.
+  let kind = guessKind(c), info = null, lastErr = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    if (!kind) {                                         // unknown link type: look at the stream itself
+      info = await sniff(c);
+      if (my !== token) return;
+      if (!info.kind || !STARTERS[info.kind]) { lastErr = new Error(info.reason || 'Unrecognised stream'); break; }
+      kind = info.kind;
+    }
     try {
-      await (dash ? startShaka(c, my, tries[i]) : startHls(c, my, tries[i]));
+      await STARTERS[kind](c, my);
       if (my === token) setStatus('LIVE');
       return;
     } catch (e) {
       if (my !== token) return;
       teardown();
-      setStatus('Cannot play: ' + (e && e.message ? e.message : e), true);
+      lastErr = e;
+      if (!info) {                                       // failed: find out why, and whether another player type fits better
+        setStatus('Checking the stream…');
+        info = await sniff(c);
+        if (my !== token) return;
+        if (info.kind && info.kind !== kind && STARTERS[info.kind]) { kind = info.kind; setStatus('Switching player type…'); continue; }
+      }
+      break;
     }
   }
+  // give the most useful explanation we have
+  const why = info && !info.ok && info.reason ? info.reason
+            : info && info.reason ? info.reason
+            : (lastErr && lastErr.message) || 'Unknown error';
+  setStatus('Cannot play: ' + why, true);
 }
 
 /* ---------- HLS ---------- */
@@ -211,6 +264,44 @@ async function startHls(c, my, viaProxy) {
   } else {
     throw new Error('This browser does not support HLS playback');
   }
+  return gate.promise;
+}
+
+/* ---------- raw MPEG-TS / FLV (mpegts.js) ---------- */
+async function startMpegts(c, my, type) {
+  if (!(await ensureLib('mpegts'))) throw new Error('mpegts.js failed to load (check your internet connection)');
+  if (my !== token) throw new Superseded();
+  if (!mpegts.isSupported()) throw new Error('This browser cannot play raw MPEG-TS streams');
+  const fail = { current: () => {} };
+  const gate = startGate(my, fail);
+  let retries = 0;
+  const p = mpegts.createPlayer({ type, isLive: true, url: proxied(c) },
+    { enableWorker: false, autoCleanupSourceBuffer: true, liveBufferLatencyChasing: true,
+      liveBufferLatencyMaxLatency: 10, liveBufferLatencyMinRemain: 2 });
+  ts = p;
+  p.on(mpegts.Events.ERROR, (errType, detail) => {
+    if (my !== token || ts !== p) return;
+    const msg = errType + (detail ? ': ' + detail : '');
+    if (!gate.isStarted()) return fail.current(new Error(msg));
+    if (retries < 5) {                                   // stream dropped while playing: reconnect
+      retries++; setStatus('Network problem, reconnecting (' + retries + '/5)…');
+      setTimeout(() => { if (ts === p && my === token) { try { p.unload(); p.load(); tryPlay(); } catch {} } }, 1000 * retries);
+    } else setStatus('Playback stopped: ' + msg + ' — select the channel again to retry', true);
+  });
+  video.addEventListener('playing', () => { if (ts === p) retries = 0; });
+  p.attachMediaElement(video);
+  p.load();
+  tryPlay();
+  return gate.promise;
+}
+
+/* ---------- plain files / radio streams (browser's own decoder) ---------- */
+async function startNative(c, my) {
+  const fail = { current: () => {} };
+  const gate = startGate(my, fail);
+  video.onerror = () => { if (my === token) fail.current(new Error('The browser could not decode this stream')); };
+  video.src = proxied(c);
+  tryPlay();
   return gate.promise;
 }
 
@@ -350,6 +441,7 @@ $('liveBtn').onclick = () => {
   try {
     if (hls && hls.liveSyncPosition) video.currentTime = hls.liveSyncPosition;
     else if (sk) video.currentTime = sk.seekRange().end;
+    else if (ts && video.buffered.length) video.currentTime = Math.max(0, video.buffered.end(video.buffered.length - 1) - 1);
   } catch {}
   tryPlay();
 };
@@ -372,6 +464,7 @@ function liveLag() {
   try {
     if (hls && typeof hls.latency === 'number' && hls.latency > 0) return hls.latency;
     if (sk) { const e = sk.seekRange().end; if (e) return e - video.currentTime; }
+    if (ts && video.buffered.length) return video.buffered.end(video.buffered.length - 1) - video.currentTime;
     if (video.seekable && video.seekable.length) return video.seekable.end(video.seekable.length - 1) - video.currentTime;
   } catch {}
   return null;
@@ -381,6 +474,67 @@ setInterval(() => {
   $('latency').textContent = 'Latency: ' + (l == null ? '--' : l.toFixed(1) + 's');
 }, 1000);
 
+
+/* ---------- EPG (TV guide): now/next under the player + on every channel row, refreshed automatically ---------- */
+const hhmm = ms => new Date(ms).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
+// now/next of ALL channels (server refreshes the XMLTV guide in the background); polled every minute
+async function loadEpgAll() {
+  let delay = 60_000;
+  try {
+    const r = await fetch('/api/epg', { cache: 'no-store' });
+    if (r.ok) {
+      const d = await r.json();
+      epgAll = d.ch || {};
+      if (!d.updated) delay = 15_000;                       // server still downloading the guide: look again soon
+      const sig = Object.entries(epgAll).map(([id, v]) => id + ':' + (v.n ? v.n.t : '')).join('|');
+      if (sig !== epgSig) { epgSig = sig; render(); }       // only redraw the list when something actually changed
+    }
+  } catch { delay = 30_000; }
+  setTimeout(loadEpgAll, delay);
+}
+
+// schedule of the playing channel
+async function loadEpgList(c) {
+  try {
+    const r = await fetch('/api/epg/' + c.id, { cache: 'no-store' });
+    const d = r.ok ? await r.json() : { list: [] };
+    if (cur && cur.id === c.id) { epgList = d.list || []; epgListAt = Date.now(); paintEpg(); }
+  } catch { if (cur && cur.id === c.id) { epgList = []; paintEpg(); } }
+}
+
+// Uses the local clock, so the progress bar and the NOW/NEXT switch happen on time without asking the server again.
+function paintEpg() {
+  const box = $('epg'), t = Date.now();
+  const up = (epgList || []).filter(p => p.e > t);
+  if (!cur || !up.length) {
+    box.hidden = true;
+    if (cur && epgList !== null && Date.now() - epgListAt > 60_000) loadEpgList(cur);   // guide may not have been ready yet
+    return;
+  }
+  box.hidden = false;
+  const now = up[0].s <= t ? up[0] : null, next = now ? up[1] : up[0];
+  $('epgNowT').textContent = now ? now.t : 'No programme info right now';
+  $('epgNowTime').textContent = now ? hhmm(now.s) + ' – ' + hhmm(now.e) : '';
+  $('epgBar').style.width = now ? Math.min(100, Math.max(0, (t - now.s) / (now.e - now.s) * 100)) + '%' : '0%';
+  $('epgDesc').textContent = now ? now.d || '' : '';
+  $('epgNextT').textContent = next ? next.t : '—';
+  $('epgNextTime').textContent = next ? hhmm(next.s) : '';
+  $('epgMore').hidden = up.length < 2;
+  $('epgList').hidden = !epgOpen || up.length < 2;
+  if (epgOpen) $('epgList').innerHTML = up.map((p, i) => `
+    <li class="${i === 0 && now ? 'on' : ''}"><time>${hhmm(p.s)}</time><div><b>${esc(p.t)}</b>${p.d ? `<small>${esc(p.d)}</small>` : ''}</div></li>`).join('');
+  if (cur && (up.length < 3 || Date.now() - epgListAt > 10 * 60_000) && Date.now() - epgListAt > 60_000) loadEpgList(cur);   // top up the schedule
+}
+$('epgMore').onclick = () => {
+  epgOpen = !epgOpen;
+  $('epgMore').textContent = epgOpen ? 'Hide schedule ▴' : 'Full schedule ▾';
+  $('epgMore').setAttribute('aria-expanded', String(epgOpen));
+  paintEpg();
+};
+setInterval(paintEpg, 30_000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) { paintEpg(); cur && loadEpgList(cur); } });
+loadEpgAll();
 
 /* ---------- custom player controls: LIVE button + fullscreen with auto-rotate ---------- */
 const wrap = document.querySelector('.video-wrapper');
@@ -429,11 +583,6 @@ function onFullscreenChange() {
 ['fullscreenchange', 'webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, onFullscreenChange));
 $('vcFs').onclick = toggleFullscreen;
 wrap.addEventListener('dblclick', e => { if (!e.target.closest('.vc, #pulseTools, #pulseMenu')) toggleFullscreen(); });
-wrap.addEventListener('click', e => {                                  // tap the picture = play/pause (first tap only reveals the controls)
-  if (e.target.closest('.vc, #pulseTools, #pulseMenu')) return;
-  if (wrap.classList.contains('pulse-idle')) return;
-  video.paused ? tryPlay() : video.pause();
-});
 syncControls();
 
 loadChannels();
