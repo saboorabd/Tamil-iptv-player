@@ -26,11 +26,18 @@
 
   <main class="player-container">
     <div class="video-wrapper">
-      <video id="video" controls autoplay playsinline></video>
+      <video id="video" autoplay playsinline></video>
       <div class="player-overlay">
         <span id="status">Loading playlist…</span>
         <span id="latency">Latency: --</span>
         <span id="quality">Quality: --</span>
+      </div>
+      <div class="vc" id="vc">
+        <button id="vcPlay" class="vc-btn" type="button" aria-label="Play / pause"></button>
+        <button id="vcLive" class="vc-live" type="button" aria-label="Go to live" disabled><i></i><span id="vcLiveTxt">LIVE</span></button>
+        <span class="vc-sp"></span>
+        <button id="vcMute" class="vc-btn" type="button" aria-label="Mute / unmute"></button>
+        <button id="vcFs" class="vc-btn" type="button" aria-label="Fullscreen"></button>
       </div>
     </div>
     <div class="now"><b id="nowName">—</b><span id="nowGroup" class="muted"></span></div>
@@ -39,7 +46,6 @@
       <button id="favBtn">☆ Favourite</button>
       <label>Quality <select id="qualitySelect"><option value="-1">Auto</option></select></label>
       <label>Latency <select id="edgeSelect"><option value="default">Default</option><option value="near">Low</option></select></label>
-      <label>Connection <select id="modeSelect"><option value="auto">Auto</option><option value="direct">Direct</option><option value="proxy">Proxy</option></select></label>
     </div>
   </main>
 </div>
