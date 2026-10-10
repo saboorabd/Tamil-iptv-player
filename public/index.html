@@ -41,6 +41,14 @@
       </div>
     </div>
     <div class="now"><b id="nowName">—</b><span id="nowGroup" class="muted"></span></div>
+    <section class="epg" id="epg" hidden>
+      <div class="epg-row"><span class="epg-tag">NOW</span><b class="epg-title" id="epgNowT"></b><span class="epg-time" id="epgNowTime"></span></div>
+      <div class="epg-bar"><i id="epgBar"></i></div>
+      <p class="epg-desc" id="epgDesc"></p>
+      <div class="epg-row"><span class="epg-tag nx">NEXT</span><span class="epg-title" id="epgNextT"></span><span class="epg-time" id="epgNextTime"></span></div>
+      <button id="epgMore" type="button" aria-expanded="false">Full schedule ▾</button>
+      <ol class="epg-list" id="epgList" hidden></ol>
+    </section>
     <div class="player-controls">
       <button id="liveBtn">Go live</button>
       <button id="favBtn">☆ Favourite</button>
