@@ -27,6 +27,7 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const { sniffKind } = require('./sniff');
 
 module.exports = function pulse(app, opts = {}) {
   if (process.env.PULSE_DISABLE === '1') return;
@@ -86,6 +87,19 @@ module.exports = function pulse(app, opts = {}) {
     } finally { clearTimeout(timer); }
   }
 
+  // reads only the first bytes of a stream (a raw MPEG-TS stream never ends, so it can not be read as text)
+  async function peek(url, max = 4096) {
+    const { r, t0, timer, ac } = await timed(url);
+    try {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const reader = r.body.getReader(), parts = []; let n = 0;
+      while (n < max) { const { value, done } = await reader.read(); if (done) break; parts.push(Buffer.from(value)); n += value.length; }
+      return { ms: Date.now() - t0, buf: Buffer.concat(parts) };
+    } catch (e) {
+      throw new Error(e.name === 'AbortError' ? 'timeout' : e.message);
+    } finally { clearTimeout(timer); ac.abort(); }
+  }
+
   async function getBytes(url) {                      // first KB only
     const { r, t0, timer, ac } = await timed(url, { Range: 'bytes=0-1023' });
     try {
@@ -114,9 +128,18 @@ module.exports = function pulse(app, opts = {}) {
   async function check(ch) {
     const out = { ms: 0, seg: 0, err: '', seq: null, vod: false };
     try {
+      const head = await peek(proxyUrl(ch, ch.url));
+      out.ms = head.ms;
+      const kind = sniffKind(head.buf);
+      // not HLS: raw MPEG-TS / FLV / MP4 / radio streams are fine as soon as data flows; DASH: reachable manifest is all we can verify
+      if (kind === 'ts' || kind === 'flv' || kind === 'mp4' || kind === 'audio') { out.seg = head.ms; return out; }
+      if (kind === 'dash') return out;
+      if (kind === 'html') throw new Error('web page instead of a stream');
+      if (kind === 'empty') throw new Error('no data');
+      if (kind !== 'hls') throw new Error('unrecognised stream');
       const m = await getText(proxyUrl(ch, ch.url));
-      out.ms = m.ms;
-      if (/<MPD[\s>]/.test(m.text)) return out;                     // DASH: manifest reachable is all we can verify
+      out.ms = Math.max(out.ms, m.ms);
+      if (/<MPD[\s>]/.test(m.text)) return out;
       if (!/^\s*#EXTM3U/.test(m.text)) throw new Error('not a playlist');
 
       let media = m.text;
