@@ -298,3 +298,31 @@ label{
 .pulse-idle .vc{opacity:0;pointer-events:none}
 #pulseLive{display:none!important}      /* replaced by the LIVE button in the control bar */
 .video-wrapper:fullscreen .vc{padding-bottom:max(14px,env(safe-area-inset-bottom))}
+
+/* ---------- EPG (TV guide) ---------- */
+.epg{
+  display:grid;gap:8px;padding:14px 18px;
+  background:var(--panel);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--line);border-radius:var(--radius);
+}
+.epg[hidden]{display:none}
+.epg-row{display:flex;gap:10px;align-items:baseline;min-width:0}
+.epg-tag{flex:none;font-size:11px;font-weight:800;letter-spacing:.9px;color:#111;background:var(--acc-grad);padding:2px 8px;border-radius:6px}
+.epg-tag.nx{background:rgba(120,150,210,.28);color:var(--text)}
+.epg-title{flex:1;min-width:0;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+b.epg-title{font-weight:700;font-size:16px}
+.epg-time{flex:none;color:var(--mute);font-size:12px;font-variant-numeric:tabular-nums}
+.epg-bar{height:4px;border-radius:4px;background:rgba(120,150,210,.2);overflow:hidden}
+.epg-bar i{display:block;height:100%;width:0;background:var(--acc-grad);transition:width .6s}
+.epg-desc{margin:0;color:var(--mute);font-size:13px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.epg-desc:empty{display:none}
+#epgMore{justify-self:start;padding:5px 12px;font-size:12px;border-radius:999px}
+#epgMore[hidden]{display:none}
+.epg-list{list-style:none;margin:2px 0 0;padding:0;max-height:260px;overflow-y:auto;overscroll-behavior:contain}
+.epg-list li{display:flex;gap:12px;padding:8px 4px;border-top:1px solid var(--line)}
+.epg-list li.on{box-shadow:inset 3px 0 0 var(--acc);padding-left:10px;background:linear-gradient(90deg,rgba(245,176,66,.12),transparent 70%)}
+.epg-list time{flex:none;width:64px;color:var(--mute);font-size:12px;font-variant-numeric:tabular-nums;padding-top:2px}
+.epg-list b{display:block;font-size:14px;font-weight:650}
+.epg-list small{display:block;color:var(--mute);font-size:12px;line-height:1.35;margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ch .t small.np{color:var(--acc);margin-top:2px}
