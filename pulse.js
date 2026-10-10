@@ -375,7 +375,7 @@ function clientMain() {
     d.classList.add('busy');
     try {
       const r = await fetch('/api/pulse/probe?ch=' + d.dataset.id, { method: 'POST' });
-      if (r.status === 429) say('Konjam nodi wait pannunga, appuram re-test pannalaam');
+      if (r.status === 429) say('Please wait a moment before re-testing');
       else if (r.ok) { const e = await r.json(); data.channels[e.id] = Object.assign(data.channels[e.id] || {}, e); say(`${label[e.s]} · ${e.ms}ms`); }
     } catch {}
     d.classList.remove('busy'); paint();
@@ -423,7 +423,7 @@ function clientMain() {
             .filter(o => o.e && (o.e.s === 'up' || o.e.s === 'slow'))
             .sort((a, b) => b.e.score - a.e.score)[0];
           if (best) {
-            say(`${c.name} source ${label[me.s].toLowerCase()} — better source-ku mathi irukken`);
+            say(`${c.name} source is ${label[me.s].toLowerCase()} — switched to a healthier source`);
             return orig.call(this, best.x, new Set([c.id]));
           }
         }
@@ -500,9 +500,9 @@ function clientMain() {
     const enhBtn = (k, t) => `<button data-enh="${k}" class="${enh === k ? 'sel' : ''}">${t}</button>`;
     menu.innerHTML = '<h4>Quality</h4>' +
       (auto ? row(auto) : '') + rest.map((o, i) => row(o, i === 0 ? ' ★' : '')).join('') +
-      (rest.length ? '' : '<small>Indha stream-la oru quality mattum thaan irukku.</small>') +
+      (rest.length ? '' : '<small>This stream has only one quality.</small>') +
       '<h4>Enhance</h4><div class="enh">' + enhBtn('off', 'Off') + enhBtn('crisp', 'Crisp') + enhBtn('vivid', 'Vivid') + '</div>' +
-      '<small>Sharpen filter — source quality-a vida sooda maatradhu. Lag aana Off pannunga.</small>';
+      '<small>Sharpen filter - it cannot improve on the source quality. Turn it Off if playback lags.</small>';
   }
   qBtn.onclick = e => { e.stopPropagation(); if (!menu.classList.contains('open')) buildMenu(); menu.classList.toggle('open'); };
   menu.onclick = e => {
