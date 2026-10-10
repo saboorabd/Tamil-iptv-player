@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ta">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -15,10 +15,10 @@
     <header class="header">
       <h1>Tamil IPTV</h1>
       <span id="count" class="muted"></span>
-      <button id="reloadBtn" title="Playlist reload">⟳</button>
+      <button id="reloadBtn" title="Reload playlist">⟳</button>
     </header>
     <div class="controls">
-      <input type="search" id="search" placeholder="Channel தேடு…" autocomplete="off">
+      <input type="search" id="search" placeholder="Search channels…" autocomplete="off">
       <select id="group"><option value="all">All</option></select>
     </div>
     <div id="channels" class="channels-list"></div>
@@ -26,7 +26,7 @@
 
   <main class="player-container">
     <div class="video-wrapper">
-      <video id="video" controls autoplay playsinline crossorigin="anonymous"></video>
+      <video id="video" controls autoplay playsinline></video>
       <div class="player-overlay">
         <span id="status">Loading playlist…</span>
         <span id="latency">Latency: --</span>
