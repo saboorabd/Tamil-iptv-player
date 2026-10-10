@@ -270,3 +270,31 @@ label{
   body{font-size:16px}
   .ch img{width:52px;height:52px}
 }
+
+/* ---------- custom player controls (LIVE button, fullscreen) ---------- */
+.vc{
+  position:absolute;left:0;right:0;bottom:0;z-index:4;
+  display:flex;align-items:center;gap:4px;
+  padding:34px 8px max(8px,env(safe-area-inset-bottom));
+  background:linear-gradient(0deg,rgba(0,0,0,.82),transparent);
+  transition:opacity .25s;
+}
+.vc button{
+  background:none;border:0;box-shadow:none;color:#fff;padding:0;
+  min-width:44px;height:44px;display:grid;place-items:center;border-radius:50%;
+}
+.vc button:hover{background:rgba(255,255,255,.14)}
+.vc .vc-sp{flex:1}
+.vc .vc-live{
+  min-width:0;height:34px;padding:0 14px;border-radius:999px;
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:800;letter-spacing:.9px;
+  background:rgba(8,14,28,.62);border:1px solid rgba(255,255,255,.18);
+}
+.vc .vc-live i{width:9px;height:9px;border-radius:50%;background:#ff3b4a;box-shadow:0 0 9px #ff3b4a;animation:pulse 1.4s ease-in-out infinite}
+.vc .vc-live.behind{color:var(--acc);border-color:var(--acc)}
+.vc .vc-live.behind i{background:var(--mute);box-shadow:none;animation:none}
+.vc .vc-live:disabled{opacity:.5}
+.pulse-idle .vc{opacity:0;pointer-events:none}
+#pulseLive{display:none!important}      /* replaced by the LIVE button in the control bar */
+.video-wrapper:fullscreen .vc{padding-bottom:max(14px,env(safe-area-inset-bottom))}
