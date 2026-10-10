@@ -12,7 +12,6 @@ let favs = new Set(store.get('favs', []));
 
 const START_TIMEOUT = 20000;   // ms to wait for a stream to actually start playing
 const pick = (v, allowed, d) => (allowed.includes(v) ? v : d);
-$('modeSelect').value = pick(store.get('mode', 'auto'), ['auto', 'direct', 'proxy'], 'auto');
 $('edgeSelect').value = pick(store.get('edge', 'default'), ['default', 'near'], 'default');
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -139,10 +138,9 @@ async function play(c) {
   $('nowName').textContent = c.name; $('nowGroup').textContent = c.group;
   favBtn(); render(); teardown(); setStatus('Connecting: ' + c.name + '…');
 
-  const mode = $('modeSelect').value;
-  const insecure = location.protocol === 'https:' && c.url.startsWith('http:');
-  const forceProxy = mode === 'proxy' || insecure || c.proxy;
-  const tries = forceProxy ? [true] : mode === 'direct' ? [false] : [false, true];   // true = through /proxy
+  // Always play through our own /proxy. The browser then only talks to this site (same origin), so CORS
+  // errors (and mixed-content errors for http:// streams) cannot happen.
+  const tries = [true];
   const dash = c.type === 'mpd' || /\.mpd(\?|$)/i.test(c.url) || !!c.drm;
 
   for (let i = 0; i < tries.length; i++) {
@@ -153,8 +151,7 @@ async function play(c) {
     } catch (e) {
       if (my !== token) return;
       teardown();
-      if (i < tries.length - 1) setStatus('Direct playback failed → trying proxy…');
-      else setStatus('Cannot play: ' + (e && e.message ? e.message : e), true);
+      setStatus('Cannot play: ' + (e && e.message ? e.message : e), true);
     }
   }
 }
@@ -297,7 +294,6 @@ async function startShaka(c, my, viaProxy) {
     // The proxy only rewrites .m3u8, so for DASH we route every manifest/segment request through it here.
     const isProxy = u => { try { const x = new URL(u, location.href); return x.origin === location.origin && x.pathname === '/proxy'; } catch { return false; } };
     net.registerRequestFilter((type, req) => {
-      if (type === RT.LICENSE) return;                                  // license servers are contacted directly
       req.uris = req.uris.map(u => (/^https?:/i.test(u) && !isProxy(u)) ? location.origin + proxied(c, u) : u);
     });
     // Make relative BaseURLs/segment paths resolve against the real server, not against /proxy
@@ -358,7 +354,6 @@ $('liveBtn').onclick = () => {
   tryPlay();
 };
 $('edgeSelect').onchange = e => { store.set('edge', e.target.value); cur && play(cur); };
-$('modeSelect').onchange = e => { store.set('mode', e.target.value); cur && play(cur); };
 $('favBtn').onclick = () => cur && toggleFav(cur.name);
 $('reloadBtn').onclick = () => loadChannels(true);
 $('channels').addEventListener('click', e => {
@@ -372,11 +367,73 @@ $('group').addEventListener('change', render);
 video.addEventListener('waiting', () => cur && setStatus('Buffering…'));
 video.addEventListener('playing', () => cur && setStatus('LIVE'));
 
+// seconds behind the live edge (null if unknown)
+function liveLag() {
+  try {
+    if (hls && typeof hls.latency === 'number' && hls.latency > 0) return hls.latency;
+    if (sk) { const e = sk.seekRange().end; if (e) return e - video.currentTime; }
+    if (video.seekable && video.seekable.length) return video.seekable.end(video.seekable.length - 1) - video.currentTime;
+  } catch {}
+  return null;
+}
 setInterval(() => {
-  let l = null;
-  if (hls && typeof hls.latency === 'number' && hls.latency > 0) l = hls.latency;
-  else if (sk) { try { const e = sk.seekRange().end; if (e) l = e - video.currentTime; } catch {} }
+  const l = liveLag();
   $('latency').textContent = 'Latency: ' + (l == null ? '--' : l.toFixed(1) + 's');
 }, 1000);
+
+
+/* ---------- custom player controls: LIVE button + fullscreen with auto-rotate ---------- */
+const wrap = document.querySelector('.video-wrapper');
+const ICONS = {   // Material-style paths, 24x24
+  play: 'M8 5v14l11-7z',
+  pause: 'M6 19h4V5H6v14zm8-14v14h4V5h-4z',
+  vol: 'M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z',
+  mute: 'M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.8 8.8 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 0 0 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z',
+  fs: 'M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z',
+  fsExit: 'M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z'
+};
+const svg = d => `<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="${d}"/></svg>`;
+const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
+
+function syncControls() {
+  $('vcPlay').innerHTML = svg(video.paused ? ICONS.play : ICONS.pause);
+  $('vcMute').innerHTML = svg(video.muted || video.volume === 0 ? ICONS.mute : ICONS.vol);
+  $('vcFs').innerHTML = svg(fsEl() ? ICONS.fsExit : ICONS.fs);
+  const live = $('vcLive'), behind = !!cur && (video.paused || (liveLag() ?? 0) > 15);
+  live.disabled = !cur;
+  live.classList.toggle('behind', behind);
+  $('vcLiveTxt').textContent = behind ? 'GO LIVE' : 'LIVE';
+}
+['play', 'pause', 'playing', 'volumechange', 'emptied'].forEach(ev => video.addEventListener(ev, syncControls));
+setInterval(syncControls, 1000);
+
+$('vcPlay').onclick = () => (video.paused ? tryPlay() : video.pause());
+$('vcMute').onclick = () => { video.muted = !video.muted; if (!video.muted && video.volume === 0) video.volume = 1; };
+$('vcLive').onclick = () => $('liveBtn').click();
+
+// Fullscreen the whole wrapper (keeps our controls), then lock the screen to landscape so the phone rotates by itself.
+async function toggleFullscreen() {
+  if (fsEl()) { try { await (document.exitFullscreen ? document.exitFullscreen() : document.webkitExitFullscreen()); } catch {} return; }
+  const req = wrap.requestFullscreen || wrap.webkitRequestFullscreen;
+  if (req) {
+    try { await req.call(wrap); } catch { return; }
+    try { await screen.orientation.lock('landscape'); } catch {}      // allowed only while fullscreen; ignored where unsupported
+  } else if (video.webkitEnterFullscreen) {
+    video.webkitEnterFullscreen();                                    // iPhone Safari: native player, rotates by itself
+  }
+}
+function onFullscreenChange() {
+  if (!fsEl()) { try { screen.orientation.unlock(); } catch {} }      // back to normal rotation when leaving fullscreen
+  syncControls();
+}
+['fullscreenchange', 'webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, onFullscreenChange));
+$('vcFs').onclick = toggleFullscreen;
+wrap.addEventListener('dblclick', e => { if (!e.target.closest('.vc, #pulseTools, #pulseMenu')) toggleFullscreen(); });
+wrap.addEventListener('click', e => {                                  // tap the picture = play/pause (first tap only reveals the controls)
+  if (e.target.closest('.vc, #pulseTools, #pulseMenu')) return;
+  if (wrap.classList.contains('pulse-idle')) return;
+  video.paused ? tryPlay() : video.pause();
+});
+syncControls();
 
 loadChannels();
