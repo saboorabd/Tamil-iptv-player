@@ -466,7 +466,7 @@ function clientMain() {
   const fsBtn = document.createElement('button'); fsBtn.id = 'pulseFs'; fsBtn.type = 'button'; fsBtn.title = 'Fullscreen'; fsBtn.textContent = '⛶';
   const menu = document.createElement('div'); menu.id = 'pulseMenu';
   tools.append(qBtn);
-  if (wrap.requestFullscreen) { tools.append(fsBtn); video.setAttribute('controlslist', 'nofullscreen'); }
+  // fullscreen (with auto-rotate) now lives in the player's own control bar (app.js), so no extra button here
   wrap.append(tools, menu);
 
   const num = o => parseInt(o.textContent, 10) || 0;
