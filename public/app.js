@@ -237,7 +237,7 @@ async function play(c) {
 const hlsMsg = d => d.details + (d.response && d.response.code ? ' (HTTP ' + d.response.code + ')' : '');
 
 async function startHls(c, my, viaProxy, noCodec, native) {
-  const src = viaProxy ? proxied(c) + (noCodec ? '&nc=1' : '') : c.url;
+  const src = viaProxy ? proxied(c) + (noCodec ? '&nc=1' : '') + '&w=1' : c.url;   // w=1: server reads ahead (faster start)
   if (!native && !(await ensureLib('Hls')) && !video.canPlayType('application/vnd.apple.mpegurl'))
     throw new Error('hls.js failed to load (check your internet connection)');
   if (my !== token) throw new Superseded();
