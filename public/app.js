@@ -250,6 +250,7 @@ async function startHls(c, my, viaProxy, noCodec, native) {
     let netRetries = 0, mediaRetries = 0;
     const h = new Hls({
       lowLatencyMode: near, liveSyncDurationCount: near ? 2 : 3, liveMaxLatencyDurationCount: near ? 5 : 10,
+      startLevel: 0, startFragPrefetch: true, capLevelToPlayerSize: true,   // faster start: lowest quality first, ABR then climbs
       backBufferLength: 30, manifestLoadingMaxRetry: 2, levelLoadingMaxRetry: 3, fragLoadingMaxRetry: 4,
       manifestLoadingTimeOut: 15000, levelLoadingTimeOut: 15000, fragLoadingTimeOut: 20000
     });
@@ -608,5 +609,25 @@ function onFullscreenChange() {
 $('vcFs').onclick = toggleFullscreen;
 wrap.addEventListener('dblclick', e => { if (!e.target.closest('.vc, #pulseTools, #pulseMenu')) toggleFullscreen(); });
 syncControls();
+
+/* ---------- picture fit: Fit / Zoom (crop) / Stretch ---------- */
+const FITS = [
+  { v: 'contain', label: 'Fit',     tip: 'Original ratio (black bars)' },
+  { v: 'cover',   label: 'Zoom',    tip: 'Fill the screen, crop the edges' },
+  { v: 'fill',    label: 'Stretch', tip: 'Fill the screen, stretch the picture' }
+];
+let fitIdx = Math.max(0, FITS.findIndex(f => f.v === store.get('fit', 'contain')));
+const fitBtn = document.createElement('button');
+fitBtn.id = 'vcFit'; fitBtn.type = 'button'; fitBtn.className = 'vc-btn';
+fitBtn.style.cssText = 'width:auto;min-width:0;padding:0 10px;font:700 12px/1 system-ui,sans-serif;';
+function applyFit() {
+  const f = FITS[fitIdx];
+  video.style.objectFit = f.v;
+  fitBtn.textContent = f.label; fitBtn.title = f.tip; fitBtn.setAttribute('aria-label', 'Picture: ' + f.label + ' - ' + f.tip);
+  store.set('fit', f.v);
+}
+fitBtn.onclick = e => { e.stopPropagation(); fitIdx = (fitIdx + 1) % FITS.length; applyFit(); };
+$('vcFs').before(fitBtn);
+applyFit();
 
 loadChannels();
