@@ -218,17 +218,20 @@ function rewriteM3U8(text, base, ch) {
      - env EPG_URL        one or more XMLTV URLs, comma separated (.xml or .xml.gz)
      - playlist header    #EXTM3U url-tvg="https://.../guide.xml.gz"   (or x-tvg-url=)
      - local file         public/epg.xml  or  public/epg.xml.gz  (also ./epg.xml[.gz])
-   env EPG_REFRESH_HOURS (default 6) controls how often the guide is re-downloaded.
+   env EPG_REFRESH_HOURS (default 3) controls how often the guide is re-downloaded.
    A playlist channel is matched to the guide by tvg-id first, then by (normalised) tvg-name / channel name. */
-const EPG_REFRESH_MS = Math.max(0.25, Number(process.env.EPG_REFRESH_HOURS) || 6) * 3_600_000;
+const EPG_REFRESH_MS = Math.max(0.25, Number(process.env.EPG_REFRESH_HOURS) || 3) * 3_600_000;
 const EPG_FILES = ['public/epg.xml', 'public/epg.xml.gz', 'epg.xml', 'epg.xml.gz'].map(f => path.join(__dirname, f));
 const EPG_PAST_MS = 3 * 3_600_000, EPG_FUTURE_MS = 48 * 3_600_000;       // only keep programmes in this window
 let playlistEpgUrls = [];
-// Used only when neither EPG_URL nor url-tvg is set. Free public XMLTV guides that cover Indian / Tamil channels.
-const DEFAULT_EPG_URLS = [
-  'https://epgshare01.online/epgshare01/epg_ripper_IN1.xml.gz',
-  'https://iptv-epg.org/files/epg-in.xml',
-];
+// Used only when neither EPG_URL, url-tvg nor a local epg.xml is set.
+// github.com/mitthu786/tvepg: guides for JioTV / Tata Play / ZEE5 / Sun NXT, re-published by its author several times a day.
+// Tata Play first (it has the Tamil regional channels: Sirippoli, Kalaignar TV, Murasu TV, DD Tamil ...), then the all-in-one and JioTV guides.
+const TVEPG = 'https://raw.githubusercontent.com/mitthu786/tvepg/main/';
+const DEFAULT_EPG_URLS = [TVEPG + 'tataplay/epg.xml.gz', TVEPG + 'epg.xml.gz', TVEPG + 'jiotv/epg.xml.gz'];
+// A numeric tvg-id ("1", "144") is only trusted as a guide id if you opt in. Most playlists number their channels 1,2,3...
+// which would otherwise attach the programmes of some unrelated JioTV channel.
+const EPG_NUMERIC_IDS = process.env.EPG_MATCH_NUMERIC_IDS === '1';
 const epg = { updated: 0, error: '', sources: 0, programmes: 0, xmlChannels: 0, matched: 0,
               byId: new Map(),      // xmltv channel id -> [{s,e,t,d}] sorted
               names: new Map(),     // normalised name  -> xmltv channel id
@@ -249,7 +252,7 @@ function rebuildEpgMap() {
     const numeric = /^\d+$/.test(c.tvg || '');                     // numeric ids are often not the same across playlist and guide
     if (c.tvg && !numeric && epg.byId.has(c.tvg)) id = c.tvg;
     for (const nm of [c.tvgName, c.name]) { if (!id && nm) id = epg.names.get(normName(nm)) || null; }
-    if (!id && c.tvg && numeric && epg.byId.has(c.tvg)) id = c.tvg;   // last resort
+    if (!id && c.tvg && numeric && EPG_NUMERIC_IDS && epg.byId.has(c.tvg)) id = c.tvg;   // opt-in only
     if (id) { epg.map.set(c.id, id); n++; }
   }
   epg.matched = n;
@@ -312,6 +315,11 @@ async function refreshEpg() {
     const sources = urls.map(u => ({ url: u }));
     if (file) sources.push({ file });
 
+    const wantNames = new Set(), wantIds = new Set(), wanted = new Set();      // wanted = guide channel ids we keep
+    for (const c of cache.list) {
+      for (const n of [c.name, c.tvgName]) { const k = normName(n); if (k) wantNames.add(k); }
+      if (c.tvg && (!/^\d+$/.test(c.tvg) || EPG_NUMERIC_IDS)) wantIds.add(c.tvg);
+    }
     for (const src of sources) {
       const ac = new AbortController(); const timer = setTimeout(() => ac.abort(), 5 * 60_000);
       try {
@@ -326,15 +334,16 @@ async function refreshEpg() {
           (attrs, body) => {
             const id = xmlAttr(attrs, 'id'); if (!id) return;
             xmlChannels++;
-            names.set(normName(id.replace(/\.[a-z]{2,3}$/i, '')), id);          // "Kalaignar.TV.in" -> kalaignar
-            for (const m of body.matchAll(/<display-name\b[^>]*>([\s\S]*?)<\/display-name>/g)) {
-              const k = normName(xmlDecode(m[1])); if (k && !names.has(k)) names.set(k, id);
-            }
+            const keys = [normName(id.replace(/\.[a-z]{2,3}$/i, ''))];                   // "Kalaignar.TV.in" -> kalaignar
+            for (const m of body.matchAll(/<display-name\b[^>]*>([\s\S]*?)<\/display-name>/g)) keys.push(normName(xmlDecode(m[1])));
+            if (!(wantIds.has(id) || keys.some(k => k && wantNames.has(k)))) return;   // not one of our channels
+            wanted.add(id);
+            for (const k of keys) if (k && !names.has(k)) names.set(k, id);
           },
           (attrs, body) => {
+            const ch = xmlAttr(attrs, 'channel'); if (!ch || !wanted.has(ch)) return;
             const s = xmltvTime(xmlAttr(attrs, 'start')), e = xmltvTime(xmlAttr(attrs, 'stop'));
             if (!(s < e) || e < lo || s > hi) return;
-            const ch = xmlAttr(attrs, 'channel'); if (!ch) return;
             const t = xmlText(body, 'title'); if (!t) return;
             let list = byId.get(ch); if (!list) byId.set(ch, list = []);
             list.push({ s, e, t, d: xmlText(body, 'desc').slice(0, 500) });
