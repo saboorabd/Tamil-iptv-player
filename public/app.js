@@ -194,7 +194,15 @@ async function play(c) {
           teardown();
           if (/IncompatibleCodecs/i.test(e1.message)) {
             setStatus('Trying codec fix…');
-            await startHls(c, my, true, true);      // proxy, CODECS attribute removed from the manifest
+            try {
+              await startHls(c, my, true, true);    // proxy, CODECS attribute removed from the manifest
+            } catch (e2) {
+              if (my !== token || e2 instanceof Superseded) throw e2;
+              teardown();
+              if (!video.canPlayType('application/vnd.apple.mpegurl')) throw e2;
+              setStatus('Trying native player…');   // the phone's own decoder (HEVC / AC-3 hardware)
+              await startHls(c, my, true, true, true);
+            }
           } else {
             setStatus('Trying direct…');
             await startHls(c, my, false);           // browser direct, no proxy (works if the stream allows CORS + https)
@@ -228,16 +236,16 @@ async function play(c) {
 /* ---------- HLS ---------- */
 const hlsMsg = d => d.details + (d.response && d.response.code ? ' (HTTP ' + d.response.code + ')' : '');
 
-async function startHls(c, my, viaProxy, noCodec) {
+async function startHls(c, my, viaProxy, noCodec, native) {
   const src = viaProxy ? proxied(c) + (noCodec ? '&nc=1' : '') : c.url;
-  if (!(await ensureLib('Hls')) && !video.canPlayType('application/vnd.apple.mpegurl'))
+  if (!native && !(await ensureLib('Hls')) && !video.canPlayType('application/vnd.apple.mpegurl'))
     throw new Error('hls.js failed to load (check your internet connection)');
   if (my !== token) throw new Superseded();
 
   const fail = { current: () => {} };
   const gate = startGate(my, fail);
 
-  if (window.Hls && Hls.isSupported()) {
+  if (!native && window.Hls && Hls.isSupported()) {
     const near = $('edgeSelect').value === 'near';
     let netRetries = 0, mediaRetries = 0;
     const h = new Hls({
