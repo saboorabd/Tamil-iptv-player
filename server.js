@@ -199,12 +199,60 @@ const httpReason = s =>
   s === 429 ? 'Too many requests (HTTP 429). The provider is rate-limiting.' :
   s >= 500 ? `The stream server is having problems (HTTP ${s}).` : `The server answered HTTP ${s}.`;
 
+/* WARM CACHE: when the player starts a channel, the server reads ahead (lowest variant playlist, newest segments) so the
+   player's next requests are answered from memory instead of waiting for the provider again. Only requests that carry
+   w=1 (sent by the player, not by Pulse probes) trigger read-ahead. */
+const WARM_TTL_PL = 4_000, WARM_TTL_SEG = 30_000, WARM_MAX = 48 * 1024 * 1024, WARM_ITEM_MAX = 8 * 1024 * 1024;
+const warm = new Map(), inflight = new Map(); let warmBytes = 0;
+function warmGet(key) {
+  const e = warm.get(key);
+  if (!e) return null;
+  if (Date.now() > e.exp) { warmBytes -= e.buf.length; warm.delete(key); return null; }
+  return e;
+}
+function warmPut(key, buf, ct, finalUrl, ttl) {
+  if (buf.length > WARM_ITEM_MAX) return;
+  const old = warm.get(key); if (old) warmBytes -= old.buf.length;
+  warm.set(key, { buf, ct, finalUrl, exp: Date.now() + ttl }); warmBytes += buf.length;
+  while (warmBytes > WARM_MAX && warm.size) { const k = warm.keys().next().value; warmBytes -= warm.get(k).buf.length; warm.delete(k); }
+}
+function warmFetch(url, chan, ttl) {
+  const key = url.href;
+  if (warm.has(key) && warmGet(key) || inflight.has(key)) return;
+  const p = (async () => {
+    const ac = new AbortController(), timer = setTimeout(() => ac.abort(), 15_000);
+    try {
+      const headers = { 'User-Agent': UA, ...((chan && chan._h) || {}) };
+      const up = await fetchUA(url, headers, ac.signal, {}, chan && chan._h && chan._h['User-Agent']);
+      if (!up.ok) { try { await up.body?.cancel(); } catch {} return; }
+      warmPut(key, Buffer.from(await up.arrayBuffer()), up.headers.get('content-type') || '', up.finalUrl, ttl);
+    } catch {} finally { clearTimeout(timer); inflight.delete(key); }
+  })();
+  inflight.set(key, p);
+}
+function prefetchFrom(text, base, chan) {
+  const lines = text.split(/\r?\n/).map(l => l.trim());
+  const abs = u => { try { return new URL(u, base); } catch { return null; } };
+  if (lines.some(l => l.startsWith('#EXT-X-STREAM-INF'))) {                 // master: the player starts on the lowest variant
+    let best = null, bw = Infinity;
+    lines.forEach((l, i) => {
+      if (!l.startsWith('#EXT-X-STREAM-INF')) return;
+      const b = +((l.match(/BANDWIDTH=(\d+)/i) || [])[1] || Infinity);
+      const u = lines.slice(i + 1).find(x => x && !x.startsWith('#'));
+      if (u && b <= bw) { bw = b; best = u; }
+    });
+    const u = best && abs(best); if (u) warmFetch(u, chan, WARM_TTL_PL);
+  } else if (lines.some(l => l.startsWith('#EXTINF')) && !lines.includes('#EXT-X-ENDLIST')) {   // live media playlist: newest segments
+    lines.filter(l => l && !l.startsWith('#')).slice(-4).forEach(sg => { const u = abs(sg); if (u) warmFetch(u, chan, WARM_TTL_SEG); });
+  }
+}
+
 // nc = "no codecs": strip the CODECS attribute from #EXT-X-STREAM-INF so hls.js detects the real codecs from the segments
-function rewriteM3U8(text, base, ch, nc) {
+function rewriteM3U8(text, base, ch, nc, w) {
   const px = u => {
     const abs = new URL(u, base);
     allowed.add(abs.hostname.toLowerCase());
-    return '/proxy?' + (ch != null ? 'ch=' + ch + '&' : '') + (nc ? 'nc=1&' : '') + 'url=' + encodeURIComponent(abs.href);
+    return '/proxy?' + (ch != null ? 'ch=' + ch + '&' : '') + (nc ? 'nc=1&' : '') + (w ? 'w=1&' : '') + 'url=' + encodeURIComponent(abs.href);
   };
   return text.split(/\r?\n/).map(l => {
     if (!l.trim()) return l;
@@ -461,13 +509,26 @@ const proxyHandler = async (req, res) => {
         if (!/^(host|connection|content-length|origin|referer|cookie|accept-encoding|accept-language|user-agent|upgrade|sec-|priority|range|if-|x-forwarded|x-real-ip|x-render|x-request-id|x-final-url|cf-|cdn-loop|true-client-ip|rndr-)/.test(k)) headers[k] = v;
       }
     }
-    const up = await fetchUA(url, headers, ac.signal, init, chan && chan._h && chan._h['User-Agent']);
+    let up;
+    if (req.method === 'GET' && !req.headers.range) {            // answer from the read-ahead cache if the player asks for something we already fetched
+      const pend = inflight.get(url.href); if (pend) await pend;
+      const hit = warmGet(url.href);
+      if (hit) {
+        up = new Response(hit.buf, { status: 200, headers: { 'content-length': String(hit.buf.length), ...(hit.ct ? { 'content-type': hit.ct } : {}) } });
+        up.finalUrl = hit.finalUrl;
+      }
+    }
+    if (!up) up = await fetchUA(url, headers, ac.signal, init, chan && chan._h && chan._h['User-Agent']);
     res.status(up.status).set({ 'Access-Control-Allow-Origin': '*', 'Access-Control-Expose-Headers': 'Content-Length, Content-Range, X-Final-Url', 'X-Final-Url': up.finalUrl });
     const ct = up.headers.get('content-type') || '';
     const looksPlaylist = /mpegurl/i.test(ct) || /\.m3u8?(\?|$)/i.test(url.pathname);
     const maybePlaylist = req.method === 'GET' && !looksPlaylist && /^(text\/|application\/(octet-stream|x-?unknown)|$)/i.test(ct) && !req.headers.range;
-    const sendPlaylist = text => res.type('application/vnd.apple.mpegurl').set('Cache-Control', 'no-store')
-      .send(rewriteM3U8(text, up.finalUrl, chan ? chan.id : null, req.query.nc === '1'));
+    const sendPlaylist = text => {
+      const w = req.query.w === '1';
+      if (w) { try { prefetchFrom(text, up.finalUrl, chan); } catch {} }
+      return res.type('application/vnd.apple.mpegurl').set('Cache-Control', 'no-store')
+        .send(rewriteM3U8(text, up.finalUrl, chan ? chan.id : null, req.query.nc === '1', w));
+    };
 
     if (looksPlaylist) {
       const text = await up.text();
