@@ -175,7 +175,7 @@ async function play(c) {
   favBtn(); render(); teardown(); setStatus('Connecting: ' + c.name + '…');
   epgList = null; paintEpg(); loadEpgList(c);
 
-  // Always play through our own /proxy: the browser only talks to this site (same origin), so CORS and
+  // Always play through our own /proxy first: the browser only talks to this site (same origin), so CORS and
   // mixed-content (http:// stream on an https:// page) errors cannot happen.
   let kind = guessKind(c), info = null, lastErr = null;
   for (let attempt = 0; attempt < 3; attempt++) {
@@ -186,7 +186,21 @@ async function play(c) {
       kind = info.kind;
     }
     try {
-      await STARTERS[kind](c, my);
+      try {
+        await STARTERS[kind](c, my);
+      } catch (e1) {
+        if (my !== token || e1 instanceof Superseded) throw e1;
+        if (kind === 'hls' && !c.drm) {
+          teardown();
+          if (/IncompatibleCodecs/i.test(e1.message)) {
+            setStatus('Trying codec fix…');
+            await startHls(c, my, true, true);      // proxy, CODECS attribute removed from the manifest
+          } else {
+            setStatus('Trying direct…');
+            await startHls(c, my, false);           // browser direct, no proxy (works if the stream allows CORS + https)
+          }
+        } else throw e1;
+      }
       if (my === token) setStatus('LIVE');
       return;
     } catch (e) {
@@ -203,7 +217,9 @@ async function play(c) {
     }
   }
   // give the most useful explanation we have
-  const why = info && !info.ok && info.reason ? info.reason
+  const codecFail = lastErr && /IncompatibleCodecs/i.test(lastErr.message);
+  const why = codecFail ? 'This device cannot decode this stream\'s format (likely HEVC/H.265 or AC-3 audio). Try Safari, Edge, or an Android phone.'
+            : info && !info.ok && info.reason ? info.reason
             : info && info.reason ? info.reason
             : (lastErr && lastErr.message) || 'Unknown error';
   setStatus('Cannot play: ' + why, true);
@@ -212,8 +228,8 @@ async function play(c) {
 /* ---------- HLS ---------- */
 const hlsMsg = d => d.details + (d.response && d.response.code ? ' (HTTP ' + d.response.code + ')' : '');
 
-async function startHls(c, my, viaProxy) {
-  const src = viaProxy ? proxied(c) : c.url;
+async function startHls(c, my, viaProxy, noCodec) {
+  const src = viaProxy ? proxied(c) + (noCodec ? '&nc=1' : '') : c.url;
   if (!(await ensureLib('Hls')) && !video.canPlayType('application/vnd.apple.mpegurl'))
     throw new Error('hls.js failed to load (check your internet connection)');
   if (my !== token) throw new Superseded();
