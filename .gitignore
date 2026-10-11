@@ -1,0 +1,4 @@
+node_modules/
+.env
+public/playlist.m3u
+playlist.m3u
