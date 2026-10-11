@@ -31,7 +31,7 @@ function addHeader(ch, name, value) {
 function parseM3U(text) {
   const out = [];
   let cur = null;
-  for (const raw of text.replace(/^﻿/, '').split(/\r?\n/)) {
+  for (const raw of text.replace(/^\uFEFF/, '').split(/\r?\n/)) {
     const line = raw.trim();
     if (!line) continue;
     if (line.startsWith('#EXTINF')) {
@@ -199,15 +199,19 @@ const httpReason = s =>
   s === 429 ? 'Too many requests (HTTP 429). The provider is rate-limiting.' :
   s >= 500 ? `The stream server is having problems (HTTP ${s}).` : `The server answered HTTP ${s}.`;
 
-function rewriteM3U8(text, base, ch) {
+// nc = "no codecs": strip the CODECS attribute from #EXT-X-STREAM-INF so hls.js detects the real codecs from the segments
+function rewriteM3U8(text, base, ch, nc) {
   const px = u => {
     const abs = new URL(u, base);
     allowed.add(abs.hostname.toLowerCase());
-    return '/proxy?' + (ch != null ? 'ch=' + ch + '&' : '') + 'url=' + encodeURIComponent(abs.href);
+    return '/proxy?' + (ch != null ? 'ch=' + ch + '&' : '') + (nc ? 'nc=1&' : '') + 'url=' + encodeURIComponent(abs.href);
   };
   return text.split(/\r?\n/).map(l => {
     if (!l.trim()) return l;
-    if (l.startsWith('#')) return l.replace(/URI="([^"]+)"/g, (m, u) => `URI="${px(u)}"`);
+    if (l.startsWith('#')) {
+      if (nc && l.startsWith('#EXT-X-STREAM-INF')) l = l.replace(/,CODECS="[^"]*"|CODECS="[^"]*",?/i, '');
+      return l.replace(/URI="([^"]+)"/g, (m, u) => `URI="${px(u)}"`);
+    }
     return px(l.trim());
   }).join('\n');
 }
@@ -463,7 +467,7 @@ const proxyHandler = async (req, res) => {
     const looksPlaylist = /mpegurl/i.test(ct) || /\.m3u8?(\?|$)/i.test(url.pathname);
     const maybePlaylist = req.method === 'GET' && !looksPlaylist && /^(text\/|application\/(octet-stream|x-?unknown)|$)/i.test(ct) && !req.headers.range;
     const sendPlaylist = text => res.type('application/vnd.apple.mpegurl').set('Cache-Control', 'no-store')
-      .send(rewriteM3U8(text, up.finalUrl, chan ? chan.id : null));
+      .send(rewriteM3U8(text, up.finalUrl, chan ? chan.id : null, req.query.nc === '1'));
 
     if (looksPlaylist) {
       const text = await up.text();
