@@ -502,6 +502,7 @@ const proxyHandler = async (req, res) => {
 app.get('/proxy', proxyHandler);
 app.post('/proxy', express.raw({ type: () => true, limit: '1mb' }), proxyHandler);
 
+require('./diag')(app, { list: () => cache.list, load: loadChannels, fetchUA, UA, sniffKind, httpReason });   // DIAG: explains CORS / DRM / block failures
 require('./pulse')(app);   // PULSE: health radar + smart failover + live viewers
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: '5m' }));
 app.use((req, res) => res.status(404).send('Not found'));
