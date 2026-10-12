@@ -436,11 +436,34 @@ app.get('/api/epg', async (req, res) => {                  // now/next for every
   for (const c of cache.list) { const x = nowNext(c.id); if (x) ch[c.id] = { n: short(x.now), x: short(x.next) }; }
   res.set('Cache-Control', 'no-store').json({ updated: epg.updated, ch });
 });
+// TV-guide grid: channels x time window in one request.  GET /api/epg/guide?from=<ms>&to=<ms>
+// Playlist channels that share one guide channel (e.g. "sirippoli (source 2/4/5/6)") come back as ONE row with all their ids.
+// Programmes are compact arrays [start, end, title]; descriptions are loaded on demand from /api/epg/:id?full=1
+app.get('/api/epg/guide', async (req, res) => {
+  if (!cache.list.length) await loadChannels().catch(() => {});
+  const DAY = 24 * 3_600_000;
+  const from = Number(req.query.from) || Date.now() - 3_600_000;
+  let to = Number(req.query.to); if (!(to > from)) to = from + DAY;
+  to = Math.min(to, from + 36 * 3_600_000);                  // never more than 36 h per request
+  const groups = new Map();                                   // guide channel id -> playlist channel ids
+  for (const c of cache.list) {
+    const g = epg.map.get(c.id); if (!g) continue;
+    if (!groups.has(g)) groups.set(g, []);
+    groups.get(g).push(c.id);
+  }
+  const rows = [];
+  for (const [g, ids] of groups) {
+    const p = (epg.byId.get(g) || []).filter(x => x.e > from && x.s < to).map(x => [x.s, x.e, x.t]);
+    if (p.length) rows.push({ ids, p });
+  }
+  res.set('Cache-Control', 'no-store').json({ updated: epg.updated, from, to, rows });
+});
 app.get('/api/epg/:id', async (req, res) => {              // upcoming schedule for one channel (with descriptions)
   if (!cache.list.length) await loadChannels().catch(() => {});
   const x = nowNext(Number(req.params.id));
   if (!x) return res.set('Cache-Control', 'no-store').json({ updated: epg.updated, list: [] });
-  res.set('Cache-Control', 'no-store').json({ updated: epg.updated, list: x.list.slice(x.i, x.i + 12) });
+  // ?full=1 -> every programme we hold (also the ones that already started today), used for the programme details sheet
+  res.set('Cache-Control', 'no-store').json({ updated: epg.updated, list: req.query.full === '1' ? x.list : x.list.slice(x.i, x.i + 12) });
 });
 setTimeout(() => refreshEpg(), 3000);
 setInterval(() => refreshEpg(), EPG_REFRESH_MS).unref();
