@@ -4,12 +4,13 @@ const store = {
   get(k, d) { try { const v = JSON.parse(localStorage.getItem(k)); return v ?? d; } catch { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 };
-const NOLOGO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='42'%3E%3Crect width='42' height='42' rx='8' fill='%23121c30'/%3E%3Ctext x='21' y='26' font-size='12' fill='%238da2bd' text-anchor='middle' font-family='sans-serif'%3ETV%3C/text%3E%3C/svg%3E";
+const NOLOGO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='42'%3E%3Crect width='42' height='42' rx='8' fill='%23121c30'/%3E%3Ctext x='21' y='26' font-size='12' fill='%238da2bd' text-anchor='middle' font-family='sans-serif'%3ETV%3C/text%3E%3C/svg%3E".replace(/'/g, '%27');   // %27: a raw ' would break the inline onerror="...'${NOLOGO}'" handlers
 
 // NOTE: pulse.js reads these globals (channels, cur, hls, sk, play) - keep the names.
 let channels = [], cur = null, hls = null, sk = null, ts = null, token = 0;   // ts = mpegts.js player (raw MPEG-TS / FLV)
 let favs = new Set(store.get('favs', []));
 let epgAll = {}, epgSig = '', epgList = null, epgListAt = 0, epgOpen = false;   // EPG state (see "EPG" section below)
+let gTab = 'list', gDay = 0, gData = null, gTimer = 0, epgUpd = 0;                // TV guide state (see "TV GUIDE" section below)
 
 const START_TIMEOUT = 20000;   // ms to wait for a stream to actually start playing
 const pick = (v, allowed, d) => (allowed.includes(v) ? v : d);
@@ -172,7 +173,7 @@ async function play(c) {
   const my = ++token;
   cur = c; store.set('last', c.id);
   $('nowName').textContent = c.name; $('nowGroup').textContent = c.group;
-  favBtn(); render(); teardown(); setStatus('Connecting: ' + c.name + '…');
+  favBtn(); render(); markGuide(); teardown(); setStatus('Connecting: ' + c.name + '…');
   epgList = null; paintEpg(); loadEpgList(c);
 
   // Always play through our own /proxy first: the browser only talks to this site (same origin), so CORS and
@@ -512,6 +513,7 @@ async function loadEpgAll() {
       const d = await r.json();
       epgAll = d.ch || {};
       if (!d.updated) delay = 15_000;                       // server still downloading the guide: look again soon
+      if (d.updated && d.updated !== epgUpd) { const first = !epgUpd; epgUpd = d.updated; if (!first && gTab === 'guide') loadGuide(true); }
       const sig = Object.entries(epgAll).map(([id, v]) => id + ':' + (v.n ? v.n.t : '')).join('|');
       if (sig !== epgSig) { epgSig = sig; render(); }       // only redraw the list when something actually changed
     }
@@ -609,6 +611,222 @@ function onFullscreenChange() {
 $('vcFs').onclick = toggleFullscreen;
 wrap.addEventListener('dblclick', e => { if (!e.target.closest('.vc, #pulseTools, #pulseMenu')) toggleFullscreen(); });
 syncControls();
+
+/* ---------- TV GUIDE (like MyDish TV): channels down, time across ---------- */
+// Lives in the sidebar, BELOW the player, so the video is never covered. Tap a channel to watch it, tap a programme for details.
+const PPM = 4;                                           // pixels per minute (1 hour = 240 px)
+const sidebar = document.querySelector('.sidebar');
+const tabs = document.createElement('div');
+tabs.className = 'tabs'; tabs.id = 'tabs';
+tabs.innerHTML = '<button type="button" data-tab="list" class="on">Channels</button><button type="button" data-tab="guide">TV Guide</button>';
+sidebar.querySelector('.header').after(tabs);
+
+const guide = document.createElement('div');
+guide.id = 'guide'; guide.className = 'guide'; guide.hidden = true;
+guide.innerHTML = '<div class="gd-days" id="gdDays"></div><div class="gd-scroll" id="gdScroll"><div class="gd-inner" id="gdInner"></div></div><p class="gd-note" id="gdNote"></p>';
+$('channels').after(guide);
+
+const sheet = document.createElement('div');             // programme details (bottom sheet, never touches the video)
+sheet.id = 'gdSheet'; sheet.className = 'gd-sheet'; sheet.hidden = true;
+sheet.innerHTML = '<button type="button" class="gd-x" aria-label="Close">✕</button><div class="gd-sh-ch" id="gdShCh"></div><h3 id="gdShT"></h3>' +
+  '<div class="gd-sh-time" id="gdShTime"></div><p class="gd-sh-desc" id="gdShD"></p><button type="button" class="gd-watch" id="gdShGo"></button>';
+document.body.appendChild(sheet);
+
+const dayStart = off => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + off); return d.getTime(); };
+const dayLabel = off => off === 0 ? 'Today' : off === 1 ? 'Tomorrow' : new Date(dayStart(off)).toLocaleDateString([], { weekday: 'short', day: 'numeric', month: 'short' });
+const baseName = n => String(n).replace(/\s*\(.*\)\s*$/, '');
+const HALF = 30 * 60_000;
+function gdWindow() {                                    // time range shown for the chosen day
+  const now = Date.now();
+  if (gDay === 0) { const from = Math.floor((now - HALF) / HALF) * HALF; return [from, Math.max(dayStart(1), from + 6 * 3_600_000)]; }
+  return [dayStart(gDay), dayStart(gDay + 1)];
+}
+const px = ms => (ms / 60_000) * PPM;
+let gWin = [0, 0], gDesc = {}, gSel = '', gLoadAt = 0, gSeq = 0;
+
+function gdDays() {
+  $('gdDays').innerHTML = [0, 1, 2].map(o => `<button type="button" data-day="${o}" class="${o === gDay ? 'on' : ''}">${esc(dayLabel(o))}</button>`).join('');
+}
+
+async function loadGuide(keep) {
+  gWin = gdWindow();
+  const seq = ++gSeq;
+  if (!keep) { $('gdInner').innerHTML = '<div class="gd-msg">Loading guide…</div>'; $('gdNote').textContent = ''; }
+  try {
+    const r = await fetch(`/api/epg/guide?from=${gWin[0]}&to=${gWin[1]}`, { cache: 'no-store' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    if (seq !== gSeq) return;                            // a newer request (other day) replaced this one
+    gData = d; gLoadAt = Date.now();
+    paintGuide(!keep);
+    if (!d.updated) setTimeout(() => { if (gTab === 'guide') loadGuide(true); }, 15_000);   // server is still downloading the guide
+  } catch (e) {
+    if (seq !== gSeq) return;
+    if (!gData) $('gdInner').innerHTML = '<div class="gd-msg">Could not load the guide. <button type="button" id="gdRetry">Retry</button></div>';
+  }
+}
+
+function paintGuide(scrollToNow) {
+  const inner = $('gdInner');
+  if (!gData) return;
+  const [from, to] = gWin, now = Date.now(), W = Math.max(1, px(to - from));
+  const q = $('search').value.trim().toLowerCase(), g = $('group').value;
+  const pass = c => (g === 'all' || (g === 'fav' ? favs.has(c.name) : c.group === g)) && (!q || c.name.toLowerCase().includes(q));
+  const timeStr = ms => new Date(ms).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
+  let ruler = '';
+  for (let t = Math.ceil(from / HALF) * HALF; t < to; t += HALF) {
+    const hour = new Date(t).getMinutes() === 0;
+    ruler += `<span class="${hour ? 'h' : ''}" style="left:${px(t - from)}px">${timeStr(t)}</span>`;
+  }
+
+  const shown = new Set();
+  let rows = '';
+  for (const r of gData.rows) {
+    const list = r.ids.map(i => channels[i]).filter(Boolean).filter(pass);
+    if (!list.length) continue;
+    list.forEach(c => shown.add(c.id));
+    const pick = list.find(c => cur && c.id === cur.id) || list[0];
+    const active = cur && r.ids.includes(cur.id);
+    const cells = r.p.map(([s, e, t]) => {
+      const l = px(Math.max(s, from) - from), w = px(Math.min(e, to) - Math.max(s, from));
+      if (w < 3) return '';
+      const live = s <= now && now < e, p = live ? Math.round((now - s) / (e - s) * 100) : 0;
+      const sz = w < 40 ? ' xxs' : w < 90 ? ' xs' : '';
+      return `<button type="button" class="gd-p${live ? ' live' : e <= now ? ' past' : ''}${sz}${gSel === pick.id + ':' + s ? ' sel' : ''}" ` +
+        `data-ch="${pick.id}" data-s="${s}" data-e="${e}" data-t="${esc(t)}" style="left:${l}px;width:${w - 2}px;--p:${p}%">` +
+        `<span class="gd-tx"><b>${esc(t)}</b><small>${timeStr(s)} – ${timeStr(e)}</small></span></button>`;
+    }).join('');
+    rows += `<div class="gd-row" data-ids="${r.ids.join(',')}"><button type="button" class="gd-ch${active ? ' cur' : ''}" data-play="${active ? cur.id : pick.id}" title="Watch ${esc(baseName(pick.name))}">` +
+      `<img src="${esc(pick.logo || NOLOGO)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${NOLOGO}'"><span>${esc(baseName(pick.name))}</span></button>` +
+      `<div class="gd-track" style="width:${W}px">${cells}</div></div>`;
+  }
+
+  const nowX = now >= from && now <= to ? px(now - from) : -1;
+  inner.style.width = `calc(var(--gcol) + ${W}px)`;
+  inner.innerHTML = rows
+    ? `<div class="gd-row gd-ruler"><div class="gd-ch gd-corner"></div><div class="gd-track" style="width:${W}px">${ruler}</div></div>${rows}` +
+      (nowX >= 0 ? `<i class="gd-now" style="left:calc(var(--gcol) + ${nowX}px)"></i>` : '')
+    : `<div class="gd-msg">${gData.updated ? 'No guide data for these channels on this day.' : 'The guide is being downloaded… it appears here in a few seconds.'}</div>`;
+
+  const without = channels.filter(c => pass(c) && !gData.rows.some(r => r.ids.includes(c.id))).length;
+  $('gdNote').textContent = without ? `${without} channel${without > 1 ? 's' : ''} without guide data are not listed here.` : '';
+
+  gCells = [...inner.querySelectorAll('.gd-p')].map(el => ({ el, tx: el.firstChild, l: parseFloat(el.style.left), w: parseFloat(el.style.width) + 2, on: false }));
+  if (scrollToNow) {
+    const sc = $('gdScroll');
+    sc.scrollLeft = gDay === 0 ? Math.max(0, nowX - 40) : px(6 * 3_600_000);       // Today: start at "now"; other days: 6 AM
+  }
+  fitText();
+}
+
+// A programme that started before the visible area keeps its title readable: the text moves to the first visible pixel
+// (and gets narrower) instead of being hidden under the channel column.
+let gCells = [], gRaf = 0;
+function fitText() {
+  const edge = $('gdScroll').scrollLeft;                  // first visible pixel, measured from the start of the time axis
+  for (const c of gCells) {
+    if (c.l < edge && c.l + c.w > edge + 36) {
+      const sh = edge - c.l;
+      c.tx.style.marginLeft = sh + 'px';
+      c.tx.style.maxWidth = Math.max(44, c.w - sh - 16) + 'px';
+      c.on = true;
+    } else if (c.on) { c.tx.style.marginLeft = ''; c.tx.style.maxWidth = ''; c.on = false; }
+  }
+}
+$('gdScroll').addEventListener('scroll', () => { if (!gRaf) gRaf = requestAnimationFrame(() => { gRaf = 0; fitText(); }); }, { passive: true });
+
+function markGuide() {                                    // highlight the playing channel in the guide (no re-render)
+  if (!gData) return;
+  guide.querySelectorAll('.gd-row[data-ids]').forEach(row => {
+    const on = !!cur && row.dataset.ids.split(',').includes(String(cur.id));
+    const b = row.querySelector('.gd-ch');
+    b.classList.toggle('cur', on);
+    if (on) b.dataset.play = cur.id;
+  });
+}
+
+function setTab(t) {
+  gTab = t; store.set('tab', t);
+  sidebar.classList.toggle('tab-guide', t === 'guide');
+  tabs.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
+  $('channels').hidden = t === 'guide';
+  guide.hidden = t !== 'guide';
+  clearInterval(gTimer);
+  if (t === 'guide') {
+    gdDays(); loadGuide();
+    gTimer = setInterval(() => {
+      if (document.hidden) return;
+      if (Date.now() - gLoadAt > 5 * 60_000) loadGuide(true); else paintGuide();
+    }, 60_000);
+  } else closeSheet();
+}
+tabs.addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (b) setTab(b.dataset.tab); });
+$('gdDays').addEventListener('click', e => {
+  const b = e.target.closest('[data-day]'); if (!b) return;
+  gDay = +b.dataset.day; closeSheet(); gdDays(); loadGuide();
+});
+guide.addEventListener('click', e => {
+  if (e.target.closest('#gdRetry')) return loadGuide();
+  const ch = e.target.closest('[data-play]');
+  if (ch) { play(channels[+ch.dataset.play]); return; }
+  const p = e.target.closest('.gd-p');
+  if (p) openSheet(+p.dataset.ch, +p.dataset.s, +p.dataset.e, p.dataset.t);
+});
+let gdT; const gdRepaint = () => { if (gTab === 'guide') { clearTimeout(gdT); gdT = setTimeout(() => paintGuide(), 150); } };
+$('search').addEventListener('input', gdRepaint);
+$('group').addEventListener('change', gdRepaint);
+
+/* programme details */
+function closeSheet() { sheet.hidden = true; gSel = ''; guide.querySelectorAll('.gd-p.sel').forEach(x => x.classList.remove('sel')); }
+async function openSheet(chId, s, e, t) {
+  const c = channels[chId]; if (!c) return;
+  guide.querySelectorAll('.gd-p.sel').forEach(x => x.classList.remove('sel'));
+  gSel = chId + ':' + s;
+  const cell = [...guide.querySelectorAll('.gd-p')].find(x => +x.dataset.ch === chId && +x.dataset.s === s);
+  if (cell) cell.classList.add('sel');
+  const now = Date.now(), live = s <= now && now < e;
+  const mins = Math.round((e - s) / 60_000);
+  $('gdShCh').textContent = baseName(c.name);
+  $('gdShT').textContent = t;
+  $('gdShTime').textContent = `${live ? 'ON NOW · ' : e <= now ? 'Ended · ' : ''}${new Date(s).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} – ` +
+    `${new Date(e).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} · ${mins >= 60 ? Math.floor(mins / 60) + ' h ' + (mins % 60 ? mins % 60 + ' min' : '') : mins + ' min'}`;
+  $('gdShD').textContent = gDesc[chId] && gDesc[chId][s] !== undefined ? gDesc[chId][s] : 'Loading description…';
+  const playing = cur && cur.id === chId;
+  $('gdShGo').textContent = playing ? '● Playing now' : '▶ Watch ' + baseName(c.name);
+  $('gdShGo').disabled = !!playing;
+  $('gdShGo').onclick = () => { play(c); closeSheet(); };
+  sheet.hidden = false;
+  if (!gDesc[chId]) {                                     // descriptions are not in the grid data (keeps it small): fetch once per channel
+    gDesc[chId] = {};
+    try {
+      const r = await fetch('/api/epg/' + chId + '?full=1', { cache: 'no-store' });
+      const d = await r.json();
+      (d.list || []).forEach(p => { gDesc[chId][p.s] = p.d || ''; });
+    } catch { delete gDesc[chId]; }
+  }
+  if (gSel === chId + ':' + s) $('gdShD').textContent = gDesc[chId] && gDesc[chId][s] ? gDesc[chId][s] : 'No description available.';
+}
+sheet.querySelector('.gd-x').onclick = closeSheet;
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+document.addEventListener('click', e => { if (!sheet.hidden && !e.target.closest('#gdSheet, .gd-p')) closeSheet(); });
+
+/* the NOW/NEXT strip under the player opens the guide */
+$('epg').addEventListener('click', () => {
+  setTab('guide');
+  requestAnimationFrame(() => tabs.scrollIntoView({ block: 'start', behavior: 'smooth' }));
+});
+
+/* keep a CSS variable with the height of the pinned (sticky) player, so tabs and day chips stick right below it */
+(function pinned() {
+  const set = () => document.documentElement.style.setProperty('--stk', (getComputedStyle(wrap).position === 'sticky' ? wrap.offsetHeight : 0) + 'px');
+  set();
+  if (window.ResizeObserver) new ResizeObserver(set).observe(wrap);
+  window.addEventListener('resize', set);
+  window.addEventListener('orientationchange', set);
+})();
+
+if (store.get('tab', 'list') === 'guide') setTab('guide');
 
 /* ---------- picture fit: Fit / Zoom (crop) / Stretch ---------- */
 const FITS = [
