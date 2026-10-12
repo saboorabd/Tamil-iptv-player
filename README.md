@@ -1,75 +1,63 @@
 # Tamil IPTV Player
 
-A lightweight HLS/M3U web player designed for **streams you own or are authorized to access and redistribute**.
+A web IPTV player (HLS, DASH/DRM, raw MPEG-TS/FLV) with a built-in proxy, a live TV guide and a channel health radar.
+Use it only with streams you own or are authorized to access.
 
 ## Features
 
-- HLS.js playback
-- LL-HLS mode when the source supports it
-- Live-edge monitoring
-- Controlled live synchronization
-- No intentional 2× catch-up
-- Quality selector when the HLS manifest provides multiple renditions
-- Channel search
-- Category filtering
-- Mobile-friendly UI
-- Render deployment configuration
-- `/health` endpoint
-
-## Important limitation
-
-A player cannot turn a normal HLS source into true LL-HLS. The source/streaming infrastructure must expose low-latency HLS parts for LL-HLS behavior.
-
-Likewise, the player cannot create higher quality than the source provides. Forcing the highest rendition can cause buffering on a weak connection, so Auto/ABR is recommended.
+- **Plays through its own proxy**: the browser only talks to your site, so there are no CORS or mixed-content errors.
+  Headers from the playlist (`#EXTVLCOPT`, `#EXTHTTP`, `#KODIPROP`, `url|Header=Value`) and DRM keys are honoured; when a
+  provider refuses the request, other player User-Agents (OTT Navigator, VLC, ExoPlayer ...) are tried automatically.
+- **Players**: hls.js, Shaka (DASH / ClearKey / Widevine), mpegts.js (raw TS / FLV), native HLS (Safari).
+  If a stream fails, the server looks at what the link really delivers and the player switches type by itself.
+- **TV guide (XMLTV)**: NOW / NEXT under the player and a MyDish-style grid (channels down, time across, Today / Tomorrow / day after).
+  The video stays pinned on top on a phone and is never covered. Tap a programme for details, tap a channel to watch.
+  The guide refreshes itself every 3 hours (like OTT Navigator).
+- **Pulse**: channel health radar (UP / SLOW / STALE / DOWN), failover to a healthy source, live viewers.
+- **Diagnosis**: when a channel does not play, a card explains why (blocked, dead link, web page, DRM without key ...).
+- LIVE button, fullscreen with auto-rotate, picture fit (Fit / Zoom / Stretch), quality menu, favourites, search, categories.
 
 ## Run locally
 
 ```bash
 npm install
-npm start
+npm start          # http://localhost:10000
 ```
 
-Open:
+Put your playlist in `public/playlist.m3u` (or set `PLAYLIST_URL`). `Scripts/clean-m3u.js` removes duplicates:
 
-```text
-http://localhost:10000
+```bash
+node Scripts/clean-m3u.js input.m3u public/playlist.m3u
 ```
 
-Put your authorized playlist in:
+## TV guide (EPG) settings
 
-```text
-public/playlist.m3u
-```
+Nothing is needed: when no guide is configured, the free guides from `github.com/mitthu786/tvepg` (Tata Play, all-in-one, JioTV) are used.
+
+| Setting | What it does |
+| --- | --- |
+| `EPG_URL` | your own XMLTV link(s), comma separated (`.xml` or `.xml.gz`) |
+| `url-tvg="..."` in the `#EXTM3U` line | guide link taken from the playlist |
+| `public/epg.xml` / `epg.xml.gz` | local guide file |
+| `EPG_REFRESH_HOURS` | how often the guide is downloaded (default 3) |
+| `EPG_PREFER_LANG` | language preferred when a guide has the same channel in several languages (default `tamil`, empty = off) |
+| `EPG_ALIASES` | manual fix: `Playlist Name=Guide Name;Other Name=Other Guide Name` |
+| `EPG_MATCH_NUMERIC_IDS=1` | trust numeric `tvg-id` values as guide ids |
+
+Channels are matched to the guide by `tvg-id`, then by name. The name match ignores quality / filler words
+(HD, SD, 1080p, TV, IN ...) and spelling like `Sony YAY! Tamil HD` = `Sony Yay (Tamil)` = `SonyYay Tamil`.
+If a guide channel has no current programmes (the free guides sometimes lag a day), a sibling with data is used.
+
+Check what matched: `/api/epg/match?q=yay` (channels whose name contains `yay`) or `/health`.
 
 ## Render
 
-This repository includes `render.yaml`.
+`render.yaml` is included (build `npm install`, start `npm start`, health check `/health`). Set `PLAYLIST_URL` if the
+playlist is not in the repository.
 
-Create a Render Web Service from the repository. Render will use:
+## Other settings
 
-```text
-Build: npm install
-Start: npm start
-```
-
-The application listens on Render's `$PORT`.
-
-## GitHub
-
-After creating the repository:
-
-```bash
-git init
-git add .
-git commit -m "Initial IPTV player"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/tamil-iptv-player.git
-git push -u origin main
-```
-
-## Stream compatibility
-
-The browser must be allowed to fetch the HLS manifest. If the stream provider does not send suitable CORS headers, browser-side playback may fail. This project intentionally does not proxy or restream third-party streams.
+`ALLOWED_HOSTS`, `STRICT_HOSTS=1`, `ALLOW_PRIVATE`, `PULSE_INTERVAL_MIN`, `PULSE_IDLE_MIN`, `PULSE_CONCURRENCY`, `PULSE_DISABLE=1`.
 
 ## License
 
