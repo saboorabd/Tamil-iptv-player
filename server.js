@@ -271,7 +271,8 @@ function rewriteM3U8(text, base, ch, nc, w) {
      - playlist header    #EXTM3U url-tvg="https://.../guide.xml.gz"   (or x-tvg-url=)
      - local file         public/epg.xml  or  public/epg.xml.gz  (also ./epg.xml[.gz])
    env EPG_REFRESH_HOURS (default 3) controls how often the guide is re-downloaded.
-   A playlist channel is matched to the guide by tvg-id first, then by (normalised) tvg-name / channel name. */
+   A playlist channel is matched to the guide by tvg-id first, then by channel name (tolerant: see NAME MATCHING below).
+   env EPG_PREFER_LANG (default tamil)   env EPG_ALIASES="Playlist Name=Guide Name;..."   /api/epg/match?q=name shows what matched. */
 const EPG_REFRESH_MS = Math.max(0.25, Number(process.env.EPG_REFRESH_HOURS) || 3) * 3_600_000;
 const EPG_FILES = ['public/epg.xml', 'public/epg.xml.gz', 'epg.xml', 'epg.xml.gz'].map(f => path.join(__dirname, f));
 const EPG_PAST_MS = 3 * 3_600_000, EPG_FUTURE_MS = 48 * 3_600_000;       // only keep programmes in this window
@@ -284,9 +285,16 @@ const DEFAULT_EPG_URLS = [TVEPG + 'tataplay/epg.xml.gz', TVEPG + 'epg.xml.gz', T
 // A numeric tvg-id ("1", "144") is only trusted as a guide id if you opt in. Most playlists number their channels 1,2,3...
 // which would otherwise attach the programmes of some unrelated JioTV channel.
 const EPG_NUMERIC_IDS = process.env.EPG_MATCH_NUMERIC_IDS === '1';
+// Preferred language when a guide has the same channel in several languages ("Sony Yay" -> "Sony Yay Tamil").
+// Set EPG_PREFER_LANG= (empty) to switch this off.
+const EPG_LANG = (process.env.EPG_PREFER_LANG === undefined ? 'tamil' : process.env.EPG_PREFER_LANG).trim().toLowerCase();
+// Manual fixes, only if a channel still has no guide:  EPG_ALIASES="Sony Kids=Sony Yay Tamil;My Channel=Guide Channel Name"
+const EPG_ALIASES = new Map((process.env.EPG_ALIASES || '').split(';').map(s => s.split('=')).filter(a => a.length === 2 && a[0].trim() && a[1].trim())
+  .map(([a, b]) => [a.trim().toLowerCase(), b.trim()]));
 const epg = { updated: 0, error: '', sources: 0, programmes: 0, xmlChannels: 0, matched: 0,
               byId: new Map(),      // xmltv channel id -> [{s,e,t,d}] sorted
-              names: new Map(),     // normalised name  -> xmltv channel id
+              gidx: new Map(),      // xmltv channel id -> { id, name, ks: [{k, t}] }  (the guide channels that look like one of ours)
+              unmatched: [],        // playlist channel names that found no guide channel
               map: new Map() };     // playlist channel id -> xmltv channel id
 
 function epgUrlsFromPlaylist(text) {
@@ -294,18 +302,67 @@ function epgUrlsFromPlaylist(text) {
   return m ? m[1].split(',').map(s => s.trim()).filter(u => /^https?:\/\//i.test(u)) : [];
 }
 
-const normName = s => String(s || '').toLowerCase().replace(/\(.*?\)|\[.*?\]/g, ' ')
-  .replace(/[^\p{L}\p{N}\s]/gu, ' ').split(/\s+/).filter(w => w && !/^(hd|sd|uhd|fhd|tv|channel|live)$/.test(w)).join('');
+/* NAME MATCHING. Playlists and guides never spell a channel the same way ("Sony YAY! Tamil HD", "SonyYay Tamil 1080p",
+   "Sony Yay (Tamil)", "Sony Yay Tamil IN" ...). Both sides are cut into words, quality / filler words are dropped, and two
+   names match when they have the same words, or when the only difference is a language / provider word ("Sony Yay" ~ "Sony Yay Tamil").
+   A real difference ("Star Vijay" vs "Star Vijay Super", "Zee Tamil" vs "Zee Telugu") never matches. */
+const LANGS = new Set(['tamil', 'hindi', 'telugu', 'malayalam', 'kannada', 'english', 'bengali', 'marathi', 'gujarati', 'punjabi', 'bhojpuri', 'odia', 'assamese']);
+const SOFT = new Set([...LANGS, 'jio', 'jiotv', 'tata', 'tataplay', 'airtel', 'ott', 'official', 'stream']);
+const NOISE = /^(hd|sd|uhd|fhd|4k|tv|channel|live|in|india|source|src|backup|\d{3,4}p)$/;
+const nameToks = s => dropKids(String(s || '').toLowerCase()
+  .replace(/\(([^)]*)\)|\[([^\]]*)\]/g, (m, a, b) => LANGS.has((a || b || '').trim()) ? ' ' + (a || b).trim() + ' ' : ' ')   // "(Tamil)" is kept, "(source 2)" is dropped
+  .replace(/[^\p{L}\p{N}\s]/gu, ' ').split(/\s+/).filter(w => w && !NOISE.test(w)));
+const dropKids = t => t.includes('yay') ? t.filter(w => w !== 'kids' && w !== 'kid') : t;   // Sony YAY is a kids channel anyway: "Sony Yay Kids Tamil" = "Sony Yay Tamil"
+const normName = s => nameToks(s).join('');
+const nameKey = s => { const t = nameToks(s); return { k: t.join(''), t }; };
+
+// How well do a playlist name (p) and a guide name (g) fit? 0 = not the same channel.
+function nameScore(p, g) {
+  if (!p.k || !g.k) return 0;
+  if (p.k === g.k) return 70;
+  const gs = new Set(g.t), ps = new Set(p.t);
+  const inter = p.t.filter(w => gs.has(w));
+  if (!inter.length) return 0;
+  const pOnly = p.t.filter(w => !gs.has(w)), gOnly = g.t.filter(w => !ps.has(w));
+  if (!pOnly.every(w => SOFT.has(w)) || !gOnly.every(w => SOFT.has(w))) return 0;       // a real word differs -> another channel
+  if (pOnly.some(w => LANGS.has(w)) && gOnly.some(w => LANGS.has(w))) return 0;         // Hindi vs Tamil version of the same channel
+  if (inter.length < 2 && inter[0].length < 6) return 0;                                 // one short word is not enough evidence
+  return inter.length * 10 - pOnly.length - gOnly.length;
+}
+
+// every name a playlist channel may be found under: its title, tvg-name, tvg-id ("SonyYayTamil.in") and manual aliases
+function playlistKeys(c) {
+  const out = [], seen = new Set();
+  const add = s => { const x = nameKey(s); if (x.k && !seen.has(x.k)) { seen.add(x.k); out.push(x); } };
+  add(c.name); add(c.tvgName);
+  if (c.tvg && /\p{L}/u.test(c.tvg)) add(c.tvg.replace(/\.[a-z]{2,3}$/i, ''));
+  for (const s of [c.name, c.tvgName]) { const a = s && EPG_ALIASES.get(String(s).trim().toLowerCase()); if (a) add(a); }
+  return out;
+}
+
+function bestGuide(keys) {                                   // -> guide channel id, or null
+  let best = null, bs = -Infinity;
+  for (const g of epg.gidx.values()) {
+    const n = (epg.byId.get(g.id) || []).length;
+    for (const p of keys) for (const gk of g.ks) {
+      let s = nameScore(p, gk); if (!s) continue;
+      if (EPG_LANG && gk.t.includes(EPG_LANG) && !p.t.some(w => LANGS.has(w) && w !== EPG_LANG)) s += 60;   // Tamil version wins over Hindi / generic
+      s += n ? Math.min(n, 500) / 1000 : -1000;              // a guide channel with NO current programmes (stale upstream data) loses to any sibling that has some
+      if (s > bs) { best = g.id; bs = s; }
+    }
+  }
+  return best;
+}
 
 function rebuildEpgMap() {
-  epg.map.clear(); let n = 0;
+  epg.map.clear(); epg.unmatched = []; let n = 0;
   for (const c of cache.list) {
     let id = null;
     const numeric = /^\d+$/.test(c.tvg || '');                     // numeric ids are often not the same across playlist and guide
     if (c.tvg && !numeric && epg.byId.has(c.tvg)) id = c.tvg;
-    for (const nm of [c.tvgName, c.name]) { if (!id && nm) id = epg.names.get(normName(nm)) || null; }
+    if (!id) id = bestGuide(playlistKeys(c));
     if (!id && c.tvg && numeric && EPG_NUMERIC_IDS && epg.byId.has(c.tvg)) id = c.tvg;   // opt-in only
-    if (id) { epg.map.set(c.id, id); n++; }
+    if (id) { epg.map.set(c.id, id); n++; } else epg.unmatched.push(c.name);
   }
   epg.matched = n;
 }
@@ -358,7 +415,7 @@ let epgRunning = false;
 async function refreshEpg() {
   if (epgRunning) return; epgRunning = true;
   const t0 = Date.now(), lo = t0 - EPG_PAST_MS, hi = t0 + EPG_FUTURE_MS;
-  const byId = new Map(), names = new Map(), errors = []; let xmlChannels = 0, programmes = 0, ok = 0;
+  const byId = new Map(), gidx = new Map(), errors = []; let xmlChannels = 0, programmes = 0, ok = 0;
   try {
     if (!cache.list.length) await loadChannels().catch(() => {});
     const configured = [...new Set([...(process.env.EPG_URL || '').split(','), ...playlistEpgUrls].map(s => s.trim()).filter(Boolean))];
@@ -367,11 +424,13 @@ async function refreshEpg() {
     const sources = urls.map(u => ({ url: u }));
     if (file) sources.push({ file });
 
-    const wantNames = new Set(), wantIds = new Set(), wanted = new Set();      // wanted = guide channel ids we keep
+    const wantIds = new Set(), wanted = new Set();                              // wanted = guide channel ids we keep
+    const byTok = new Map();                                                     // word (or the whole joined name) -> playlist names containing it (fast candidate lookup)
     for (const c of cache.list) {
-      for (const n of [c.name, c.tvgName]) { const k = normName(n); if (k) wantNames.add(k); }
+      for (const p of playlistKeys(c)) for (const w of new Set([...p.t, p.k])) { if (!byTok.has(w)) byTok.set(w, []); byTok.get(w).push(p); }
       if (c.tvg && (!/^\d+$/.test(c.tvg) || EPG_NUMERIC_IDS)) wantIds.add(c.tvg);
     }
+    const looksLikeOurs = gk => { for (const w of new Set([...gk.t, gk.k])) for (const p of byTok.get(w) || []) if (nameScore(p, gk)) return true; return false; };
     for (const src of sources) {
       const ac = new AbortController(); const timer = setTimeout(() => ac.abort(), 5 * 60_000);
       try {
@@ -386,11 +445,15 @@ async function refreshEpg() {
           (attrs, body) => {
             const id = xmlAttr(attrs, 'id'); if (!id) return;
             xmlChannels++;
-            const keys = [normName(id.replace(/\.[a-z]{2,3}$/i, ''))];                   // "Kalaignar.TV.in" -> kalaignar
-            for (const m of body.matchAll(/<display-name\b[^>]*>([\s\S]*?)<\/display-name>/g)) keys.push(normName(xmlDecode(m[1])));
-            if (!(wantIds.has(id) || keys.some(k => k && wantNames.has(k)))) return;   // not one of our channels
+            const names = [...body.matchAll(/<display-name\b[^>]*>([\s\S]*?)<\/display-name>/g)].map(m => xmlDecode(m[1]));
+            if (/\p{L}/u.test(id)) names.push(id.replace(/\.[a-z]{2,3}$/i, ''));         // "Kalaignar.TV.in" -> kalaignar (numeric ids say nothing)
+            const ks = [], seen = new Set();
+            for (const n of names) { const x = nameKey(n); if (x.k && !seen.has(x.k)) { seen.add(x.k); ks.push(x); } }
+            if (!(wantIds.has(id) || ks.some(looksLikeOurs))) return;                  // not one of our channels
             wanted.add(id);
-            for (const k of keys) if (k && !names.has(k)) names.set(k, id);
+            const old = gidx.get(id);
+            if (old) { for (const x of ks) if (!old.ks.some(y => y.k === x.k)) old.ks.push(x); }
+            else gidx.set(id, { id, name: names[0] || id, ks });
           },
           (attrs, body) => {
             const ch = xmlAttr(attrs, 'channel'); if (!ch || !wanted.has(ch)) return;
@@ -410,7 +473,7 @@ async function refreshEpg() {
         list.sort((a, b) => a.s - b.s);
         byId.set(id, list.filter((p, i) => !i || p.s !== list[i - 1].s));            // drop duplicate start times
       }
-      epg.byId = byId; epg.names = names; epg.programmes = programmes; epg.xmlChannels = xmlChannels;
+      epg.byId = byId; epg.gidx = gidx; epg.programmes = programmes; epg.xmlChannels = xmlChannels;
       epg.sources = ok; epg.updated = Date.now(); rebuildEpgMap();
       console.log(`[epg] ${programmes} programmes, ${xmlChannels} guide channels, ${epg.matched}/${cache.list.length} playlist channels matched (${Date.now() - t0} ms)`);
     }
@@ -458,6 +521,16 @@ app.get('/api/epg/guide', async (req, res) => {
   }
   res.set('Cache-Control', 'no-store').json({ updated: epg.updated, from, to, rows });
 });
+// Which guide channel did each playlist channel get?  GET /api/epg/match?q=yay   (q optional; shows the channels whose name contains q)
+app.get('/api/epg/match', async (req, res) => {
+  if (!cache.list.length) await loadChannels().catch(() => {});
+  const q = String(req.query.q || '').toLowerCase();
+  const rows = cache.list.filter(c => !q || c.name.toLowerCase().includes(q)).slice(0, 200).map(c => {
+    const g = epg.map.get(c.id), x = g && epg.gidx.get(g);
+    return { id: c.id, channel: c.name, guide: g ? { id: g, name: x ? x.name : g, programmes: (epg.byId.get(g) || []).length } : null };
+  });
+  res.set('Cache-Control', 'no-store').json({ updated: epg.updated, matched: epg.matched, total: cache.list.length, unmatched: epg.unmatched, rows });
+});
 app.get('/api/epg/:id', async (req, res) => {              // upcoming schedule for one channel (with descriptions)
   if (!cache.list.length) await loadChannels().catch(() => {});
   const x = nowNext(Number(req.params.id));
@@ -471,7 +544,7 @@ setInterval(() => refreshEpg(), EPG_REFRESH_MS).unref();
 
 app.disable('x-powered-by');
 app.get('/health', (req, res) => res.json({ ok: true, channels: cache.list.length,
-  epg: { updated: epg.updated, programmes: epg.programmes, matched: epg.matched, sources: epg.sources, error: epg.error } }));
+  epg: { updated: epg.updated, programmes: epg.programmes, matched: epg.matched, sources: epg.sources, error: epg.error, unmatched: epg.unmatched.slice(0, 40) } }));
 
 // What does this channel's URL really deliver (HLS / DASH / raw TS / web page / error)?  Used by the player when a
 // stream fails, so it can switch player type and show the real reason instead of a vague error.
