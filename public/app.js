@@ -709,8 +709,10 @@ function paintGuide(scrollToNow) {
       (nowX >= 0 ? `<i class="gd-now" style="left:calc(var(--gcol) + ${nowX}px)"></i>` : '')
     : `<div class="gd-msg">${gData.updated ? 'No guide data for these channels on this day.' : 'The guide is being downloaded… it appears here in a few seconds.'}</div>`;
 
-  const without = channels.filter(c => pass(c) && !gData.rows.some(r => r.ids.includes(c.id))).length;
-  $('gdNote').textContent = without ? `${without} channel${without > 1 ? 's' : ''} without guide data are not listed here.` : '';
+  const miss = [...new Set(channels.filter(c => pass(c) && !gData.rows.some(r => r.ids.includes(c.id))).map(c => baseName(c.name)))];
+  $('gdNote').textContent = miss.length
+    ? `No guide data for ${miss.length} channel${miss.length > 1 ? 's' : ''} right now: ${miss.slice(0, 8).join(', ')}${miss.length > 8 ? ' +' + (miss.length - 8) + ' more' : ''}. The guide refreshes by itself every few hours.`
+    : '';
 
   gCells = [...inner.querySelectorAll('.gd-p')].map(el => ({ el, tx: el.firstChild, l: parseFloat(el.style.left), w: parseFloat(el.style.width) + 2, on: false }));
   if (scrollToNow) {
