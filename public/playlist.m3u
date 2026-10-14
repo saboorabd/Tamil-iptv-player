@@ -31,3 +31,10 @@ https://d2lk5u59tns74c.cloudfront.net/out/v1/abf46b14847e45499f4a47f3a9afe93d/in
 https://mini.allinonereborn.site/tatatv/tata6n.php?id=1097
 #EXTINF:-1 tvg-id="11756" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/4/42/Zee_Thirai_HD_%282025%29.svg/revision/latest?cb=20250609120849" group-title="Entertainment",ZEE THIRAI TV
 https://mini.allinonereborn.site/tatatv/tata6n.php?id=11756
+#EXTINF:-1 tvg-logo="https://static.wikia.nocookie.net/logopedia/images/4/42/Zee_Thirai_HD_%282025%29.svg/revision/latest?cb=20250609120849" group-title="Entertainment",Zee thirai source 2
+http://livebox.pro/live/abdussamad/abdussamad/181966.m3u8
+#EXTINF:-1 tvg-logo="https://static.wikia.nocookie.net/logopedia/images/4/42/Zee_Thirai_HD_%282025%29.svg/revision/latest?cb=20250609120849" group-title="Tamil",Zee Thirai HD
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=3051
+#EXTHTTP:{"cookie":"__hdnea__=st=1791979444~exp=1791983044~acl=/bpk-tv/ZeeThiraiHD_BTS/WDVLive/*~hmac=c07ddf57a0b1b22de22f909d414c7b9defc38492a2ef8477b7e0a9065a1a6dc2"}
+https://allinonereborn2.online/jiotv-m3u/jtv.mpd?id=3051
