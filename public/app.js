@@ -168,6 +168,15 @@ const STARTERS = {
   audio: (c, my) => startNative(c, my)
 };
 
+const DIRECT = {   // same players, but the browser fetches the stream itself (no server proxy)
+  hls: (c, my) => startHls(c, my, false),
+  dash: (c, my) => startShaka(c, my, false),
+  ts: (c, my) => startMpegts(c, my, 'mpegts', true),
+  flv: (c, my) => startMpegts(c, my, 'flv', true),
+  mp4: (c, my) => startNative(c, my, true),
+  audio: (c, my) => startNative(c, my, true)
+};
+
 async function play(c) {
   if (!c) return;
   const my = ++token;
@@ -224,6 +233,15 @@ async function play(c) {
       }
       break;
     }
+  }
+  // The server was refused (401 / 403 / 451: login, token tied to an IP, or a region block that only hits cloud servers).
+  // Your phone has its own IP and headers, so try the stream from the browser directly (needs a stream that allows browsers / https).
+  const blocked = (info && [401, 403, 451].includes(info.status)) || /HTTP (401|403|451)\b/.test((lastErr && lastErr.message) || '');
+  const dk = guessKind(c) || (info && info.kind) || 'hls';
+  if (blocked && my === token && (dk !== 'hls' || c.drm) && !(location.protocol === 'https:' && /^http:/i.test(c.url)) && DIRECT[dk]) {
+    setStatus('Server was refused - trying directly from your phone…');
+    try { await DIRECT[dk](c, my); if (my === token) setStatus('LIVE'); return; }
+    catch (e) { if (my !== token) return; teardown(); }
   }
   // give the most useful explanation we have
   const codecFail = lastErr && /IncompatibleCodecs/i.test(lastErr.message);
@@ -294,14 +312,14 @@ async function startHls(c, my, viaProxy, noCodec, native) {
 }
 
 /* ---------- raw MPEG-TS / FLV (mpegts.js) ---------- */
-async function startMpegts(c, my, type) {
+async function startMpegts(c, my, type, direct) {
   if (!(await ensureLib('mpegts'))) throw new Error('mpegts.js failed to load (check your internet connection)');
   if (my !== token) throw new Superseded();
   if (!mpegts.isSupported()) throw new Error('This browser cannot play raw MPEG-TS streams');
   const fail = { current: () => {} };
   const gate = startGate(my, fail);
   let retries = 0;
-  const p = mpegts.createPlayer({ type, isLive: true, url: proxied(c) },
+  const p = mpegts.createPlayer({ type, isLive: true, url: direct ? c.url : proxied(c) },
     { enableWorker: false, autoCleanupSourceBuffer: true, liveBufferLatencyChasing: true,
       liveBufferLatencyMaxLatency: 10, liveBufferLatencyMinRemain: 2 });
   ts = p;
@@ -322,11 +340,11 @@ async function startMpegts(c, my, type) {
 }
 
 /* ---------- plain files / radio streams (browser's own decoder) ---------- */
-async function startNative(c, my) {
+async function startNative(c, my, direct) {
   const fail = { current: () => {} };
   const gate = startGate(my, fail);
   video.onerror = () => { if (my === token) fail.current(new Error('The browser could not decode this stream')); };
-  video.src = proxied(c);
+  video.src = direct ? c.url : proxied(c);
   tryPlay();
   return gate.promise;
 }
