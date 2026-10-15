@@ -282,7 +282,8 @@ async function play(c) {
             : info && !info.ok && info.reason ? info.reason
             : info && info.reason ? info.reason
             : (lastErr && lastErr.message) || 'Unknown error';
-  setStatus('Cannot play: ' + why, true);
+  let host = ''; try { host = new URL(c.url).hostname; } catch {}
+  setStatus('Cannot play ' + c.name + (host ? ' (' + host + ')' : '') + ': ' + why, true);
 }
 
 /* ---------- HLS ---------- */
