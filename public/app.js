@@ -72,6 +72,36 @@ async function loadChannels(fresh) {
   }
 }
 
+/* Playlist links can expire (tokens like exp=... last an hour). The server re-reads the playlist (PLAYLIST_URL is downloaded again),
+   and the player swaps in the fresh link by itself: every 10 minutes, and at once when a stream is refused or its link dies. */
+let lastFresh = 0;
+const chKey = c => c.name + '|' + c.group;
+async function refreshPlaylist() {
+  if (Date.now() - lastFresh < 20_000) return false;
+  lastFresh = Date.now();
+  try {
+    const r = await fetch('/api/channels?fresh=1', { cache: 'no-store' });
+    const d = await r.json();
+    if (!r.ok || !Array.isArray(d) || !d.length) return false;
+    const old = new Map(channels.map(c => [chKey(c), c.url]));
+    const changed = d.length !== channels.length || d.some(c => old.get(chKey(c)) !== c.url);
+    channels = d;
+    if (cur) cur = d.find(c => chKey(c) === chKey(cur)) || cur;
+    if (changed) render();
+    return changed;
+  } catch { return false; }
+}
+// stream failed because the link looks expired: fetch the fresh playlist and replay with the new link (true = replaying)
+async function freshLink(c, my) {
+  if (!(await refreshPlaylist()) || my !== token) return false;
+  const n = channels.find(x => chKey(x) === chKey(c));
+  if (!n || n.url === c.url) return false;
+  setStatus('Link expired - using the fresh link from the playlist…');
+  play(n);
+  return true;
+}
+setInterval(() => { if (!document.hidden) refreshPlaylist(); }, 10 * 60_000);
+
 function npLine(c) {                                       // "▶ programme title" under the channel name (from the EPG)
   const e = epgAll[c.id], n = e && e.n;
   return n && n.e > Date.now() ? `<small class="np">▶ ${esc(n.t)}</small>` : '';
@@ -237,6 +267,9 @@ async function play(c) {
   // The server was refused (401 / 403 / 451: login, token tied to an IP, or a region block that only hits cloud servers).
   // Your phone has its own IP and headers, so try the stream from the browser directly (needs a stream that allows browsers / https).
   const blocked = (info && [401, 403, 451].includes(info.status)) || /HTTP (401|403|451)\b/.test((lastErr && lastErr.message) || '');
+  const expired = (info && [401, 403, 404, 410].includes(info.status)) || /HTTP (401|403|404|410)\b/.test((lastErr && lastErr.message) || '');
+  if (expired && my === token && await freshLink(c, my)) return;
+  if (my !== token) return;
   const dk = guessKind(c) || (info && info.kind) || 'hls';
   if (blocked && my === token && (dk !== 'hls' || c.drm) && !(location.protocol === 'https:' && /^http:/i.test(c.url)) && DIRECT[dk]) {
     setStatus('Server was refused - trying directly from your phone…');
@@ -291,6 +324,7 @@ async function startHls(c, my, viaProxy, noCodec, native) {
       // already playing: try to recover instead of freezing silently
       if (d.type === Hls.ErrorTypes.NETWORK_ERROR && netRetries < 5) {
         netRetries++; setStatus('Network problem, reconnecting (' + netRetries + '/5)…');
+        if (netRetries === 2) freshLink(c, my);                           // maybe the token in the link expired
         setTimeout(() => { if (hls === h && my === token) h.startLoad(); }, 1000 * netRetries);
       } else if (d.type === Hls.ErrorTypes.MEDIA_ERROR && mediaRetries < 3) {
         mediaRetries++; setStatus('Media error, recovering…');
@@ -329,6 +363,7 @@ async function startMpegts(c, my, type, direct) {
     if (!gate.isStarted()) return fail.current(new Error(msg));
     if (retries < 5) {                                   // stream dropped while playing: reconnect
       retries++; setStatus('Network problem, reconnecting (' + retries + '/5)…');
+      if (retries === 2) freshLink(c, my);
       setTimeout(() => { if (ts === p && my === token) { try { p.unload(); p.load(); tryPlay(); } catch {} } }, 1000 * retries);
     } else setStatus('Playback stopped: ' + msg + ' — select the channel again to retry', true);
   });
@@ -453,6 +488,7 @@ async function startShaka(c, my, viaProxy) {
       const E = shaka.util.Error;
       if ((err.category === E.Category.NETWORK || err.category === E.Category.STREAMING) && retries < 5) {
         retries++; setStatus('Network problem, reconnecting (' + retries + '/5)…');
+        if (retries === 2) freshLink(c, my);
         setTimeout(() => { if (sk === p && my === token) p.retryStreaming(); }, 1000 * retries);
       } else setStatus('Playback stopped: ' + shakaMsg(err) + ' — select the channel again to retry', true);
     }
