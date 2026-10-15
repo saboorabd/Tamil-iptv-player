@@ -73,7 +73,10 @@ function verdict(o) {
     'The link may be down, or the provider blocks cloud servers (like Render). Try again later or use another source.');
   if (o.status === 401 || o.status === 403) return v('bad', 'blocked', 'The server refused the request (HTTP ' + o.status + ')',
     'The provider needs a login/token, a specific app, or blocks this server\'s IP address.',
-    'Check that the URL/token in your playlist is still valid. If it works on your phone but not here, the provider blocks servers; nothing in the player can change that.');
+    'Check that the URL/token in your playlist is still valid (many tokens only work from the IP that created them). The player already retried with other app identities and a provider Referer. If it works in OTT Navigator, copy that channel\'s #EXTVLCOPT / #EXTHTTP / |User-Agent=... lines into playlist.m3u.');
+  if (o.status === 451) return v('bad', 'geo', 'Blocked for legal / regional reasons (HTTP 451)',
+    'The provider refuses this server\'s location (e.g. a cloud server outside India). Your own phone / home connection may be allowed.',
+    'The player automatically tries your phone directly (works when the stream allows browsers). If it still fails, the provider blocks browsers too: use another source for this channel.');
   if (o.status === 404 || o.status === 410) return v('bad', 'dead', 'Stream not found (HTTP ' + o.status + ')',
     'The link is dead or the token has expired.', 'Get a fresh link from your provider and update playlist.m3u.');
   if (o.status === 429) return v('warn', 'ratelimit', 'Provider is rate-limiting (HTTP 429)', 'Too many requests in a short time.', 'Wait a minute, then retry. Lower PULSE_CONCURRENCY if Pulse is probing too much.');
@@ -130,7 +133,7 @@ module.exports = function diag(app, { list, load, fetchUA, UA, sniffKind, httpRe
       const up = await fetchUA(url, headers, ac.signal, {}, own);
       o.status = up.status; o.ct = up.headers.get('content-type') || ''; o.ua = up.ua || '';
       const acao = up.headers.get('access-control-allow-origin') || '';
-      o.corsOpen = acao === '*';
+      o.corsOpen = up.ok && acao === '*';
       o.cors = acao || 'none';
       if (!up.ok) { try { await up.body?.cancel(); } catch {} }
       else {
