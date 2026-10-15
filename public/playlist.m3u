@@ -35,6 +35,6 @@ https://mini.allinonereborn.site/tatatv/tata6n.php?id=11756
 http://livebox.pro/live/abdussamad/abdussamad/181966.m3u8
 #EXTINF:-1 tvg-logo="https://static.wikia.nocookie.net/logopedia/images/4/42/Zee_Thirai_HD_%282025%29.svg/revision/latest?cb=20250609120849" group-title="Tamil",Zee Thirai HD
 #KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=3051
-#EXTHTTP:{"cookie":"__hdnea__=st=1791979444~exp=1791983044~acl=/bpk-tv/ZeeThiraiHD_BTS/WDVLive/*~hmac=c07ddf57a0b1b22de22f909d414c7b9defc38492a2ef8477b7e0a9065a1a6dc2"}
-https://allinonereborn2.online/jiotv-m3u/jtv.mpd?id=3051
+#KODIPROP:inputstream.adaptive.license_key=58d0716748ee52f4a55cf7baa6e072bb:8fc185a1015f026fec82236bb0e096f4,c2d762acbea256c0bd67b92d59f69757:46c59697457af3a687426a4691393774
+#EXTHTTP:{"cookie":"__hdnea__=st=1792042988~exp=1792046588~acl=/bpk-tv/ZeeThiraiHD_BTS/WDVLive/*~hmac=db5c6127bac777c9c2a42c70c7fad137ae1fe5c6bc5cfd479b871c8f0f7a46ef"}
+https://jiotvpllive.cdn.jio.com/bpk-tv/ZeeThiraiHD_BTS/WDVLive/index.mpd?__hdnea__=st=1792042988~exp=1792046588~acl=/bpk-tv/ZeeThiraiHD_BTS/WDVLive/*~hmac=db5c6127bac777c9c2a42c70c7fad137ae1fe5c6bc5cfd479b871c8f0f7a46ef
