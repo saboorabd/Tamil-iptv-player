@@ -18,7 +18,7 @@ const allowed = new Set((process.env.ALLOWED_HOSTS || '').split(',').map(s => s.
 let cache = { at: 0, list: [] };
 
 const HEADER_NAMES = {
-  'cookie': 'Cookie', 'referer': 'Referer', 'referrer': 'Referer', 'http-referrer': 'Referer', 'http-referer': 'Referer',
+  'cookie': 'Cookie', 'http-cookie': 'Cookie', 'referer': 'Referer', 'referrer': 'Referer', 'http-referrer': 'Referer', 'http-referer': 'Referer',
   'user-agent': 'User-Agent', 'http-user-agent': 'User-Agent', 'origin': 'Origin', 'http-origin': 'Origin', 'authorization': 'Authorization'
 };
 function addHeader(ch, name, value) {
@@ -81,7 +81,14 @@ function parseM3U(text) {
       }
       delete cur._k;
       if (!/^https?:\/\//i.test(cur.url)) { cur = null; continue; }   // skip rtmp:// etc. (not playable in a browser)
-      try { allowed.add(new URL(cur.url).hostname.toLowerCase()); } catch { cur = null; continue; }
+      try {
+        const u = new URL(cur.url);
+        if (u.username || u.password) {                           // http://user:pass@host/... : fetch() refuses such URLs, so send it as a Basic login header
+          addHeader(cur, 'authorization', 'Basic ' + Buffer.from(decodeURIComponent(u.username) + ':' + decodeURIComponent(u.password)).toString('base64'));
+          u.username = ''; u.password = ''; cur.url = u.href;
+        }
+        allowed.add(u.hostname.toLowerCase());
+      } catch { cur = null; continue; }
       if (out.some(o => o.url === cur.url && o.name === cur.name)) { cur = null; continue; }
       cur.proxy = !!(cur._h && Object.keys(cur._h).length);
       cur.id = out.length;
@@ -172,21 +179,29 @@ const UA_POOL = [
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
 ];
 const uaByHost = new Map();       // hostname -> User-Agent that worked
+const refByHost = new Set();      // hosts that only answered when the request looked like it came from the provider's own page (Referer / Origin)
 const uaGaveUp = new Map();       // origin+path -> time we tried every User-Agent and all failed (do not hammer it again for 60 s)
 
 async function fetchUA(url, headers, signal, init = {}, ownUA = '') {
   const host = url.hostname.toLowerCase(), key = url.origin + url.pathname;
-  const remembered = uaByHost.get(host);
-  const order = [...new Set((ownUA ? [ownUA] : [remembered, headers['User-Agent'] || UA]).concat(UA_POOL).filter(Boolean))];
+  const remembered = uaByHost.get(host), refOk = refByHost.has(host);
+  const uas = [...new Set((ownUA ? [ownUA] : [remembered, headers['User-Agent'] || UA]).concat(UA_POOL).filter(Boolean))].slice(0, 5);
+  const tries = uas.map(ua => ({ ua, ref: refOk }));
+  // hotlink protection: some providers (401/403/451) only answer a request that looks like it came from their own page
+  if (!refOk && !headers.Referer) tries.push({ ua: uas[0], ref: true }, { ua: UA_POOL[1], ref: true });
   const gaveUp = Date.now() - (uaGaveUp.get(key) || 0) < 60_000;
+  const refused = st => [401, 403, 406, 451].includes(st);
   let last;
-  for (let i = 0; i < order.length && i < 5; i++) {
-    last = await fetchFollow(url, { ...headers, 'User-Agent': order[i] }, signal, init);
-    last.ua = order[i];
-    if (last.status < 400) { uaByHost.set(host, order[i]); uaGaveUp.delete(key); return last; }
-    const uaIssue = [401, 403, 406, 451].includes(last.status);
-    if (gaveUp || !(uaIssue || (!remembered && last.status !== 416))) return last;      // genuine error (e.g. expired segment): do not rotate
-    if (i < order.length - 1 && i < 4) { try { await last.body?.cancel(); } catch {} }
+  for (let i = 0; i < tries.length; i++) {
+    const { ua, ref } = tries[i];
+    if (i >= uas.length && !refused(last.status)) break;                               // the Referer retries are only for "refused" answers
+    const h = { ...headers, 'User-Agent': ua };
+    if (ref && !h.Referer) { h.Referer = url.origin + '/'; if (!h.Origin) h.Origin = url.origin; }
+    last = await fetchFollow(url, h, signal, init);
+    last.ua = ua;
+    if (last.status < 400) { uaByHost.set(host, ua); if (ref && !refOk && !headers.Referer) refByHost.add(host); uaGaveUp.delete(key); return last; }
+    if (gaveUp || !(refused(last.status) || (!remembered && last.status !== 416))) return last;   // genuine error (e.g. expired segment): do not rotate
+    if (i < tries.length - 1) { try { await last.body?.cancel(); } catch {} }
   }
   uaGaveUp.set(key, Date.now());
   if (uaGaveUp.size > 500) uaGaveUp.clear();
@@ -195,6 +210,7 @@ async function fetchUA(url, headers, signal, init = {}, ownUA = '') {
 
 const httpReason = s =>
   s === 401 || s === 403 ? `The server refused the request (HTTP ${s}). The stream needs a login/token, a specific app, or blocks servers.` :
+  s === 451 ? 'Blocked for legal / regional reasons (HTTP 451). The provider does not serve this server\'s location. The player then tries your own phone directly.' :
   s === 404 || s === 410 ? `Stream not found (HTTP ${s}). The link is dead or expired.` :
   s === 429 ? 'Too many requests (HTTP 429). The provider is rate-limiting.' :
   s >= 500 ? `The stream server is having problems (HTTP ${s}).` : `The server answered HTTP ${s}.`;
