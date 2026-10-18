@@ -33,9 +33,9 @@ https://mini.allinonereborn.site/tatatv/tata6n.php?id=1097
 https://mini.allinonereborn.site/tatatv/tata6n.php?id=11756
 #EXTINF:-1 tvg-id="11756" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/4/42/Zee_Thirai_HD_%282025%29.svg/revision/latest?cb=20250609120849" group-title="Entertainment",ZEE THIRAI TV (source 2)
 http://livebox.pro/live/civic2/civic2/181966.m3u8
+#EXTM3U
 #EXTINF:-1 tvg-id="3051" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/ZeeThiraiHD.png" group-title="Tamil" http-user-agent="@allinone_reborn",Zee Thirai HD
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=3051
 #EXTVLCOPT:http-user-agent=@allinone_reborn
 https://allinonereborn2.online/jiotv-m3u/jtv.mpd?id=3051
-
