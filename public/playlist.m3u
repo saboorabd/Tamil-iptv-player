@@ -33,12 +33,9 @@ https://mini.allinonereborn.site/tatatv/tata6n.php?id=1097
 https://mini.allinonereborn.site/tatatv/tata6n.php?id=11756
 #EXTINF:-1 tvg-id="11756" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/4/42/Zee_Thirai_HD_%282025%29.svg/revision/latest?cb=20250609120849" group-title="Entertainment",ZEE THIRAI TV (source 2)
 http://livebox.pro/live/civic2/civic2/181966.m3u8
-#EXTM3U
-#EXTINF:-1 tvg-id="11756" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/4/42/Zee_Thirai_HD_%282025%29.svg/revision/latest?cb=20250609120849" group-title="Entertainment" http-user-agent="Mozilla/5.0",ZEE THIRAI TV (source 3)
+#EXTINF:-1 tvg-id="3051" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/ZeeThiraiHD.png" group-title="Tamil" http-user-agent="@allinone_reborn",Zee Thirai HD
 #KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key="{\"keys\": [{\"kty\":\"oct\",\"k\":\"8fc185a1015f026fec82236bb0e096f4\",\"kid\":\"58d0716748ee52f4a55cf7baa6e072bb\"}, {\"kty\":\"oct\",\"k\":\"46c59697457af3a687426a4691393774\",\"kid\":\"c2d762acbea256c0bd67b92d59f69757\"}], \"type\":\"temporary\"}"
-#EXTVLCOPT:http-user-agent=Mozilla/5.0
-#EXTVLCOPT:http-referer=https://jjtvxweb.pages.dev
-#EXTVLCOPT:http-origin=https://jjtvxweb.pages.dev
-#EXTHTTP:{"cookie":"__hdnea__=st=1792306326~exp=1792309926~acl=/bpk-tv/ZeeThiraiHD_BTS/WDVLive/*~hmac=a31f679cb15a617beabbc44c5d407522ca98f9d3bc0f05c5b3c4e016a4d81ca5"}
-https://jiotvpllive.cdn.jio.com/bpk-tv/ZeeThiraiHD_BTS/WDVLive/index.mpd?__hdnea__=st=1792306326~exp=1792309926~acl=/bpk-tv/ZeeThiraiHD_BTS/WDVLive/*~hmac=a31f679cb15a617beabbc44c5d407522ca98f9d3bc0f05c5b3c4e016a4d81ca5
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=3051
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+https://allinonereborn2.online/jiotv-m3u/jtv.mpd?id=3051
+
