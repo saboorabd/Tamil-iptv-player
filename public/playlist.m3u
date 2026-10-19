@@ -35,3 +35,515 @@ https://mini.allinonereborn.site/tatatv/tata6n.php?id=11756
 http://livebox.pro/live/civic2/civic2/181966.m3u8
 #EXTINF:-1 tvg-id="796" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/4/42/Zee_Thirai_HD_%282025%29.svg/revision/latest?cb=20250609120849\" "" "",Zee thirai (source 2)
 https://mini.allinonereborn.site/tatatv/tata6n.php?id=796
+
+#EXTM3U x-tvg-url="http://localhost:5350/epg.xml.gz"
+#EXTINF:-1 tvg-id="290" tvg-name="sonic Tamil" tvg-logo="http://localhost:5350/jtvimage/sonic_Tamil.png" tvg-language="Tamil" tvg-type="Kids" group-title="Kids", sonic Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/290
+http://localhost:5350/live/mpd/290
+#EXTINF:-1 tvg-id="368" tvg-name="Star Vijay HD" tvg-logo="http://localhost:5350/jtvimage/StarVijayHD1.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Star Vijay HD
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/368
+http://localhost:5350/live/mpd/368
+#EXTINF:-1 tvg-id="417" tvg-name="J Movies" tvg-logo="http://localhost:5350/jtvimage/J_Movies.png" tvg-language="Tamil" tvg-type="Movies" group-title="Movies", J Movies
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/417
+http://localhost:5350/live/mpd/417
+#EXTINF:-1 tvg-id="418" tvg-name="Jaya Plus" tvg-logo="http://localhost:5350/jtvimage/Jaya_Plus.png" tvg-language="Tamil" tvg-type="News" group-title="News", Jaya Plus
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/418
+http://localhost:5350/live/mpd/418
+#EXTINF:-1 tvg-id="419" tvg-name="Jaya TV HD" tvg-logo="http://localhost:5350/jtvimage/Jaya_TV_HD.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Jaya TV HD
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/419
+http://localhost:5350/live/mpd/419
+#EXTINF:-1 tvg-id="420" tvg-name="Jaya Max" tvg-logo="http://localhost:5350/jtvimage/Jaya_Max.png" tvg-language="Tamil" tvg-type="Music" group-title="Music", Jaya Max
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/420
+http://localhost:5350/live/mpd/420
+#EXTINF:-1 tvg-id="429" tvg-name="Colors Tamil HD" tvg-logo="http://localhost:5350/jtvimage/ColorsTamilHD1.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Colors Tamil HD
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/429
+http://localhost:5350/live/mpd/429
+#EXTINF:-1 tvg-id="542" tvg-name="Pogo Tamil" tvg-logo="http://localhost:5350/jtvimage/Pogo_Tamil.png" tvg-language="Tamil" tvg-type="Kids" group-title="Kids", Pogo Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/542
+http://localhost:5350/live/mpd/542
+#EXTINF:-1 tvg-id="546" tvg-name="Nick Tamil" tvg-logo="http://localhost:5350/jtvimage/Nick_Tamil.png" tvg-language="Tamil" tvg-type="Kids" group-title="Kids", Nick Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/546
+http://localhost:5350/live/mpd/546
+#EXTINF:-1 tvg-id="550" tvg-name="Discovery Kids Tamil" tvg-logo="http://localhost:5350/jtvimage/DiscoveryKidsTam1.png" tvg-language="Tamil" tvg-type="Kids" group-title="Kids", Discovery Kids Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/550
+http://localhost:5350/live/mpd/550
+#EXTINF:-1 tvg-id="557" tvg-name="Chutti TV" tvg-logo="http://localhost:5350/jtvimage/Chutti_TV.png" tvg-language="Tamil" tvg-type="Kids" group-title="Kids", Chutti TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/557
+http://localhost:5350/live/mpd/557
+#EXTINF:-1 tvg-id="569" tvg-name="D Tamil" tvg-logo="http://localhost:5350/jtvimage/Discovery_Channel_Tamil.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", D Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/569
+http://localhost:5350/live/mpd/569
+#EXTINF:-1 tvg-id="579" tvg-name="History TV18 HD Tamil" tvg-logo="http://localhost:5350/jtvimage/History_18_Tamil.png" tvg-language="Tamil" tvg-type="Infotainment" group-title="Infotainment", History TV18 HD Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/579
+http://localhost:5350/live/mpd/579
+#EXTINF:-1 tvg-id="603" tvg-name="Nambikkai" tvg-logo="http://localhost:5350/jtvimage/Nambikkai.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", Nambikkai
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/603
+http://localhost:5350/live/mpd/603
+#EXTINF:-1 tvg-id="615" tvg-name="News18 Tamil nadu" tvg-logo="http://localhost:5350/jtvimage/News18TamilNadu.png" tvg-language="Tamil" tvg-type="News" group-title="News", News18 Tamil nadu
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/615
+http://localhost:5350/live/mpd/615
+#EXTINF:-1 tvg-id="636" tvg-name="Polimer News" tvg-logo="http://localhost:5350/jtvimage/Polimer_News.png" tvg-language="Tamil" tvg-type="News" group-title="News", Polimer News
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/636
+http://localhost:5350/live/mpd/636
+#EXTINF:-1 tvg-id="671" tvg-name="Sathiyam TV" tvg-logo="http://localhost:5350/jtvimage/Sathiyam.png" tvg-language="Tamil" tvg-type="News" group-title="News", Sathiyam TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/671
+http://localhost:5350/live/mpd/671
+#EXTINF:-1 tvg-id="673" tvg-name="News7 Tamil" tvg-logo="http://localhost:5350/jtvimage/News7_Tamil.png" tvg-language="Tamil" tvg-type="News" group-title="News", News7 Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/673
+http://localhost:5350/live/mpd/673
+#EXTINF:-1 tvg-id="676" tvg-name="Sun News" tvg-logo="http://localhost:5350/jtvimage/Sun_News.png" tvg-language="Tamil" tvg-type="News" group-title="News", Sun News
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/676
+http://localhost:5350/live/mpd/676
+#EXTINF:-1 tvg-id="677" tvg-name="Puthiya Thalimurai" tvg-logo="http://localhost:5350/jtvimage/Puthiya_Thalimurai.png" tvg-language="Tamil" tvg-type="News" group-title="News", Puthiya Thalimurai
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/677
+http://localhost:5350/live/mpd/677
+#EXTINF:-1 tvg-id="682" tvg-name="Sun Life" tvg-logo="http://localhost:5350/jtvimage/Sun_Life.png" tvg-language="Tamil" tvg-type="Movies" group-title="Movies", Sun Life
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/682
+http://localhost:5350/live/mpd/682
+#EXTINF:-1 tvg-id="683" tvg-name="Raj Digital Plus" tvg-logo="http://localhost:5350/jtvimage/Raj_Digital_Plus.png" tvg-language="Tamil" tvg-type="Movies" group-title="Movies", Raj Digital Plus
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/683
+http://localhost:5350/live/mpd/683
+#EXTINF:-1 tvg-id="705" tvg-name="Polimer TV" tvg-logo="http://localhost:5350/jtvimage/Polimer_TV.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Polimer TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/705
+http://localhost:5350/live/mpd/705
+#EXTINF:-1 tvg-id="707" tvg-name="Raj TV" tvg-logo="http://localhost:5350/jtvimage/Raj_TV.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Raj TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/707
+http://localhost:5350/live/mpd/707
+#EXTINF:-1 tvg-id="708" tvg-name="Makkal TV" tvg-logo="http://localhost:5350/jtvimage/Makkal_TV.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Makkal TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/708
+http://localhost:5350/live/mpd/708
+#EXTINF:-1 tvg-id="709" tvg-name="Adithya TV" tvg-logo="http://localhost:5350/jtvimage/Adithya_TV.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Adithya TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/709
+http://localhost:5350/live/mpd/709
+#EXTINF:-1 tvg-id="726" tvg-name="DD Tamil" tvg-logo="http://localhost:5350/jtvimage/DD5_Podhigai.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", DD Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/726
+http://localhost:5350/live/mpd/726
+#EXTINF:-1 tvg-id="727" tvg-name="Vasanth TV" tvg-logo="http://localhost:5350/jtvimage/Vasanth_TV.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Vasanth TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/727
+http://localhost:5350/live/mpd/727
+#EXTINF:-1 tvg-id="748" tvg-name="Raj Musix" tvg-logo="http://localhost:5350/jtvimage/Raj_Musix.png" tvg-language="Tamil" tvg-type="Music" group-title="Music", Raj Musix
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/748
+http://localhost:5350/live/mpd/748
+#EXTINF:-1 tvg-id="767" tvg-name="Raj News\u00a024x7" tvg-logo="http://localhost:5350/jtvimage/Raj_News_24x7.png" tvg-language="Tamil" tvg-type="News" group-title="News", Raj News 24x7
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/767
+http://localhost:5350/live/mpd/767
+#EXTINF:-1 tvg-id="796" tvg-name="Peppers TV" tvg-logo="http://localhost:5350/jtvimage/Peppers_TV.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Peppers TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/796
+http://localhost:5350/live/mpd/796
+#EXTINF:-1 tvg-id="803" tvg-name="Tunes 6" tvg-logo="http://localhost:5350/jtvimage/Tunes_6.png" tvg-language="Tamil" tvg-type="Music" group-title="Music", Tunes 6
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/803
+http://localhost:5350/live/mpd/803
+#EXTINF:-1 tvg-id="814" tvg-name="Travelxp Tamil" tvg-logo="http://localhost:5350/jtvimage/Travel_XP_Tamil.png" tvg-language="Tamil" tvg-type="Lifestyle" group-title="Lifestyle", Travelxp Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/814
+http://localhost:5350/live/mpd/814
+#EXTINF:-1 tvg-id="817" tvg-name="Cartoon Network Tamil" tvg-logo="http://localhost:5350/jtvimage/CNTamil1.png" tvg-language="Tamil" tvg-type="Kids" group-title="Kids", Cartoon Network Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/817
+http://localhost:5350/live/mpd/817
+#EXTINF:-1 tvg-id="824" tvg-name="Puthu Yugam" tvg-logo="http://localhost:5350/jtvimage/Puthu_Yugam.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Puthu Yugam
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/824
+http://localhost:5350/live/mpd/824
+#EXTINF:-1 tvg-id="826" tvg-name="Malaimurasu Seithigal" tvg-logo="http://localhost:5350/jtvimage/Malai_Murasu.png" tvg-language="Tamil" tvg-type="News" group-title="News", Malaimurasu Seithigal
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/826
+http://localhost:5350/live/mpd/826
+#EXTINF:-1 tvg-id="830" tvg-name="Thanthi TV" tvg-logo="http://localhost:5350/jtvimage/Thanthi_TV.png" tvg-language="Tamil" tvg-type="News" group-title="News", Thanthi TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/830
+http://localhost:5350/live/mpd/830
+#EXTINF:-1 tvg-id="835" tvg-name="Angel TV HD" tvg-logo="http://localhost:5350/jtvimage/Angel_TV_HD.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", Angel TV HD
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/835
+http://localhost:5350/live/mpd/835
+#EXTINF:-1 tvg-id="843" tvg-name="Madhimugam TV" tvg-logo="http://localhost:5350/jtvimage/Madhimugam_TV.png" tvg-language="Tamil" tvg-type="News" group-title="News", Madhimugam TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/843
+http://localhost:5350/live/mpd/843
+#EXTINF:-1 tvg-id="857" tvg-name="Vendhar TV" tvg-logo="http://localhost:5350/jtvimage/Vendhar_TV.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Vendhar TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/857
+http://localhost:5350/live/mpd/857
+#EXTINF:-1 tvg-id="894" tvg-name="KTV HD" tvg-logo="http://localhost:5350/jtvimage/KTV_HD.png" tvg-language="Tamil" tvg-type="Movies" group-title="Movies", KTV HD
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/894
+http://localhost:5350/live/mpd/894
+#EXTINF:-1 tvg-id="895" tvg-name="Sun Music HD" tvg-logo="http://localhost:5350/jtvimage/Sun_Music_HD.png" tvg-language="Tamil" tvg-type="Music" group-title="Music", Sun Music HD
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/895
+http://localhost:5350/live/mpd/895
+#EXTINF:-1 tvg-id="896" tvg-name="Sun TV HD" tvg-logo="http://localhost:5350/jtvimage/Sun_TV_HD.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Sun TV HD
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/896
+http://localhost:5350/live/mpd/896
+#EXTINF:-1 tvg-id="937" tvg-name="Sai TV" tvg-logo="http://localhost:5350/jtvimage/SaiTV.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", Sai TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/937
+http://localhost:5350/live/mpd/937
+#EXTINF:-1 tvg-id="970" tvg-name="Win TV" tvg-logo="http://localhost:5350/jtvimage/Win_TV.png" tvg-language="Tamil" tvg-type="News" group-title="News", Win TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/970
+http://localhost:5350/live/mpd/970
+#EXTINF:-1 tvg-id="971" tvg-name="Vaanavil TV" tvg-logo="http://localhost:5350/jtvimage/Vaanavil_TV.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Vaanavil TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/971
+http://localhost:5350/live/mpd/971
+#EXTINF:-1 tvg-id="1081" tvg-name="Cartoon Network HD+ Tamil" tvg-logo="http://localhost:5350/jtvimage/CNHDTamil1.png" tvg-language="Tamil" tvg-type="Kids" group-title="Kids", Cartoon Network HD+ Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1081
+http://localhost:5350/live/mpd/1081
+#EXTINF:-1 tvg-id="1209" tvg-name="Kalaignar TV" tvg-logo="http://localhost:5350/jtvimage/Kalaignar_TV.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Kalaignar TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1209
+http://localhost:5350/live/mpd/1209
+#EXTINF:-1 tvg-id="1210" tvg-name="Kalaignar Seithigal " tvg-logo="http://localhost:5350/jtvimage/Kalaignar_Seithigal_.png" tvg-language="Tamil" tvg-type="News" group-title="News", Kalaignar Seithigal 
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1210
+http://localhost:5350/live/mpd/1210
+#EXTINF:-1 tvg-id="1219" tvg-name="Animal Planet HD Tamil" tvg-logo="http://localhost:5350/jtvimage/AnimalPlanetHDTam1.png" tvg-language="Tamil" tvg-type="Infotainment" group-title="Infotainment", Animal Planet HD Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1219
+http://localhost:5350/live/mpd/1219
+#EXTINF:-1 tvg-id="1371" tvg-name="Colors Tamil" tvg-logo="http://localhost:5350/jtvimage/ColorsTamil1.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Colors Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1371
+http://localhost:5350/live/mpd/1371
+#EXTINF:-1 tvg-id="1417" tvg-name="SVBC2" tvg-logo="http://localhost:5350/jtvimage/SVBC2.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", SVBC2
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1417
+http://localhost:5350/live/mpd/1417
+#EXTINF:-1 tvg-id="1515" tvg-name="News J" tvg-logo="http://localhost:5350/jtvimage/News_J.png" tvg-language="Tamil" tvg-type="News" group-title="News", News J
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1515
+http://localhost:5350/live/mpd/1515
+#EXTINF:-1 tvg-id="1518" tvg-name="Moon TV" tvg-logo="http://localhost:5350/jtvimage/Moon_Tv.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Moon TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1518
+http://localhost:5350/live/mpd/1518
+#EXTINF:-1 tvg-id="1537" tvg-name="RadheKrishna TV" tvg-logo="http://localhost:5350/jtvimage/RadheKrishna_TV.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", RadheKrishna TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1537
+http://localhost:5350/live/mpd/1537
+#EXTINF:-1 tvg-id="1647" tvg-name="MK Six" tvg-logo="http://localhost:5350/jtvimage/MK_Six.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", MK Six
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1647
+http://localhost:5350/live/mpd/1647
+#EXTINF:-1 tvg-id="1655" tvg-name="Madha TV" tvg-logo="http://localhost:5350/jtvimage/Madha_TV.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", Madha TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1655
+http://localhost:5350/live/mpd/1655
+#EXTINF:-1 tvg-id="1664" tvg-name="7S Music " tvg-logo="http://localhost:5350/jtvimage/7SMusic.png" tvg-language="Tamil" tvg-type="Music" group-title="Music", 7S Music 
+http://localhost:5350/live/1664.m3u8
+#EXTINF:-1 tvg-id="1738" tvg-name="Hosanna TV" tvg-logo="http://localhost:5350/jtvimage/Hosanna_TV.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", Hosanna TV
+http://localhost:5350/live/1738.m3u8
+#EXTINF:-1 tvg-id="1850" tvg-name="SVBC" tvg-logo="http://localhost:5350/jtvimage/SVBC.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", SVBC
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1850
+http://localhost:5350/live/mpd/1850
+#EXTINF:-1 tvg-id="1858" tvg-name="SVBC3" tvg-logo="http://localhost:5350/jtvimage/SVBC3.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", SVBC3
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1858
+http://localhost:5350/live/mpd/1858
+#EXTINF:-1 tvg-id="1859" tvg-name="SVBC4" tvg-logo="http://localhost:5350/jtvimage/SVBC4.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", SVBC4
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1859
+http://localhost:5350/live/mpd/1859
+#EXTINF:-1 tvg-id="1954" tvg-name="News Tamil 24x7" tvg-logo="http://localhost:5350/jtvimage/News_Tamil_24x7.png" tvg-language="Tamil" tvg-type="News" group-title="News", News Tamil 24x7
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1954
+http://localhost:5350/live/mpd/1954
+#EXTINF:-1 tvg-id="2768" tvg-name="Jothi TV" tvg-logo="http://localhost:5350/jtvimage/Jothi_TV.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", Jothi TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/2768
+http://localhost:5350/live/mpd/2768
+#EXTINF:-1 tvg-id="2958" tvg-name="Tamilan Television" tvg-logo="http://localhost:5350/jtvimage/Tamilan_Television.png" tvg-language="Tamil" tvg-type="News" group-title="News", Tamilan Television
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/2958
+http://localhost:5350/live/mpd/2958
+#EXTINF:-1 tvg-id="3004" tvg-name="Velicham Tv" tvg-logo="http://localhost:5350/jtvimage/Velicham_Tv.png" tvg-language="Tamil" tvg-type="News" group-title="News", Velicham Tv
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/3004
+http://localhost:5350/live/mpd/3004
+#EXTINF:-1 tvg-id="3045" tvg-name="Tamil Janam" tvg-logo="http://localhost:5350/jtvimage/Janam_Tamil.png" tvg-language="Tamil" tvg-type="News" group-title="News", Tamil Janam
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/3045
+http://localhost:5350/live/mpd/3045
+#EXTINF:-1 tvg-id="3059" tvg-name="Thanthi One" tvg-logo="http://localhost:5350/jtvimage/Thanti_One.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Thanthi One
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/3059
+http://localhost:5350/live/mpd/3059
+#EXTINF:-1 tvg-id="3175" tvg-name="Tamil Naaptol" tvg-logo="http://localhost:5350/jtvimage/Tamil_Naaptol.png" tvg-language="Tamil" tvg-type="Shopping" group-title="Shopping", Tamil Naaptol
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/3175
+http://localhost:5350/live/mpd/3175
+#EXTINF:-1 tvg-id="3201" tvg-name="Sana TV" tvg-logo="http://localhost:5350/jtvimage/sanatv.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Sana TV
+http://localhost:5350/live/3201.m3u8
+#EXTINF:-1 tvg-id="3221" tvg-name="Sri Naga Sai Mandir" tvg-logo="http://localhost:5350/jtvimage/Sri_Naga_Sai_Mandir.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", Sri Naga Sai Mandir
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/3221
+http://localhost:5350/live/mpd/3221
+#EXTINF:-1 tvg-id="3264" tvg-name="Jio Semma Cinema" tvg-logo="http://localhost:5350/jtvimage/Jio_Semma_Cinema.png" tvg-language="Tamil" tvg-type="Movies" group-title="Movies", Jio Semma Cinema
+http://localhost:5350/live/3264.m3u8
+#EXTINF:-1 tvg-id="3266" tvg-name="Vijay Super HD" tvg-logo="http://localhost:5350/jtvimage/VijaySuperHD1.png" tvg-language="Tamil" tvg-type="Movies" group-title="Movies", Vijay Super HD
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/3266
+http://localhost:5350/live/mpd/3266
+#EXTINF:-1 tvg-id="3269" tvg-name="Vijay Takkar" tvg-logo="http://localhost:5350/jtvimage/VijayTakkar1.png" tvg-language="Tamil" tvg-type="Movies" group-title="Movies", Vijay Takkar
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/3269
+http://localhost:5350/live/mpd/3269
+#EXTINF:-1 tvg-id="3279" tvg-name="OM TV" tvg-logo="http://localhost:5350/jtvimage/OM_TV.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", OM TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/3279
+http://localhost:5350/live/mpd/3279
+#EXTINF:-1 tvg-id="3300" tvg-name="R TV Bhakthi" tvg-logo="http://localhost:5350/jtvimage/R_TV_Bhakthi_3.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", R TV Bhakthi
+http://localhost:5350/live/3300.m3u8
+#EXTINF:-1 tvg-id="3356" tvg-name="Rock TV" tvg-logo="http://localhost:5350/jtvimage/suriyantvtamil.png" tvg-language="Tamil" tvg-type="Movies" group-title="Movies", Rock TV
+http://localhost:5350/live/3356.m3u8
+#EXTINF:-1 tvg-id="3357" tvg-name="Dharsan TV" tvg-logo="http://localhost:5350/jtvimage/dharshantvtamil.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", Dharsan TV
+http://localhost:5350/live/3357.m3u8
+#EXTINF:-1 tvg-id="3358" tvg-name="Bhagyam TV" tvg-logo="http://localhost:5350/jtvimage/aanadhamtvtamil.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", Bhagyam TV
+http://localhost:5350/live/3358.m3u8
+#EXTINF:-1 tvg-id="3359" tvg-name="Sana Plus" tvg-logo="http://localhost:5350/jtvimage/sanaplus.png" tvg-language="Tamil" tvg-type="Music" group-title="Music", Sana Plus
+http://localhost:5350/live/3359.m3u8
+#EXTINF:-1 tvg-id="3360" tvg-name="Subin TV" tvg-logo="http://localhost:5350/jtvimage/subintvtamil.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Subin TV
+http://localhost:5350/live/3360.m3u8
+#EXTINF:-1 tvg-id="3381" tvg-name="Brio TV" tvg-logo="http://localhost:5350/jtvimage/Brio_TV.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Brio TV
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/3381
+http://localhost:5350/live/mpd/3381
+#EXTINF:-1 tvg-id="3393" tvg-name="NTC TV" tvg-logo="http://localhost:5350/jtvimage/ntvtamil.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", NTC TV
+http://localhost:5350/live/3393.m3u8
+#EXTINF:-1 tvg-id="3394" tvg-name="Suriya TV" tvg-logo="http://localhost:5350/jtvimage/suryatvtamil.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Suriya TV
+http://localhost:5350/live/3394.m3u8
+#EXTINF:-1 tvg-id="3395" tvg-name="Aaryaa TV" tvg-logo="http://localhost:5350/jtvimage/aryatvtamil.png" tvg-language="Tamil" tvg-type="Music" group-title="Music", Aaryaa TV
+http://localhost:5350/live/3395.m3u8
+#EXTINF:-1 tvg-id="3396" tvg-name="Ultimate TV" tvg-logo="http://localhost:5350/jtvimage/utvtamil.png" tvg-language="Tamil" tvg-type="Music" group-title="Music", Ultimate TV
+http://localhost:5350/live/3396.m3u8
+#EXTINF:-1 tvg-id="3409" tvg-name="Roja TV" tvg-logo="http://localhost:5350/jtvimage/rojatv.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Roja TV
+http://localhost:5350/live/3409.m3u8
+#EXTINF:-1 tvg-id="3417" tvg-name="Roja Movies" tvg-logo="http://localhost:5350/jtvimage/rojamovies.png" tvg-language="Tamil" tvg-type="Movies" group-title="Movies", Roja Movies
+http://localhost:5350/live/3417.m3u8
+#EXTINF:-1 tvg-id="3430" tvg-name="Discovery Tamil" tvg-logo="http://localhost:5350/jtvimage/DiscoveryTam1.png" tvg-language="Tamil" tvg-type="Infotainment" group-title="Infotainment", Discovery Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/3430
+http://localhost:5350/live/mpd/3430
+#EXTINF:-1 tvg-id="3445" tvg-name="Discovery HD Tamil" tvg-logo="http://localhost:5350/jtvimage/DiscoveryHDTam1.png" tvg-language="Tamil" tvg-type="Infotainment" group-title="Infotainment", Discovery HD Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/3445
+http://localhost:5350/live/mpd/3445
+#EXTINF:-1 tvg-id="3450" tvg-name="Animal Planet Tamil" tvg-logo="http://localhost:5350/jtvimage/AnimalPlanetTam1.png" tvg-language="Tamil" tvg-type="Infotainment" group-title="Infotainment", Animal Planet Tamil
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/3450
+http://localhost:5350/live/mpd/3450
+#EXTINF:-1 tvg-id="3497" tvg-name="Village TV" tvg-logo="http://localhost:5350/jtvimage/villagetvhd.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", Village TV
+http://localhost:5350/live/3497.m3u8
+#EXTINF:-1 tvg-id="3531" tvg-name="Tamil Times" tvg-logo="http://localhost:5350/jtvimage/TamilTimes.png" tvg-language="Tamil" tvg-type="Movies" group-title="Movies", Tamil Times
+http://localhost:5350/live/3531.m3u8
+#EXTINF:-1 tvg-id="3550" tvg-name="Nijam TV" tvg-logo="http://localhost:5350/jtvimage/nijamtv.png" tvg-language="Tamil" tvg-type="Devotional" group-title="Devotional", Nijam TV
+http://localhost:5350/live/3550.m3u8
+#EXTINF:-1 tvg-id="3610" tvg-name="Dhool TV" tvg-logo="http://localhost:5350/jtvimage/DhoolTV.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Dhool TV
+http://localhost:5350/live/3610.m3u8
+#EXTINF:-1 tvg-id="3622" tvg-name="Sony Vizha" tvg-logo="http://localhost:5350/jtvimage/SonyVizha.png" tvg-language="Tamil" tvg-type="Entertainment" group-title="Entertainment", Sony Vizha
+http://localhost:5350/live/3622.m3u8
+#EXTINF:-1 tvg-id="1391" tvg-name="Hungama" tvg-logo="http://localhost:5350/jtvimage/Hungama.png" tvg-language="Hindi" tvg-type="Kids" group-title="Kids",Hungama
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1391
+http://localhost:5350/live/mpd/1391
+#EXTINF:-1 tvg-id="1392" tvg-name="Super Hungama" tvg-logo="http://localhost:5350/jtvimage/Super_Hungama.png" tvg-language="Hindi" tvg-type="Kids" group-title="Kids",Super Hungama
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1392
+http://localhost:5350/live/mpd/1392
+#EXTINF:-1 tvg-id="1373" tvg-name="Disney Channel" tvg-logo="http://localhost:5350/jtvimage/Disney_Channel.png" tvg-language="Hindi" tvg-type="Kids" group-title="Kids",Disney Channel
+#KODIPROP:inputstream=inputstream.adaptive
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=http://localhost:5350/live/key/1373
+http://localhost:5350/live/mpd/1373
