@@ -577,7 +577,7 @@ app.get('/api/epg/guide', async (req, res) => {
 // Programme pictures go through our server too (no hotlink / CORS / mixed-content problems). Only hosts that appear in the guide are allowed.
 app.get('/api/epg/img', async (req, res) => {
   let u; try { u = new URL(String(req.query.u || '')); } catch { return res.sendStatus(400); }
-  if (u.protocol !== 'https:' || !epg.imgHosts.has(u.hostname.toLowerCase())) return res.sendStatus(403);
+  if (u.protocol !== 'https:' || !(epg.imgHosts.has(u.hostname.toLowerCase()) || posterHosts.has(u.hostname.toLowerCase()))) return res.sendStatus(403);
   const ac = new AbortController(); res.on('close', () => ac.abort());
   try {
     const up = await fetchFollow(u, { 'User-Agent': UA, Accept: 'image/*' }, ac.signal);
@@ -587,6 +587,104 @@ app.get('/api/epg/img', async (req, res) => {
     if (buf.length > 3_000_000) return res.sendStatus(413);
     res.set({ 'Content-Type': ct, 'Cache-Control': 'public, max-age=86400' }).send(buf);
   } catch { if (!res.headersSent) res.sendStatus(502); }
+});
+/* POSTERS ---------------------------------------------------------------------------------------------------
+   The guides (Tata Play ...) carry no pictures for most programmes. Like the MyDish TV app, a programme gets a poster
+   looked up OUTSIDE the guide, by its title, when you tap it (or when it is the running programme):
+     1. TMDB          best for Tamil films / serials. Needs a free key: env TMDB_API_KEY (v3 key or v4 token)
+     2. TVmaze        no key, TV serials / shows
+     3. iTunes        no key, films
+     4. Wikipedia     no key, last resort
+   A result is accepted only when the found title really looks like the programme title. Answers are cached on disk
+   (14 days; "nothing found" 1 day), so every title is looked up once. */
+const TMDB_KEY = (process.env.TMDB_API_KEY || '').trim();
+const POSTER_FILE = path.join(require('os').tmpdir(), 'tamil-iptv-posters.json');
+const posters = new Map();                                   // title key -> { u: image url or '', s: source, at }
+const posterHosts = new Set();                               // hosts the image proxy may fetch for posters
+const POSTER_OK_MS = 14 * 24 * 3_600_000, POSTER_NO_MS = 24 * 3_600_000;
+const posterHost = u => { try { const x = new URL(u); if (x.protocol === 'https:') posterHosts.add(x.hostname.toLowerCase()); } catch {} };
+try { for (const [k, v] of Object.entries(JSON.parse(fs.readFileSync(POSTER_FILE, 'utf8')))) { posters.set(k, v); if (v.u) posterHost(v.u); } } catch {}
+let posterSave = 0;
+const savePosters = () => { clearTimeout(posterSave); posterSave = setTimeout(() => { try { fs.writeFileSync(POSTER_FILE, JSON.stringify(Object.fromEntries(posters))); } catch {} }, 5000); if (posterSave.unref) posterSave.unref(); };
+
+// "Anandham (Tamil) Ep 1245" -> "Anandham",  "Kanchana 3" stays,  "Vikram 2022" stays
+const cleanTitle = t => String(t || '').replace(/\(.*?\)|\[.*?\]/g, ' ')
+  .replace(/\b(?:ep(?:isode)?\.?\s*#?\d+|e\d+|s\d+\s*e\d+|part\s*\d+|season\s*\d+|s\d+)\b/gi, ' ')
+  .replace(/\s*[-–:|]\s*(?:live|special|new|repeat|re-?telecast)\b.*$/i, ' ')
+  .replace(/\s+(?:special|spl)$/i, ' ').replace(/\s+(?!(?:19|20)\d\d$)\d{2,4}$/, ' ').replace(/\s+/g, ' ').trim();
+const GENERIC = new Set(['news', 'songs', 'song', 'hits', 'hit', 'movie', 'movies', 'film', 'music', 'video', 'videos', 'top', 'tamil', 'serial', 'show', 'shows', 'live', 'special', 'comedy', 'kitchen', 'weather', 'headlines', 'bulletin', 'devotional', 'slot', 'programme', 'program', 'telecast', 'repeat', 'welcome', 'cartoon', 'kids', 'day', 'night', 'morning', 'evening', 'time', 'best', 'of', 'the', 'and', 'in']);
+const posterUsable = t => { const w = t.toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(Boolean); return titleKey(t).length >= 4 && w.some(x => !GENERIC.has(x)); };
+const similar = (a, b) => {                                  // do two titles name the same programme?
+  const x = titleKey(a), y = titleKey(b); if (!x || !y) return false;
+  if (x === y) return true;
+  const [s, l] = x.length <= y.length ? [x, y] : [y, x];
+  return s.length >= 6 && l.startsWith(s) && s.length / l.length >= 0.6;
+};
+async function jget(url, headers) {
+  const ac = new AbortController(), timer = setTimeout(() => ac.abort(), 6000);
+  try {
+    const r = await fetch(url, { signal: ac.signal, headers: { 'User-Agent': UA, Accept: 'application/json', ...headers } });
+    return r.ok ? await r.json() : null;
+  } catch { return null; } finally { clearTimeout(timer); }
+}
+const enc = encodeURIComponent;
+const POSTER_SOURCES = [
+  ['tmdb', async q => {
+    if (!TMDB_KEY) return '';
+    const bearer = TMDB_KEY.length > 40;
+    const d = await jget(`https://api.themoviedb.org/3/search/multi?query=${enc(q)}&include_adult=false${bearer ? '' : '&api_key=' + enc(TMDB_KEY)}`, bearer ? { Authorization: 'Bearer ' + TMDB_KEY } : {});
+    const hits = ((d && d.results) || []).filter(r => (r.media_type === 'movie' || r.media_type === 'tv') && r.poster_path &&
+      [r.title, r.name, r.original_title, r.original_name].some(n => n && similar(n, q)));
+    hits.sort((a, b) => (b.original_language === 'ta') - (a.original_language === 'ta') || (b.popularity || 0) - (a.popularity || 0));
+    return hits[0] ? 'https://image.tmdb.org/t/p/w342' + hits[0].poster_path : '';
+  }],
+  ['tvmaze', async q => {
+    const d = await jget(`https://api.tvmaze.com/search/shows?q=${enc(q)}`);
+    const hits = (Array.isArray(d) ? d : []).map(x => x.show).filter(s => s && s.image && s.image.medium && similar(s.name, q));
+    hits.sort((a, b) => (b.language === 'Tamil') - (a.language === 'Tamil'));
+    return hits[0] ? hits[0].image.medium.replace(/^http:/, 'https:') : '';
+  }],
+  ['itunes', async q => {
+    const d = await jget(`https://itunes.apple.com/search?term=${enc(q)}&media=movie&country=in&limit=6`);
+    const hit = ((d && d.results) || []).find(r => r.artworkUrl100 && similar(r.trackName, q));
+    return hit ? hit.artworkUrl100.replace(/\/\d+x\d+bb\./, '/300x450bb.') : '';
+  }],
+  ['wikipedia', async q => {
+    const d = await jget(`https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${enc(q + ' tamil')}&gsrlimit=4&prop=pageimages&piprop=thumbnail&pithumbsize=400&format=json`);
+    const pages = Object.values((d && d.query && d.query.pages) || {}).sort((a, b) => a.index - b.index);
+    const hit = pages.find(p => p.thumbnail && p.thumbnail.source && similar(String(p.title).replace(/\s*\((?:[^)]*(?:film|series|TV|show|serial)[^)]*)\)\s*$/i, ''), q));
+    return hit ? hit.thumbnail.source : '';
+  }],
+];
+const posterBusy = new Map(); let posterRunning = 0; const posterQueue = [];
+async function posterFor(title) {
+  const q = cleanTitle(title), key = titleKey(q);
+  if (!posterUsable(q)) return null;
+  const hit = posters.get(key);
+  if (hit && Date.now() - hit.at < (hit.u ? POSTER_OK_MS : POSTER_NO_MS)) return hit.u ? hit : null;
+  if (posterBusy.has(key)) return posterBusy.get(key);
+  const p = (async () => {
+    while (posterRunning >= 3) await new Promise(r => posterQueue.push(r));       // at most 3 lookups at the same time
+    posterRunning++;
+    try {
+      let found = { u: '', s: '', at: Date.now() };
+      for (const [name, fn] of POSTER_SOURCES) {
+        let u = ''; try { u = await fn(q); } catch {}
+        if (u && /^https:\/\//i.test(u)) { found = { u, s: name, at: Date.now() }; break; }
+      }
+      posters.set(key, found); if (found.u) posterHost(found.u);
+      if (posters.size > 5000) posters.delete(posters.keys().next().value);
+      savePosters();
+      return found.u ? found : null;
+    } finally { posterRunning--; const n = posterQueue.shift(); if (n) n(); posterBusy.delete(key); }
+  })();
+  posterBusy.set(key, p);
+  return p;
+}
+// GET /api/epg/poster?t=<programme title>  ->  { u: "/api/epg/img?u=...", s: "tmdb" }   (u is "" when nothing good was found)
+app.get('/api/epg/poster', async (req, res) => {
+  const r = await posterFor(String(req.query.t || '').slice(0, 200)).catch(() => null);
+  res.set('Cache-Control', 'public, max-age=3600').json(r ? { u: '/api/epg/img?u=' + enc(r.u), s: r.s } : { u: '', s: '' });
 });
 // Which guide channel did each playlist channel get?  GET /api/epg/match?q=yay   (q optional; shows the channels whose name contains q)
 app.get('/api/epg/match', async (req, res) => {
