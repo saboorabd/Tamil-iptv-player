@@ -507,6 +507,8 @@ b.epg-title{font-size:15px}
 .gd-sh-ch{color:var(--acc);font-size:12px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;padding-right:44px}
 .gd-sheet h3{margin:4px 44px 4px 0;font-size:19px;line-height:1.25}
 .gd-sh-time{color:var(--mute);font-size:13px;margin-bottom:8px}
+.gd-sh-img{display:block;width:100%;max-height:150px;object-fit:cover;border-radius:12px;margin:0 0 10px;background:#0a1222}
+.gd-sh-img.logo{max-height:64px;width:auto;max-width:50%;object-fit:contain;padding:6px 10px;background:radial-gradient(circle at 30% 20%,#1c2b4a,#0a1222);border:1px solid var(--line)}
 .gd-sh-desc{margin:0 0 14px;font-size:14px;line-height:1.5;color:#d3dcec}
 .gd-watch{width:100%;padding:12px;font-size:15px;color:#111;background:var(--acc-grad);border:0}
 .gd-watch:hover{background:var(--acc-grad);filter:brightness(1.08)}
