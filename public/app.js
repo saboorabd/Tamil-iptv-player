@@ -684,7 +684,7 @@ $('channels').after(guide);
 const sheet = document.createElement('div');             // programme details (bottom sheet, never touches the video)
 sheet.id = 'gdSheet'; sheet.className = 'gd-sheet'; sheet.hidden = true;
 sheet.innerHTML = '<button type="button" class="gd-x" aria-label="Close">✕</button><div class="gd-sh-ch" id="gdShCh"></div><h3 id="gdShT"></h3>' +
-  '<div class="gd-sh-time" id="gdShTime"></div><p class="gd-sh-desc" id="gdShD"></p><button type="button" class="gd-watch" id="gdShGo"></button>';
+  '<div class="gd-sh-time" id="gdShTime"></div><img class="gd-sh-img" id="gdShImg" alt="" referrerpolicy="no-referrer" hidden><p class="gd-sh-desc" id="gdShD"></p><button type="button" class="gd-watch" id="gdShGo"></button>';
 document.body.appendChild(sheet);
 
 const dayStart = off => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + off); return d.getTime(); };
@@ -835,6 +835,15 @@ $('search').addEventListener('input', gdRepaint);
 $('group').addEventListener('change', gdRepaint);
 
 /* programme details */
+const gPic = {};                                          // channel id -> { programme start -> picture url } (from the guide's <icon>)
+function showPic(chId, s) {                               // the programme's own picture (loaded through our server); the channel logo when the guide has none
+  const im = $('gdShImg'), u = gPic[chId] && gPic[chId][s], logo = channels[chId] && channels[chId].logo;
+  const src = u ? '/api/epg/img?u=' + encodeURIComponent(u) : logo || '';
+  im.classList.toggle('logo', !u);
+  im.onerror = () => { im.hidden = true; };
+  if (src) { if (im.getAttribute('src') !== src) im.src = src; im.hidden = false; }
+  else { im.hidden = true; im.removeAttribute('src'); }
+}
 function closeSheet() { sheet.hidden = true; gSel = ''; guide.querySelectorAll('.gd-p.sel').forEach(x => x.classList.remove('sel')); }
 async function openSheet(chId, s, e, t) {
   const c = channels[chId]; if (!c) return;
@@ -849,6 +858,7 @@ async function openSheet(chId, s, e, t) {
   $('gdShTime').textContent = `${live ? 'ON NOW · ' : e <= now ? 'Ended · ' : ''}${new Date(s).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} – ` +
     `${new Date(e).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} · ${mins >= 60 ? Math.floor(mins / 60) + ' h ' + (mins % 60 ? mins % 60 + ' min' : '') : mins + ' min'}`;
   $('gdShD').textContent = gDesc[chId] && gDesc[chId][s] !== undefined ? gDesc[chId][s] : 'Loading description…';
+  showPic(chId, s);
   const playing = cur && cur.id === chId;
   $('gdShGo').textContent = playing ? '● Playing now' : '▶ Watch ' + baseName(c.name);
   $('gdShGo').disabled = !!playing;
@@ -859,10 +869,10 @@ async function openSheet(chId, s, e, t) {
     try {
       const r = await fetch('/api/epg/' + chId + '?full=1', { cache: 'no-store' });
       const d = await r.json();
-      (d.list || []).forEach(p => { gDesc[chId][p.s] = p.d || ''; });
+      (d.list || []).forEach(p => { gDesc[chId][p.s] = p.d || ''; if (p.i) (gPic[chId] = gPic[chId] || {})[p.s] = p.i; });
     } catch { delete gDesc[chId]; }
   }
-  if (gSel === chId + ':' + s) $('gdShD').textContent = gDesc[chId] && gDesc[chId][s] ? gDesc[chId][s] : 'No description available.';
+  if (gSel === chId + ':' + s) { $('gdShD').textContent = gDesc[chId] && gDesc[chId][s] ? gDesc[chId][s] : 'No description available.'; showPic(chId, s); }
 }
 sheet.querySelector('.gd-x').onclick = closeSheet;
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
