@@ -596,6 +596,7 @@ function paintEpg() {
   }
   box.hidden = false;
   const now = up[0].s <= t ? up[0] : null, next = now ? up[1] : up[0];
+  epgPic(now && now.i ? '/api/epg/img?u=' + encodeURIComponent(now.i) : cur.logo || '', !(now && now.i));
   $('epgNowT').textContent = now ? now.t : 'No programme info right now';
   $('epgNowTime').textContent = now ? hhmm(now.s) + ' – ' + hhmm(now.e) : '';
   $('epgBar').style.width = now ? Math.min(100, Math.max(0, (t - now.s) / (now.e - now.s) * 100)) + '%' : '0%';
@@ -607,6 +608,17 @@ function paintEpg() {
   if (epgOpen) $('epgList').innerHTML = up.map((p, i) => `
     <li class="${i === 0 && now ? 'on' : ''}"><time>${hhmm(p.s)}</time><div><b>${esc(p.t)}</b>${p.d ? `<small>${esc(p.d)}</small>` : ''}</div></li>`).join('');
   if (cur && (up.length < 3 || Date.now() - epgListAt > 10 * 60_000) && Date.now() - epgListAt > 60_000) loadEpgList(cur);   // top up the schedule
+}
+// picture of the running programme (or the channel logo) on the right of the NOW/NEXT strip
+const epgImg = document.createElement('img');
+epgImg.className = 'epg-pic'; epgImg.alt = ''; epgImg.referrerPolicy = 'no-referrer'; epgImg.hidden = true;
+$('epg').appendChild(epgImg);
+epgImg.onerror = () => { epgImg.hidden = true; $('epg').classList.remove('has-pic'); };
+function epgPic(src, isLogo) {
+  epgImg.classList.toggle('logo', !!isLogo);
+  if (!src) { epgImg.hidden = true; $('epg').classList.remove('has-pic'); return; }
+  if (epgImg.getAttribute('src') !== src) epgImg.src = src;
+  epgImg.hidden = false; $('epg').classList.add('has-pic');
 }
 $('epgMore').onclick = () => {
   epgOpen = !epgOpen;
@@ -743,13 +755,14 @@ function paintGuide(scrollToNow) {
     list.forEach(c => shown.add(c.id));
     const pick = list.find(c => cur && c.id === cur.id) || list[0];
     const active = cur && r.ids.includes(cur.id);
-    const cells = r.p.map(([s, e, t]) => {
+    const cells = r.p.map(([s, e, t, pi]) => {
       const l = px(Math.max(s, from) - from), w = px(Math.min(e, to) - Math.max(s, from));
       if (w < 3) return '';
       const live = s <= now && now < e, p = live ? Math.round((now - s) / (e - s) * 100) : 0;
       const sz = w < 40 ? ' xxs' : w < 90 ? ' xs' : '';
-      return `<button type="button" class="gd-p${live ? ' live' : e <= now ? ' past' : ''}${sz}${gSel === pick.id + ':' + s ? ' sel' : ''}" ` +
-        `data-ch="${pick.id}" data-s="${s}" data-e="${e}" data-t="${esc(t)}" style="left:${l}px;width:${w - 2}px;--p:${p}%">` +
+      const im = pi !== undefined && gData.pics && gData.pics[pi] && w >= 60 ? ` data-pic="${esc('/api/epg/img?u=' + encodeURIComponent(gData.pics[pi]))}"` : '';
+      return `<button type="button" class="gd-p${live ? ' live' : e <= now ? ' past' : ''}${sz}${im ? ' pic' : ''}${gSel === pick.id + ':' + s ? ' sel' : ''}" ` +
+        `data-ch="${pick.id}" data-s="${s}" data-e="${e}" data-t="${esc(t)}"${im} style="left:${l}px;width:${w - 2}px;--p:${p}%">` +
         `<span class="gd-tx"><b>${esc(t)}</b><small>${timeStr(s)} – ${timeStr(e)}</small></span></button>`;
     }).join('');
     rows += `<div class="gd-row" data-ids="${r.ids.join(',')}"><button type="button" class="gd-ch${active ? ' cur' : ''}" data-play="${active ? cur.id : pick.id}" title="Watch ${esc(baseName(pick.name))}">` +
@@ -775,6 +788,18 @@ function paintGuide(scrollToNow) {
     sc.scrollLeft = gDay === 0 ? Math.max(0, nowX - 40) : px(6 * 3_600_000);       // Today: start at "now"; other days: 6 AM
   }
   fitText();
+  lazyPics();
+}
+
+// Programme pictures are loaded only when their cell comes into view (a day has hundreds of programmes).
+let picIO = null;
+function lazyPics() {
+  if (picIO) picIO.disconnect();
+  const cells = [...$('gdInner').querySelectorAll('.gd-p[data-pic]')];
+  const load = el => { const u = el.dataset.pic; const im = new Image(); im.onload = () => { el.style.setProperty('--img', `url("${u}")`); el.classList.add('pic-on'); }; im.src = u; delete el.dataset.pic; };
+  if (!('IntersectionObserver' in window)) return cells.slice(0, 40).forEach(load);
+  picIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { picIO.unobserve(e.target); load(e.target); } }), { rootMargin: '300px' });
+  cells.forEach(c => picIO.observe(c));
 }
 
 // A programme that started before the visible area keeps its title readable: the text moves to the first visible pixel
