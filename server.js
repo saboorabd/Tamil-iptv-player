@@ -311,6 +311,7 @@ const epg = { updated: 0, error: '', sources: 0, programmes: 0, xmlChannels: 0, 
               byId: new Map(),      // xmltv channel id -> [{s,e,t,d}] sorted
               gidx: new Map(),      // xmltv channel id -> { id, name, ks: [{k, t}] }  (the guide channels that look like one of ours)
               unmatched: [],        // playlist channel names that found no guide channel
+              imgHosts: new Set(),  // hosts of the programme pictures found in the guide (the only hosts /api/epg/img may fetch)
               map: new Map() };     // playlist channel id -> xmltv channel id
 
 function epgUrlsFromPlaylist(text) {
@@ -427,11 +428,37 @@ async function openXml(readable) {
   return src;
 }
 
+// A programme without a picture (Tata Play guide) borrows the picture of the same programme in another guide for the SAME channel
+// (e.g. "Kalaignar TV" in the Tata Play guide <- "Kalaignar TV" in the JioTV guide): first by overlapping time, then by the same title.
+const titleKey = t => String(t || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
+function borrowPictures(byId, gidx, oldPics) {
+  const byKey = new Map();                                   // channel name key -> guide channel ids
+  for (const g of gidx.values()) for (const x of g.ks) { if (!byKey.has(x.k)) byKey.set(x.k, new Set()); byKey.get(x.k).add(g.id); }
+  let n = 0;
+  for (const g of gidx.values()) {
+    const mine = byId.get(g.id); if (!mine || mine.every(p => p.i)) continue;
+    const sibs = new Set(); for (const x of g.ks) for (const id of byKey.get(x.k) || []) if (id !== g.id) sibs.add(id);
+    const pics = [...sibs].flatMap(id => (byId.get(id) || []).filter(p => p.i));
+    const byTitle = new Map();                                // same title -> picture (today's first, then older ones from the same channel in other guides)
+    for (const q of pics) { const k = titleKey(q.t); if (k && !byTitle.has(k)) byTitle.set(k, q.i); }
+    for (const id of sibs) for (const [k, img] of (oldPics && oldPics.get(id)) || []) { if (!byTitle.has(k)) byTitle.set(k, img); }
+    if (!pics.length && !byTitle.size) continue;
+    for (const p of mine) {
+      if (p.i) continue;
+      const half = (p.e - p.s) / 2;
+      const q = pics.find(q => Math.min(p.e, q.e) - Math.max(p.s, q.s) >= half);   // same time slot
+      const img = (q && q.i) || byTitle.get(titleKey(p.t));
+      if (img) { p.i = img; n++; }
+    }
+  }
+  return n;
+}
+
 let epgRunning = false;
 async function refreshEpg() {
   if (epgRunning) return; epgRunning = true;
   const t0 = Date.now(), lo = t0 - EPG_PAST_MS, hi = t0 + EPG_FUTURE_MS;
-  const byId = new Map(), gidx = new Map(), errors = []; let xmlChannels = 0, programmes = 0, ok = 0;
+  const byId = new Map(), gidx = new Map(), imgHosts = new Set(), oldPics = new Map(), errors = []; let xmlChannels = 0, programmes = 0, ok = 0;
   try {
     if (!cache.list.length) await loadChannels().catch(() => {});
     const configured = [...new Set([...(process.env.EPG_URL || '').split(','), ...playlistEpgUrls].map(s => s.trim()).filter(Boolean))];
@@ -474,10 +501,18 @@ async function refreshEpg() {
           (attrs, body) => {
             const ch = xmlAttr(attrs, 'channel'); if (!ch || !wanted.has(ch)) return;
             const s = xmltvTime(xmlAttr(attrs, 'start')), e = xmltvTime(xmlAttr(attrs, 'stop'));
-            if (!(s < e) || e < lo || s > hi) return;
+            if (!(s < e)) return;
+            const ic = (body.match(/<icon\b[^>]*?\bsrc\s*=\s*"([^"]+)"/) || [])[1];     // programme picture (Jio / Sun NXT guides have them, Tata Play does not)
+            if (e < lo || s > hi) {                                                      // outside the window: not shown, but its picture can still serve the same title (daily serials, news ...)
+              if (ic && /^https:\/\//i.test(ic)) { const k = titleKey(xmlText(body, 'title')); if (k) { let m = oldPics.get(ch); if (!m) oldPics.set(ch, m = new Map()); m.set(k, xmlDecode(ic)); try { imgHosts.add(new URL(xmlDecode(ic)).hostname.toLowerCase()); } catch {} } }
+              return;
+            }
             const t = xmlText(body, 'title'); if (!t) return;
             let list = byId.get(ch); if (!list) byId.set(ch, list = []);
-            list.push({ s, e, t, d: xmlText(body, 'desc').slice(0, 500) });
+            const img = ic ? xmlDecode(ic) : '';
+            let host = ''; if (/^https:\/\//i.test(img)) { try { host = new URL(img).hostname.toLowerCase(); } catch {} }
+            if (host) imgHosts.add(host);
+            list.push({ s, e, t, d: xmlText(body, 'desc').slice(0, 500), ...(host ? { i: img } : {}) });
             programmes++;
           });
         ok++;
@@ -489,7 +524,8 @@ async function refreshEpg() {
         list.sort((a, b) => a.s - b.s);
         byId.set(id, list.filter((p, i) => !i || p.s !== list[i - 1].s));            // drop duplicate start times
       }
-      epg.byId = byId; epg.gidx = gidx; epg.programmes = programmes; epg.xmlChannels = xmlChannels;
+      borrowPictures(byId, gidx, oldPics);
+      epg.byId = byId; epg.gidx = gidx; epg.imgHosts = imgHosts; epg.programmes = programmes; epg.xmlChannels = xmlChannels;
       epg.sources = ok; epg.updated = Date.now(); rebuildEpgMap();
       console.log(`[epg] ${programmes} programmes, ${xmlChannels} guide channels, ${epg.matched}/${cache.list.length} playlist channels matched (${Date.now() - t0} ms)`);
     }
@@ -536,6 +572,20 @@ app.get('/api/epg/guide', async (req, res) => {
     if (p.length) rows.push({ ids, p });
   }
   res.set('Cache-Control', 'no-store').json({ updated: epg.updated, from, to, rows });
+});
+// Programme pictures go through our server too (no hotlink / CORS / mixed-content problems). Only hosts that appear in the guide are allowed.
+app.get('/api/epg/img', async (req, res) => {
+  let u; try { u = new URL(String(req.query.u || '')); } catch { return res.sendStatus(400); }
+  if (u.protocol !== 'https:' || !epg.imgHosts.has(u.hostname.toLowerCase())) return res.sendStatus(403);
+  const ac = new AbortController(); res.on('close', () => ac.abort());
+  try {
+    const up = await fetchFollow(u, { 'User-Agent': UA, Accept: 'image/*' }, ac.signal);
+    const ct = up.headers.get('content-type') || '';
+    if (!up.ok || !/^image\//i.test(ct)) { try { await up.body?.cancel(); } catch {} return res.sendStatus(404); }
+    const buf = Buffer.from(await up.arrayBuffer());
+    if (buf.length > 3_000_000) return res.sendStatus(413);
+    res.set({ 'Content-Type': ct, 'Cache-Control': 'public, max-age=86400' }).send(buf);
+  } catch { if (!res.headersSent) res.sendStatus(502); }
 });
 // Which guide channel did each playlist channel get?  GET /api/epg/match?q=yay   (q optional; shows the channels whose name contains q)
 app.get('/api/epg/match', async (req, res) => {
