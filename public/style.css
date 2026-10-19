@@ -397,6 +397,11 @@ b.epg-title{font-weight:700;font-size:16px}
    ============================================================ */
 .epg{padding:8px 12px;gap:5px;cursor:pointer}
 .epg-desc,#epgMore,.epg-list{display:none!important}
+.epg{position:relative}
+.epg.has-pic{padding-right:104px}
+.epg-pic{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:84px;height:48px;object-fit:cover;border-radius:8px;background:#0a1222;border:1px solid var(--line)}
+.epg-pic.logo{object-fit:contain;padding:4px}
+.epg-pic[hidden]{display:none}
 .epg-title{font-size:14px}
 b.epg-title{font-size:15px}
 .epg-bar{height:3px}
@@ -473,6 +478,13 @@ b.epg-title{font-size:15px}
 .gd-p b{font-size:13px;font-weight:650;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .gd-p small{font-size:11px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gd-p.past{opacity:.55}
+/* programme picture as the cell background (set by lazyPics() in app.js once the image has loaded) */
+.gd-p.pic-on{
+  background-image:linear-gradient(90deg,rgba(10,18,34,.94) 30%,rgba(10,18,34,.55) 100%),var(--img);
+  background-size:cover;background-position:center;
+}
+.gd-p.pic-on.live{background-image:linear-gradient(90deg,rgba(245,176,66,.45) var(--p),rgba(10,18,34,.8) var(--p)),var(--img)}
+.gd-p.pic-on b{text-shadow:0 1px 3px rgba(0,0,0,.9)}
 .gd-p.live{
   border-color:rgba(245,176,66,.55);
   background:linear-gradient(90deg,rgba(245,176,66,.30) var(--p),rgba(22,34,60,.85) var(--p));
