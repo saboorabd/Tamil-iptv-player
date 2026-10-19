@@ -596,7 +596,12 @@ function paintEpg() {
   }
   box.hidden = false;
   const now = up[0].s <= t ? up[0] : null, next = now ? up[1] : up[0];
-  epgPic(now && now.i ? '/api/epg/img?u=' + encodeURIComponent(now.i) : cur.logo || '', !(now && now.i));
+  if (now && now.i) epgPic('/api/epg/img?u=' + encodeURIComponent(now.i), false);
+  else if (now && posterMem[posterKey(now.t)]) epgPic(posterMem[posterKey(now.t)], false);
+  else {
+    epgPic(cur.logo || '', true);
+    if (now) { const id = cur.id + ':' + now.s; posterFor(now.t).then(p => { if (p && cur && cur.id + ':' + now.s === id) epgPic(p, false); }); }
+  }
   $('epgNowT').textContent = now ? now.t : 'No programme info right now';
   $('epgNowTime').textContent = now ? hhmm(now.s) + ' – ' + hhmm(now.e) : '';
   $('epgBar').style.width = now ? Math.min(100, Math.max(0, (t - now.s) / (now.e - now.s) * 100)) + '%' : '0%';
@@ -860,14 +865,33 @@ $('search').addEventListener('input', gdRepaint);
 $('group').addEventListener('change', gdRepaint);
 
 /* programme details */
-const gPic = {};                                          // channel id -> { programme start -> picture url } (from the guide's <icon>)
-function showPic(chId, s) {                               // the programme's own picture (loaded through our server); the channel logo when the guide has none
+const gPic = {};
+const posterMem = {};                                      // title key -> poster url ('' = none found)
+const posterKey = t => String(t).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
+const posterPend = {};
+function posterFor(title) {                                // asks the server (it looks outside the guide and caches the answer)
+  const k = posterKey(title);
+  if (posterMem[k] !== undefined) return Promise.resolve(posterMem[k]);
+  return posterPend[k] || (posterPend[k] = (async () => {
+    try {
+      const r = await fetch('/api/epg/poster?t=' + encodeURIComponent(title));
+      const d = r.ok ? await r.json() : {};
+      return (posterMem[k] = d.u || '');
+    } catch { return ''; } finally { delete posterPend[k]; }
+  })());
+}                                          // channel id -> { programme start -> picture url } (from the guide's <icon>)
+function showPic(chId, s, title) {                        // 1) picture from the guide  2) poster found by title (TMDB / TVmaze / iTunes / Wikipedia)  3) channel logo
   const im = $('gdShImg'), u = gPic[chId] && gPic[chId][s], logo = channels[chId] && channels[chId].logo;
-  const src = u ? '/api/epg/img?u=' + encodeURIComponent(u) : logo || '';
-  im.classList.toggle('logo', !u);
-  im.onerror = () => { im.hidden = true; };
-  if (src) { if (im.getAttribute('src') !== src) im.src = src; im.hidden = false; }
-  else { im.hidden = true; im.removeAttribute('src'); }
+  const set = (src, kind) => {
+    im.classList.toggle('logo', kind === 'logo'); im.classList.toggle('poster', kind === 'poster');
+    im.onerror = () => { im.hidden = true; };
+    if (src) { if (im.getAttribute('src') !== src) im.src = src; im.hidden = false; } else { im.hidden = true; im.removeAttribute('src'); }
+  };
+  if (u) return set('/api/epg/img?u=' + encodeURIComponent(u), 'guide');
+  const known = title ? posterMem[posterKey(title)] : '';
+  if (known) return set(known, 'poster');
+  set(logo || '', 'logo');                                  // shown at once, replaced when the poster arrives
+  if (title && known === undefined) posterFor(title).then(p => { if (p && gSel === chId + ':' + s) set(p, 'poster'); });
 }
 function closeSheet() { sheet.hidden = true; gSel = ''; guide.querySelectorAll('.gd-p.sel').forEach(x => x.classList.remove('sel')); }
 async function openSheet(chId, s, e, t) {
@@ -883,7 +907,7 @@ async function openSheet(chId, s, e, t) {
   $('gdShTime').textContent = `${live ? 'ON NOW · ' : e <= now ? 'Ended · ' : ''}${new Date(s).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} – ` +
     `${new Date(e).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} · ${mins >= 60 ? Math.floor(mins / 60) + ' h ' + (mins % 60 ? mins % 60 + ' min' : '') : mins + ' min'}`;
   $('gdShD').textContent = gDesc[chId] && gDesc[chId][s] !== undefined ? gDesc[chId][s] : 'Loading description…';
-  showPic(chId, s);
+  showPic(chId, s, t);
   const playing = cur && cur.id === chId;
   $('gdShGo').textContent = playing ? '● Playing now' : '▶ Watch ' + baseName(c.name);
   $('gdShGo').disabled = !!playing;
@@ -897,7 +921,7 @@ async function openSheet(chId, s, e, t) {
       (d.list || []).forEach(p => { gDesc[chId][p.s] = p.d || ''; if (p.i) (gPic[chId] = gPic[chId] || {})[p.s] = p.i; });
     } catch { delete gDesc[chId]; }
   }
-  if (gSel === chId + ':' + s) { $('gdShD').textContent = gDesc[chId] && gDesc[chId][s] ? gDesc[chId][s] : 'No description available.'; showPic(chId, s); }
+  if (gSel === chId + ':' + s) { $('gdShD').textContent = gDesc[chId] && gDesc[chId][s] ? gDesc[chId][s] : 'No description available.'; showPic(chId, s, t); }
 }
 sheet.querySelector('.gd-x').onclick = closeSheet;
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
