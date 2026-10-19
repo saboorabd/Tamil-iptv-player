@@ -566,12 +566,13 @@ app.get('/api/epg/guide', async (req, res) => {
     if (!groups.has(g)) groups.set(g, []);
     groups.get(g).push(c.id);
   }
-  const rows = [];
+  const rows = [], pics = [], pidx = new Map();               // programme pictures are sent once, cells point to them by number
+  const pic = u => { let n = pidx.get(u); if (n === undefined) { n = pics.length; pics.push(u); pidx.set(u, n); } return n; };
   for (const [g, ids] of groups) {
-    const p = (epg.byId.get(g) || []).filter(x => x.e > from && x.s < to).map(x => [x.s, x.e, x.t]);
+    const p = (epg.byId.get(g) || []).filter(x => x.e > from && x.s < to).map(x => x.i ? [x.s, x.e, x.t, pic(x.i)] : [x.s, x.e, x.t]);
     if (p.length) rows.push({ ids, p });
   }
-  res.set('Cache-Control', 'no-store').json({ updated: epg.updated, from, to, rows });
+  res.set('Cache-Control', 'no-store').json({ updated: epg.updated, from, to, rows, pics });
 });
 // Programme pictures go through our server too (no hotlink / CORS / mixed-content problems). Only hosts that appear in the guide are allowed.
 app.get('/api/epg/img', async (req, res) => {
