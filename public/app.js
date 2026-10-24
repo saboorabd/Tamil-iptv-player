@@ -212,7 +212,7 @@ async function play(c) {
   const my = ++token;
   cur = c; store.set('last', c.id);
   $('nowName').textContent = c.name; $('nowGroup').textContent = c.group;
-  favBtn(); render(); markGuide(); teardown(); setStatus('Connecting: ' + c.name + '…');
+  favBtn(); render(); markGuide(); teardown(); lagMin = Infinity; setStatus('Connecting: ' + c.name + '…');
   epgList = null; paintEpg(); loadEpgList(c);
 
   // Always play through our own /proxy first: the browser only talks to this site (same origin), so CORS and
@@ -518,13 +518,23 @@ $('qualitySelect').onchange = e => {
     if (track) { sk.configure({ abr: { enabled: false } }); sk.selectVariantTrack(track, true); }
   }
 };
-$('liveBtn').onclick = () => {
+// Where is the live edge of the current stream (seconds in the video's own timeline)? null = unknown.
+function liveEdge() {
   try {
-    if (hls && hls.liveSyncPosition) video.currentTime = hls.liveSyncPosition;
-    else if (sk) video.currentTime = sk.seekRange().end;
-    else if (ts && video.buffered.length) video.currentTime = Math.max(0, video.buffered.end(video.buffered.length - 1) - 1);
+    if (hls && isFinite(hls.liveSyncPosition) && hls.liveSyncPosition > 0) return hls.liveSyncPosition;
+    if (sk) { const e = sk.seekRange().end; if (e) return e; }
+    if (video.seekable && video.seekable.length) return Math.max(0, video.seekable.end(video.seekable.length - 1) - 2);
+    if (video.buffered.length) return Math.max(0, video.buffered.end(video.buffered.length - 1) - 1);
   } catch {}
+  return null;
+}
+$('liveBtn').onclick = () => {
+  const e = liveEdge();
+  if (e != null && isFinite(e)) { try { video.currentTime = e; } catch {} }
+  lagMin = Infinity;                                                   // measure the live edge again from here
+  liveHold = Date.now() + 5000;                                        // show LIVE straight away, do not flip back while the player settles
   tryPlay();
+  syncControls();
 };
 $('edgeSelect').onchange = e => { store.set('edge', e.target.value); cur && play(cur); };
 $('favBtn').onclick = () => cur && toggleFav(cur.name);
@@ -540,6 +550,17 @@ $('group').addEventListener('change', render);
 video.addEventListener('waiting', () => cur && setStatus('Buffering…'));
 video.addEventListener('playing', () => cur && setStatus('LIVE'));
 
+// "Behind live" = paused, or drifted more than 12 s from where THIS stream normally plays. A fixed limit does not work:
+// streams with 10 s segments sit 30 s behind the newest data by design, so GO LIVE would be lit all the time.
+let lagMin = Infinity, liveHold = 0;
+function isBehind() {
+  if (!cur) return false;
+  if (video.paused) return true;
+  const l = liveLag();
+  if (l == null || !isFinite(l)) return false;
+  if (l < lagMin) lagMin = l;
+  return Date.now() > liveHold && l - lagMin > 12;
+}
 // seconds behind the live edge (null if unknown)
 function liveLag() {
   try {
@@ -652,7 +673,7 @@ function syncControls() {
   $('vcPlay').innerHTML = svg(video.paused ? ICONS.play : ICONS.pause);
   $('vcMute').innerHTML = svg(video.muted || video.volume === 0 ? ICONS.mute : ICONS.vol);
   $('vcFs').innerHTML = svg(fsEl() ? ICONS.fsExit : ICONS.fs);
-  const live = $('vcLive'), behind = !!cur && (video.paused || (liveLag() ?? 0) > 15);
+  const live = $('vcLive'), behind = isBehind();
   live.disabled = !cur;
   live.classList.toggle('behind', behind);
   $('vcLiveTxt').textContent = behind ? 'GO LIVE' : 'LIVE';
@@ -701,7 +722,9 @@ $('channels').after(guide);
 const sheet = document.createElement('div');             // programme details (bottom sheet, never touches the video)
 sheet.id = 'gdSheet'; sheet.className = 'gd-sheet'; sheet.hidden = true;
 sheet.innerHTML = '<button type="button" class="gd-x" aria-label="Close">✕</button><div class="gd-sh-ch" id="gdShCh"></div><h3 id="gdShT"></h3>' +
-  '<div class="gd-sh-time" id="gdShTime"></div><img class="gd-sh-img" id="gdShImg" alt="" referrerpolicy="no-referrer" hidden><p class="gd-sh-desc" id="gdShD"></p><button type="button" class="gd-watch" id="gdShGo"></button>';
+  '<div class="gd-sh-time" id="gdShTime"></div><img class="gd-sh-img" id="gdShImg" alt="" referrerpolicy="no-referrer" hidden>' +
+  '<div class="gd-art" id="gdShArt" hidden><b></b><img alt="" referrerpolicy="no-referrer"></div>' +
+  '<p class="gd-sh-desc" id="gdShD"></p><button type="button" class="gd-watch" id="gdShGo"></button>';
 document.body.appendChild(sheet);
 
 const dayStart = off => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + off); return d.getTime(); };
@@ -767,7 +790,7 @@ function paintGuide(scrollToNow) {
       const sz = w < 40 ? ' xxs' : w < 90 ? ' xs' : '';
       const im = pi !== undefined && gData.pics && gData.pics[pi] && w >= 60 ? ` data-pic="${esc('/api/epg/img?u=' + encodeURIComponent(gData.pics[pi]))}"` : '';
       return `<button type="button" class="gd-p${live ? ' live' : e <= now ? ' past' : ''}${sz}${im ? ' pic' : ''}${gSel === pick.id + ':' + s ? ' sel' : ''}" ` +
-        `data-ch="${pick.id}" data-s="${s}" data-e="${e}" data-t="${esc(t)}"${im} style="left:${l}px;width:${w - 2}px;--p:${p}%">` +
+        `data-ch="${pick.id}" data-s="${s}" data-e="${e}" data-t="${esc(t)}"${im} style="left:${l}px;width:${w - 2}px;--p:${p}%;--h:${hue(t)}">` +
         `<span class="gd-tx"><b>${esc(t)}</b><small>${timeStr(s)} – ${timeStr(e)}</small></span></button>`;
     }).join('');
     rows += `<div class="gd-row" data-ids="${r.ids.join(',')}"><button type="button" class="gd-ch${active ? ' cur' : ''}" data-play="${active ? cur.id : pick.id}" title="Watch ${esc(baseName(pick.name))}">` +
@@ -865,6 +888,7 @@ $('search').addEventListener('input', gdRepaint);
 $('group').addEventListener('change', gdRepaint);
 
 /* programme details */
+const hue = t => { let h = 0; for (const ch of String(t || '')) h = (h * 31 + ch.codePointAt(0)) % 360; return h; };   // a stable colour per programme title
 const gPic = {};
 const posterMem = {};                                      // title key -> poster url ('' = none found)
 const posterKey = t => String(t).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
@@ -880,18 +904,26 @@ function posterFor(title) {                                // asks the server (i
     } catch { return ''; } finally { delete posterPend[k]; }
   })());
 }                                          // channel id -> { programme start -> picture url } (from the guide's <icon>)
-function showPic(chId, s, title) {                        // 1) picture from the guide  2) poster found by title (TMDB / TVmaze / iTunes / Wikipedia)  3) channel logo
-  const im = $('gdShImg'), u = gPic[chId] && gPic[chId][s], logo = channels[chId] && channels[chId].logo;
-  const set = (src, kind) => {
-    im.classList.toggle('logo', kind === 'logo'); im.classList.toggle('poster', kind === 'poster');
-    im.onerror = () => { im.hidden = true; };
-    if (src) { if (im.getAttribute('src') !== src) im.src = src; im.hidden = false; } else { im.hidden = true; im.removeAttribute('src'); }
+function showPic(chId, s, title) {                        // 1) picture from the guide  2) poster found by title  3) generated art card (colour per title + channel logo)
+  const im = $('gdShImg'), art = $('gdShArt'), u = gPic[chId] && gPic[chId][s], logo = channels[chId] && channels[chId].logo;
+  const showArt = () => {
+    im.hidden = true; im.removeAttribute('src'); art.hidden = false;
+    art.style.setProperty('--h', hue(title));
+    art.querySelector('b').textContent = ([...String(title || '?').trim()][0] || '?').toUpperCase();
+    const li = art.querySelector('img'); li.hidden = !logo; li.onerror = () => { li.hidden = true; };
+    if (logo && li.getAttribute('src') !== logo) li.src = logo;
   };
-  if (u) return set('/api/epg/img?u=' + encodeURIComponent(u), 'guide');
+  const showImg = (src, kind) => {
+    art.hidden = true; im.className = 'gd-sh-img ' + kind;
+    im.onerror = showArt;                                   // picture could not be loaded -> art card instead
+    if (im.getAttribute('src') !== src) im.src = src;
+    im.hidden = false;
+  };
+  if (u) return showImg('/api/epg/img?u=' + encodeURIComponent(u), 'guide');
   const known = title ? posterMem[posterKey(title)] : '';
-  if (known) return set(known, 'poster');
-  set(logo || '', 'logo');                                  // shown at once, replaced when the poster arrives
-  if (title && known === undefined) posterFor(title).then(p => { if (p && gSel === chId + ':' + s) set(p, 'poster'); });
+  if (known) return showImg(known, 'poster');
+  showArt();                                                // shown at once, replaced when a real poster arrives
+  if (title && known === undefined) posterFor(title).then(p => { if (p && gSel === chId + ':' + s) showImg(p, 'poster'); });
 }
 function closeSheet() { sheet.hidden = true; gSel = ''; guide.querySelectorAll('.gd-p.sel').forEach(x => x.classList.remove('sel')); }
 async function openSheet(chId, s, e, t) {
