@@ -27,5 +27,7 @@ https://segment.yuppcdn.net/050522/murasu/050522/murasu_1800/chunks.m3u8
 https://segment.yuppcdn.net/050522/murasu/playlist.m3u8
 #EXTINF:-1 tvg-id="10577" tvg-logo="https://prodcdn1.wavespb.com/shows/thumbnail/1484942573541929497WhatsApp_Image_2024-11-25_at_16.webp" group-title="Regional Channels",DD TAMIL
 https://d2lk5u59tns74c.cloudfront.net/out/v1/abf46b14847e45499f4a47f3a9afe93d/index.m3u8
-#EXTINF:-1,IBC tamil
-https://webcast.emn.onl/IBC/index.m3u8
+#EXTINF:-1 tvg-id="11756" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/4/42/Zee_Thirai_HD_%282025%29.svg/revision/latest?cb=20250609120849" group-title="TAMIL - TV",ZEE THIRAI TV
+https://mini.allinonereborn.site/tatatv/tata6n.php?id=11756
+#EXTINF:-1 tvg-id="1097" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1014.jpg" group-title="TAMIL - TV",SONY YAY TAMIL
+https://mini.allinonereborn.site/tatatv/tata6n.php?id=1097
