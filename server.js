@@ -328,7 +328,9 @@ function epgUrlsFromPlaylist(text) {
    names match when they have the same words, or when the only difference is a language / provider word ("Sony Yay" ~ "Sony Yay Tamil").
    A real difference ("Star Vijay" vs "Star Vijay Super", "Zee Tamil" vs "Zee Telugu") never matches. */
 const LANGS = new Set(['tamil', 'hindi', 'telugu', 'malayalam', 'kannada', 'english', 'bengali', 'marathi', 'gujarati', 'punjabi', 'bhojpuri', 'odia', 'assamese']);
-const SOFT = new Set([...LANGS, 'jio', 'jiotv', 'tata', 'tataplay', 'airtel', 'sundirect', 'kalaignar', 'ott', 'official', 'stream']);   // 'kalaignar': Sun Direct calls them "Kalaignar Sirippoli TV" / "Kalaignar Isai Aruvi"
+// "STAR VIJAY UK", "ZEE TAMIL CA", "ZEE THIRAI USA" are the same programmes as the Indian channel -> the country is only a soft word
+const REGIONS = ['uk', 'usa', 'us', 'ca', 'canada', 'uae', 'aus', 'australia', 'europe', 'eu', 'sg', 'singapore', 'malaysia', 'apac', 'nz', 'lk', 'srilanka', 'africa', 'mea', 'gulf', 'intl', 'international', 'global', 'overseas', 'world'];
+const SOFT = new Set([...LANGS, 'jio', 'jiotv', 'tata', 'tataplay', 'airtel', 'sundirect', 'kalaignar', ...REGIONS, 'ott', 'official', 'stream']);   // 'kalaignar': Sun Direct calls them "Kalaignar Sirippoli TV" / "Kalaignar Isai Aruvi"
 const NOISE = /^(hd|sd|uhd|fhd|4k|tv|channel|live|in|india|source|src|backup|\d{3,4}p)$/;
 const nameToks = s => dropKids(String(s || '').toLowerCase()
   .replace(/\(([^)]*)\)|\[([^\]]*)\]/g, (m, a, b) => LANGS.has((a || b || '').trim()) ? ' ' + (a || b).trim() + ' ' : ' ')   // "(Tamil)" is kept, "(source 2)" is dropped
@@ -357,6 +359,8 @@ function playlistKeys(c) {
   const add = s => { const x = nameKey(s); if (x.k && !seen.has(x.k)) { seen.add(x.k); out.push(x); } };
   add(c.name); add(c.tvgName);
   if (c.tvg && /\p{L}/u.test(c.tvg)) add(c.tvg.replace(/\.[a-z]{2,3}$/i, ''));
+  if (out.some(x => x.k === 'vijay' || x.k === 'vijaytv' || x.k === 'startv')) add('Star Vijay');                    // "VIJAY TV" = "Star Vijay" in every guide
+  for (const x of [...out]) if (/^starvijay./.test(x.k)) add(x.t.filter(w => w !== 'star').join(' '));               // "Star Vijay Super" = "Vijay Super"
   for (const s of [c.name, c.tvgName]) { const a = s && EPG_ALIASES.get(String(s).trim().toLowerCase()); if (a) add(a); }
   return out;
 }
