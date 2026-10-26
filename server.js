@@ -298,7 +298,10 @@ let playlistEpgUrls = [];
 // github.com/mitthu786/tvepg: guides for JioTV / Tata Play / ZEE5 / Sun NXT, re-published by its author several times a day.
 // Tata Play first (it has the Tamil regional channels: Sirippoli, Kalaignar TV, Murasu TV, DD Tamil ...), then the all-in-one and JioTV guides.
 const TVEPG = 'https://raw.githubusercontent.com/mitthu786/tvepg/main/';
-const DEFAULT_EPG_URLS = [TVEPG + 'tataplay/epg.xml.gz', TVEPG + 'epg.xml.gz', TVEPG + 'jiotv/epg.xml.gz'];
+// github.com/jasonramg/iptv-epg: Airtel Xstream + Sun Direct guides with a picture for EVERY programme, incl. Sirippoli, Isai Aruvi, Murasu TV, Kalaignar TV
+// (the tvepg guides have no pictures for those). Updated several times a day.
+const JREPG = 'https://raw.githubusercontent.com/jasonramg/iptv-epg/main/epg/';
+const DEFAULT_EPG_URLS = [TVEPG + 'tataplay/epg.xml.gz', JREPG + 'airtel.xml.gz', JREPG + 'sundirectgo.xml.gz', TVEPG + 'epg.xml.gz', TVEPG + 'jiotv/epg.xml.gz'];
 // A numeric tvg-id ("1", "144") is only trusted as a guide id if you opt in. Most playlists number their channels 1,2,3...
 // which would otherwise attach the programmes of some unrelated JioTV channel.
 const EPG_NUMERIC_IDS = process.env.EPG_MATCH_NUMERIC_IDS === '1';
@@ -325,7 +328,7 @@ function epgUrlsFromPlaylist(text) {
    names match when they have the same words, or when the only difference is a language / provider word ("Sony Yay" ~ "Sony Yay Tamil").
    A real difference ("Star Vijay" vs "Star Vijay Super", "Zee Tamil" vs "Zee Telugu") never matches. */
 const LANGS = new Set(['tamil', 'hindi', 'telugu', 'malayalam', 'kannada', 'english', 'bengali', 'marathi', 'gujarati', 'punjabi', 'bhojpuri', 'odia', 'assamese']);
-const SOFT = new Set([...LANGS, 'jio', 'jiotv', 'tata', 'tataplay', 'airtel', 'ott', 'official', 'stream']);
+const SOFT = new Set([...LANGS, 'jio', 'jiotv', 'tata', 'tataplay', 'airtel', 'sundirect', 'kalaignar', 'ott', 'official', 'stream']);   // 'kalaignar': Sun Direct calls them "Kalaignar Sirippoli TV" / "Kalaignar Isai Aruvi"
 const NOISE = /^(hd|sd|uhd|fhd|4k|tv|channel|live|in|india|source|src|backup|\d{3,4}p)$/;
 const nameToks = s => dropKids(String(s || '').toLowerCase()
   .replace(/\(([^)]*)\)|\[([^\]]*)\]/g, (m, a, b) => LANGS.has((a || b || '').trim()) ? ' ' + (a || b).trim() + ' ' : ' ')   // "(Tamil)" is kept, "(source 2)" is dropped
@@ -365,7 +368,8 @@ function bestGuide(keys) {                                   // -> guide channel
     for (const p of keys) for (const gk of g.ks) {
       let s = nameScore(p, gk); if (!s) continue;
       if (EPG_LANG && gk.t.includes(EPG_LANG) && !p.t.some(w => LANGS.has(w) && w !== EPG_LANG)) s += 60;   // Tamil version wins over Hindi / generic
-      s += n ? Math.min(n, 500) / 1000 : -1000;              // a guide channel with NO current programmes (stale upstream data) loses to any sibling that has some
+      s += n ? Math.min(n, 500) / 1000 : -1000;
+      if (n && (epg.byId.get(g.id) || []).filter(q => q.i).length * 2 >= n) s += 5;   // a guide channel WITH pictures wins a tie              // a guide channel with NO current programmes (stale upstream data) loses to any sibling that has some
       if (s > bs) { best = g.id; bs = s; }
     }
   }
@@ -442,16 +446,33 @@ function borrowPictures(byId, gidx, oldPics) {
     const byTitle = new Map();                                // same title -> picture (today's first, then older ones from the same channel in other guides)
     for (const q of pics) { const k = titleKey(q.t); if (k && !byTitle.has(k)) byTitle.set(k, q.i); }
     for (const id of sibs) for (const [k, img] of (oldPics && oldPics.get(id)) || []) { if (!byTitle.has(k)) byTitle.set(k, img); }
-    if (!pics.length && !byTitle.size) continue;
+    const mem = k => { for (const x of g.ks) { const v = picMem.get(x.k + '|' + k); if (v) return v; } return null; };
     for (const p of mine) {
       if (p.i) continue;
       const half = (p.e - p.s) / 2;
       const q = pics.find(q => Math.min(p.e, q.e) - Math.max(p.s, q.s) >= half);   // same time slot
-      const img = (q && q.i) || byTitle.get(titleKey(p.t));
+      const k = titleKey(p.t);
+      let img = (q && q.i) || byTitle.get(k) || mem(k);
+      if (!img && k.length >= 8 && posterUsable(p.t)) img = picMem.get('*|' + k);          // same distinctive title seen on any channel
       if (img) { p.i = img; n++; }
     }
   }
+  for (const g of gidx.values()) for (const p of byId.get(g.id) || []) {                    // remember every picture we have (survives a stale guide / restart)
+    if (!p.i) continue; const k = titleKey(p.t); if (!k) continue;
+    for (const x of g.ks) picMem.set(x.k + '|' + k, p.i);
+    if (k.length >= 8) picMem.set('*|' + k, p.i);
+  }
+  savePicMem();
   return n;
+}
+const PICMEM_FILE = path.join(require('os').tmpdir(), 'tamil-iptv-picmem.json');
+const picMem = new Map();
+try { for (const [k, v] of JSON.parse(fs.readFileSync(PICMEM_FILE, 'utf8'))) picMem.set(k, v); } catch {}
+function savePicMem() {
+  try {
+    while (picMem.size > 20000) picMem.delete(picMem.keys().next().value);
+    fs.writeFileSync(PICMEM_FILE, JSON.stringify([...picMem]));
+  } catch {}
 }
 
 let epgRunning = false;
@@ -525,6 +546,7 @@ async function refreshEpg() {
         byId.set(id, list.filter((p, i) => !i || p.s !== list[i - 1].s));            // drop duplicate start times
       }
       try { borrowPictures(byId, gidx, oldPics); } catch (e) { console.warn('[epg] pictures: ' + e.message); }
+      try { for (const list of byId.values()) for (const p of list) if (p.i) imgHosts.add(new URL(p.i).hostname.toLowerCase()); } catch {}
       epg.byId = byId; epg.gidx = gidx; epg.imgHosts = imgHosts; epg.programmes = programmes; epg.xmlChannels = xmlChannels;
       epg.sources = ok; epg.updated = Date.now(); rebuildEpgMap();
       console.log(`[epg] ${programmes} programmes, ${xmlChannels} guide channels, ${epg.matched}/${cache.list.length} playlist channels matched (${Date.now() - t0} ms)`);
