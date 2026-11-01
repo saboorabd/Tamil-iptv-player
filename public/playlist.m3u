@@ -1,8 +1,4 @@
-#EXTM3U
-#EXTINF:-1 tvg-id="11756" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/4/42/Zee_Thirai_HD_%282025%29.svg/revision/latest?cb=20250609120849" group-title="TAMIL - TV",ZEE THIRAI HD
-https://mini.allinonereborn.site/tatatv/tata6n.php?id=11756
-#EXTINF:-1 tvg-id="1097" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1014.jpg" group-title="TAMIL - TV",SONY YAY TAMIL
-https://mini.allinonereborn.site/tatatv/tata6n.php?id=1097
+
 #EXTINF:-1 tvg-id="3051" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/ZeeThiraiHD.png" group-title="Tamil" http-user-agent="@allinone_reborn",Zee Thirai HD[2]
 #EXTVLCOPT:http-user-agent=@allinone_reborn
 #KODIPROP:inputstream.adaptive.license_type=clearkey
