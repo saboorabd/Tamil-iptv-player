@@ -479,6 +479,97 @@ function savePicMem() {
   } catch {}
 }
 
+/* EPGSCHEDULE.COM (extra source, text only - the site has no pictures and no download; pictures are borrowed by title from the other guides).
+   Only used for playlist channels that NO other guide could serve ("no guide data"). Page: /channel/<slug>/ with
+   "Today's Schedule (November 5, 2026)" and "09:00 AM – 10:00 AM" lines, India time. Switch off with EPGSCHEDULE=0. */
+const EPS_ON = process.env.EPGSCHEDULE !== '0';
+const EPS_BASE = 'https://www.epgschedule.com/channel/';
+const epsMiss = new Map();                                    // slug -> time of last 404 (retry after a day)
+const MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+const EPS_TIME = /(\d{1,2}):(\d{2})\s*([AP]M)\s*[–—-]\s*(\d{1,2}):(\d{2})\s*([AP]M)/i;
+const EPS_JUNK = /^(live|now playing|on air|up next|next|remaining|today|tomorrow|watch|add to favou?rites?|favou?rites?|notify|set reminder|reminder|\d{1,2}:\d{2}:\d{2}.*|.*\bremaining\b.*)$/i;
+function epsHtmlText(html) {
+  return xmlDecode(String(html).replace(/<(script|style|noscript)\b[\s\S]*?<\/\1>/gi, ' ').replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/<(br|\/p|\/div|\/li|\/tr|\/td|\/h\d|\/span|\/a|\/button|\/time)\b[^>]*>/gi, '\n').replace(/<[^>]+>/g, ' '))
+    .split('\n').map(l => l.replace(/\s+/g, ' ').trim()).filter(Boolean);
+}
+const epsMs = (y, mo, d, h, mi, ap) => { h = h % 12 + (/p/i.test(ap) ? 12 : 0); return Date.UTC(y, mo, d, h, mi) - 19_800_000; };   // IST -> epoch
+function parseEpgSchedulePage(html, now = Date.now()) {         // -> [{s,e,t}]
+  const lines = epsHtmlText(html), out = [];
+  const ist = new Date(now + 19_800_000);
+  let segs = [], cur = null;
+  for (const l of lines) {
+    const h = l.match(/(today|tomorrow)['’]?s schedule\s*\(\s*([a-z]+)\s+(\d{1,2}),?\s*(\d{4})\s*\)/i);
+    if (h && MONTHS.includes(h[2].toLowerCase())) { cur = { y: +h[4], mo: MONTHS.indexOf(h[2].toLowerCase()), d: +h[3], lines: [] }; segs.push(cur); }
+    else if (cur) cur.lines.push(l);
+  }
+  if (!segs.length) segs = [{ y: ist.getUTCFullYear(), mo: ist.getUTCMonth(), d: ist.getUTCDate(), lines }];
+  for (const sg of segs) {
+    const L = sg.lines, isTime = l => EPS_TIME.test(l);
+    const first = L.find(l => isTime(l) || !EPS_JUNK.test(l));
+    const titleAfter = !!first && isTime(first);                  // "time, title" order (else "title, time")
+    let day = 0, prev = -1;
+    L.forEach((l, i) => {
+      const m = l.match(EPS_TIME); if (!m) return;
+      let t = l.replace(EPS_TIME, ' ').replace(/\s+/g, ' ').trim();
+      if (!t || EPS_JUNK.test(t)) {
+        t = '';
+        for (let j = i + (titleAfter ? 1 : -1); j >= 0 && j < L.length && Math.abs(j - i) < 5; j += titleAfter ? 1 : -1) {
+          if (isTime(L[j])) break; if (!EPS_JUNK.test(L[j])) { t = L[j]; break; }
+        }
+      }
+      if (!t || t.length > 120) return;
+      let s = epsMs(sg.y, sg.mo, sg.d + day, +m[1], +m[2], m[3]);
+      if (s < prev) { day++; s += 86_400_000; } prev = s;
+      let e = epsMs(sg.y, sg.mo, sg.d + day, +m[4], +m[5], m[6]); if (e <= s) e += 86_400_000;
+      out.push({ s, e, t });
+    });
+  }
+  out.sort((a, b) => a.s - b.s);
+  return out.filter((p, i) => !i || p.s !== out[i - 1].s);
+}
+function epsSlugs(keys) {                                      // candidate page names for a playlist channel
+  const set = new Set();
+  for (const p of keys) {
+    const w = p.t.filter(x => !SOFT.has(x) || x === 'kalaignar'); if (!w.length) continue;
+    const base = w.join('-'); set.add(base + '-tv'); set.add(base); set.add(base + '-hd');
+    const all = p.t.filter(x => !REGIONS.includes(x)).join('-'); if (all) set.add(all);
+  }
+  return [...set].filter(s => s.length > 2).slice(0, 5);
+}
+async function scrapeEpgSchedule(byId, gidx, lo, hi) {            // adds guide channels "eps:<slug>"; returns programmes added
+  if (!EPS_ON) return 0;
+  const hasGuide = keys => { for (const g of gidx.values()) { if (!(byId.get(g.id) || []).length) continue; for (const p of keys) for (const gk of g.ks) if (nameScore(p, gk)) return true; } return false; };
+  const todo = new Map();                                      // dedupe playlist channels with the same name key
+  for (const c of cache.list) {
+    const keys = playlistKeys(c); if (!keys.length || hasGuide(keys)) continue;
+    const k = keys[0].k; if (!todo.has(k)) todo.set(k, keys);
+  }
+  let added = 0, fetched = 0; const jobs = [...todo.values()].slice(0, 80);
+  const one = async keys => {
+    for (const slug of epsSlugs(keys)) {
+      if (Date.now() - (epsMiss.get(slug) || 0) < 86_400_000 || fetched >= 120) continue;
+      fetched++;
+      const ac = new AbortController(), timer = setTimeout(() => ac.abort(), 10_000);
+      try {
+        const up = await fetchUA(new URL(EPS_BASE + slug + '/'), { Accept: 'text/html' }, ac.signal);
+        if (up.status === 404 || up.status === 410) { epsMiss.set(slug, Date.now()); continue; }
+        if (!up.ok) continue;
+        const html = (await new Response(up.body).text()).slice(0, 800_000);
+        const list = parseEpgSchedulePage(html).filter(p => p.e >= lo && p.s <= hi);
+        if (!list.length) { epsMiss.set(slug, Date.now()); continue; }
+        const id = 'eps:' + slug;
+        gidx.set(id, { id, name: slug.replace(/-/g, ' '), ks: [...keys, nameKey(slug.replace(/-/g, ' '))] });
+        byId.set(id, list.map(p => ({ s: p.s, e: p.e, t: p.t, d: '' }))); added += list.length;
+        return;
+      } catch {} finally { clearTimeout(timer); }
+    }
+  };
+  for (let i = 0; i < jobs.length; i += 3) await Promise.all(jobs.slice(i, i + 3).map(one));
+  if (added) console.log(`[epg] epgschedule.com: ${added} programmes for ${[...gidx.keys()].filter(k => k.startsWith('eps:')).length} channels without a guide`);
+  return added;
+}
+
 let epgRunning = false;
 async function refreshEpg() {
   if (epgRunning) return; epgRunning = true;
@@ -544,6 +635,7 @@ async function refreshEpg() {
       } catch (e) { errors.push((src.file ? 'file' : src.url) + ': ' + e.message); }
       finally { clearTimeout(timer); }
     }
+    try { if (await scrapeEpgSchedule(byId, gidx, lo, hi)) { ok++; programmes += [...byId.keys()].filter(k => k.startsWith('eps:')).reduce((n, k) => n + byId.get(k).length, 0); } } catch (e) { errors.push('epgschedule.com: ' + e.message); }
     if (ok) {
       for (const [id, list] of byId) {
         list.sort((a, b) => a.s - b.s);
