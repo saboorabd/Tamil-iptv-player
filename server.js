@@ -437,6 +437,16 @@ async function openXml(readable) {
   return src;
 }
 
+const PICMEM_FILE = path.join(require('os').tmpdir(), 'tamil-iptv-picmem.json');
+const picMem = new Map();
+try { for (const [k, v] of JSON.parse(fs.readFileSync(PICMEM_FILE, 'utf8'))) picMem.set(k, v); } catch {}
+function savePicMem() {
+  try {
+    while (picMem.size > 20000) picMem.delete(picMem.keys().next().value);
+    fs.writeFileSync(PICMEM_FILE, JSON.stringify([...picMem]));
+  } catch {}
+}
+
 // A programme without a picture (Tata Play guide) borrows the picture of the same programme in another guide for the SAME channel
 // (e.g. "Kalaignar TV" in the Tata Play guide <- "Kalaignar TV" in the JioTV guide): first by overlapping time, then by the same title.
 function borrowPictures(byId, gidx, oldPics) {
@@ -468,15 +478,6 @@ function borrowPictures(byId, gidx, oldPics) {
   }
   savePicMem();
   return n;
-}
-const PICMEM_FILE = path.join(require('os').tmpdir(), 'tamil-iptv-picmem.json');
-const picMem = new Map();
-try { for (const [k, v] of JSON.parse(fs.readFileSync(PICMEM_FILE, 'utf8'))) picMem.set(k, v); } catch {}
-function savePicMem() {
-  try {
-    while (picMem.size > 20000) picMem.delete(picMem.keys().next().value);
-    fs.writeFileSync(PICMEM_FILE, JSON.stringify([...picMem]));
-  } catch {}
 }
 
 /* EPGSCHEDULE.COM (extra source, text only - the site has no pictures and no download; pictures are borrowed by title from the other guides).
