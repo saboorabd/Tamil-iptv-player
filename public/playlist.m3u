@@ -1,4 +1,6 @@
 #EXTM3U
+#EXTINF:-1 tvg-id="in_sonyyay.in" tvg-name="TAMIL | SONY YAY" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1014.jpg" group-title="KIDS" tvg-chno="969",TAMIL | SONY YAY(SOURCE 2)
+http://hingl.packetcdn.me:9250/86e4228d28529f5cb7bbba302ddd6f11556ebe729f200d4a29700bfb02abb0b86d58d0fc/index.m3u8?token=08463d2345bcf8d71a0500239d407be0cd4864003954aa4a5287ee8cde6ebc7f61424f4622a3cf7f1eedffa0ff37c264849a3e33ee1711622be97fcd6a2e5b02536411d17da9-ccc6498aa4f3ee9b5902e1141509b9fd
 #EXTINF:-1 tvg-id="1" tvg-name="kalaignar sirippoli" tvg-logo="https://i.imgur.com/nsplwFc.png" tvg-country="india" tvg-language="tamil" group-title="comedy",sirippoli (source 2)
 https://segment.yuppcdn.net/240122/siripoli/playlist.m3u8
 #EXTINF:-1 tvg-id="2" tvg-name="kalaignar tv" tvg-logo="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_KALAIGNAR_TV/images/LOGO_HD/image.png" tvg-country="india" tvg-language="tamil" group-title="Entertainment",kalaignar tv (source 1)
