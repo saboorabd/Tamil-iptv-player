@@ -199,8 +199,14 @@ https://mini.allinonereborn.site/tatatv/ttv6t.php?id=1104
 https://mini.allinonereborn.site/tatatv/ttv6t.php?id=1007
 #EXTINF:-1 tvg-id="838" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/755.png" group-title="TAMIL - TV",WIN NEWS
 https://mini.allinonereborn.site/tatatv/ttv6t.php?id=838
-#EXTINF:-1 tvg-id="1097" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1014.jpg" group-title="TAMIL - TV",SONY YAY TAMIL
-https://mini.allinonereborn.site/tatatv/ttv6t.php?id=1097
+#EXTINF:-1 tvg-id="1097" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1014.jpg" group-title="TAMIL - TV" user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",SONY YAY TAMIL
+#EXTVLCOPT:network-caching=10000
+#EXTVLCOPT:http-reconnect=true
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+#KODIPROP:inputstream.adaptive.manifest_type=hls
+#KODIPROP:inputstream.adaptive.stream_headers=User-Agent=Mozilla/5.0&Connection=keep-alive
+https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1097
+
 #EXTINF:-1 tvg-id="846" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/763.jpg" group-title="TAMIL - TV",CHUTTI TV
 https://mini.allinonereborn.site/tatatv/ttv6t.php?id=846
 #EXTINF:-1 tvg-id="602" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/519.jpg" group-title="TAMIL - TV",TUNE 6
