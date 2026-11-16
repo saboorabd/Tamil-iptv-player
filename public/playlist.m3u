@@ -1,275 +1,333 @@
 #EXTM3U
-#EXTINF:-1 tvg-id="1" tvg-name="kalaignar sirippoli" tvg-logo="https://i.imgur.com/nsplwFc.png" tvg-country="india" tvg-language="tamil" group-title="comedy",sirippoli (source 2)
-https://segment.yuppcdn.net/240122/siripoli/playlist.m3u8
-#EXTINF:-1 tvg-id="2" tvg-name="kalaignar tv" tvg-logo="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_KALAIGNAR_TV/images/LOGO_HD/image.png" tvg-country="india" tvg-language="tamil" group-title="Entertainment",kalaignar tv (source 1)
-https://segment.yuppcdn.net/240122/kalaignartv/playlist.m3u8
-#EXTINF:-1 tvg-id="4" tvg-name="murasu" tvg-logo="https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Murasu%20TV.png" tvg-country="india" tvg-language="tamil" group-title="Entertainment",murasu tv (source 1)
-https://segment.yuppcdn.net/050522/murasu/050522/murasu_1800/chunks.m3u8
-#EXTINF:-1 tvg-id="3" tvg-name="isai aruvi" tvg-logo="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_ISAI_ARUVI/images/LOGO_HD/image.png" tvg-country="india" tvg-language="tamil" group-title="music",isai aruvi (source 1)
-https://segment.yuppcdn.net/140622/isaiaruvi/playlist.m3u8
-#EXTINF:-1 tvg-id="16798" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/16711.jpg" group-title="TAMIL - TV",STAR VIJAY UK
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=16798
-#EXTINF:-1 tvg-id="66562" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11649.jpg" group-title="TAMIL - TV",STAR VIJAY 4K
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=66562
-#EXTINF:-1 tvg-id="16795" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/16708.jpg" group-title="TAMIL - TV",STAR VIJAY USA
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=16795
-#EXTINF:-1 tvg-id="8670" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/8586.jpg" group-title="TAMIL - TV",STAR VIJAY CA
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=8670
-#EXTINF:-1 tvg-id="924" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/841.jpg" group-title="TAMIL - TV",STAR VIJAY HD
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=924
-#EXTINF:-1 tvg-id="1016" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/933.jpg" group-title="TAMIL - TV",STAR VIJAY MUSIC
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1016
-#EXTINF:-1 tvg-id="66791" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/67528.jpg" group-title="TAMIL - TV",VIJAY TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=66791
-#EXTINF:-1 tvg-id="796" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/713.jpg" group-title="TAMIL - TV",ZEE THIRAI USA
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=796
-#EXTINF:-1 tvg-id="11756" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11672.jpg" group-title="TAMIL - TV",ZEE THIRAI TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11756
-#EXTINF:-1 tvg-id="8706" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/8622.png" group-title="TAMIL - TV",ZEE TAMIL CA
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=8706
-#EXTINF:-1 tvg-id="11807" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11723.png" group-title="TAMIL - TV",ZEE TAMIL 4K.
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11807
-#EXTINF:-1 tvg-id="610" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/527.png" group-title="TAMIL - TV",ZEE TAMIL HD
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=610
-#EXTINF:-1 tvg-id="2795" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/2712.png" group-title="TAMIL - TV",ZEE TAMIL US
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=2795
-#EXTINF:-1 tvg-id="603" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/520.png" group-title="TAMIL - TV",ZEE TAMIL HD TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=603
-#EXTINF:-1 tvg-id="1122" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1039.png" group-title="TAMIL - TV",ZEE TAMIL SD
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1122
-#EXTINF:-1 tvg-id="8672" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/8588.jpg" group-title="TAMIL - TV",JAYA TV.
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=8672
-#EXTINF:-1 tvg-id="767" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/684.jpg" group-title="TAMIL - TV",JAYA TV HD
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=767
-#EXTINF:-1 tvg-id="2796" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/2713.jpg" group-title="TAMIL - TV",JAYA TV US
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=2796
-#EXTINF:-1 tvg-id="970" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/887.jpg" group-title="TAMIL - TV",JAYA MAX
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=970
-#EXTINF:-1 tvg-id="2780" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/2697.jpg" group-title="TAMIL - TV",JAYA MAX US
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=2780
-#EXTINF:-1 tvg-id="16813" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/16726.jpg" group-title="TAMIL - TV",JAYA MAX UK
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=16813
-#EXTINF:-1 tvg-id="961" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/878.jpg" group-title="TAMIL - TV",JAYA PLUS
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=961
-#EXTINF:-1 tvg-id="2781" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/2698.jpg" group-title="TAMIL - TV",JAYA PLUS US
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=2781
-#EXTINF:-1 tvg-id="11793" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11709.jpg" group-title="TAMIL - TV",JAYA MOVIE
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11793
-#EXTINF:-1 tvg-id="742" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/659.png" group-title="TAMIL - TV",COLORS HD TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=742
-#EXTINF:-1 tvg-id="2769" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/2686.png" group-title="TAMIL - TV",COLORS TAMIL USA
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=2769
-#EXTINF:-1 tvg-id="11806" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11722.jpg" group-title="TAMIL - TV",SUN TV 4K
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11806
-#EXTINF:-1 tvg-id="927" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/844.jpg" group-title="TAMIL - TV",SUN TV HD
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=927
-#EXTINF:-1 tvg-id="16810" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/16723.jpg" group-title="TAMIL - TV",SUN TV UK
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=16810
-#EXTINF:-1 tvg-id="8689" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/8605.jpg" group-title="TAMIL - TV",SUN TV CA
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=8689
-#EXTINF:-1 tvg-id="8781" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/8697.jpg" group-title="TAMIL - TV",SUN TV US
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=8781
-#EXTINF:-1 tvg-id="11805" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11721.png" group-title="TAMIL - TV",SUN MUSIC 4K
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11805
-#EXTINF:-1 tvg-id="997" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/914.png" group-title="TAMIL - TV",SUN LIFE TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=997
-#EXTINF:-1 tvg-id="1062" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/979.jpg" group-title="TAMIL - TV",SUN NEWS TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1062
-#EXTINF:-1 tvg-id="66433" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/67415.jpg" group-title="TAMIL - TV",SUN NEWS US
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=66433
-#EXTINF:-1 tvg-id="11818" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11734.jpg" group-title="TAMIL - TV",KTV 4K TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11818
-#EXTINF:-1 tvg-id="1105" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1022.jpg" group-title="TAMIL - TV",KTV HD
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1105
-#EXTINF:-1 tvg-id="8658" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/8574.jpg" group-title="TAMIL - TV",KTV CA
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=8658
-#EXTINF:-1 tvg-id="1148" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1065.jpg" group-title="TAMIL - TV",RAJ TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1148
-#EXTINF:-1 tvg-id="8775" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/8691.jpg" group-title="TAMIL - TV",RAJ TV US
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=8775
-#EXTINF:-1 tvg-id="1009" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/926.jpg" group-title="TAMIL - TV",RAJ DIGITAL PLUS
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1009
-#EXTINF:-1 tvg-id="8771" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/8687.jpg" group-title="TAMIL - TV",RAJ DIGITAL PLUS US
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=8771
-#EXTINF:-1 tvg-id="16816" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/16729.jpg" group-title="TAMIL - TV",RAJ DIGITAL PLUS UK
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=16816
-#EXTINF:-1 tvg-id="618" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/535.jpg" group-title="TAMIL - TV",RAJ NEWS TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=618
-#EXTINF:-1 tvg-id="875" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/792.jpg" group-title="TAMIL - TV",KALAIGNAR TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=875
-#EXTINF:-1 tvg-id="858" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/775.jpg" group-title="TAMIL - TV",KALAIGNAR CHITHIRAM
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=858
-#EXTINF:-1 tvg-id="1141" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1058.jpg" group-title="TAMIL - TV",KALAIGNAR ISAI ARUVI
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1141
-#EXTINF:-1 tvg-id="1107" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1024.jpg" group-title="TAMIL - TV",KALAIGNAR MURASU
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1107
-#EXTINF:-1 tvg-id="815" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/732.jpg" group-title="TAMIL - TV",KALAIGNAR SEITHIGAL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=815
-#EXTINF:-1 tvg-id="1142" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1059.jpg" group-title="TAMIL - TV",KALAIGNAR SIRIPPOLI
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1142
-#EXTINF:-1 tvg-id="16831" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/16744.jpg" group-title="TAMIL - TV",KALAIGNAR TV NEWS
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=16831
-#EXTINF:-1 tvg-id="59974" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/59758.png" group-title="TAMIL - TV",JAYA TV UK
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=59974
-#EXTINF:-1 tvg-id="11809" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11725.png" group-title="TAMIL - TV",IBC
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11809
-#EXTINF:-1 tvg-id="11810" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11726.jpg" group-title="TAMIL - TV",IBC BAKTHI
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11810
-#EXTINF:-1 tvg-id="11812" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11728.jpg" group-title="TAMIL - TV",IBC SILUVAI
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11812
-#EXTINF:-1 tvg-id="1106" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1023.jpg" group-title="TAMIL - TV",ADHTIYA TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1106
-#EXTINF:-1 tvg-id="8690" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/8606.jpg" group-title="TAMIL - TV",ADTHIYA TV US
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=8690
-#EXTINF:-1 tvg-id="1140" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1057.png" group-title="TAMIL - TV",TVI HD
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1140
-#EXTINF:-1 tvg-id="11814" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11730.png" group-title="TAMIL - TV",PUTHYUGAM TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11814
-#EXTINF:-1 tvg-id="11798" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11714.png" group-title="TAMIL - TV",NAT GEO WILD 4K TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11798
-#EXTINF:-1 tvg-id="743" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/660.png" group-title="TAMIL - TV",NAT GEO WILD TAMIL HD
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=743
-#EXTINF:-1 tvg-id="8626" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/8542.jpg" group-title="TAMIL - TV",HISTORY TV 4K TAMIL CC
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=8626
-#EXTINF:-1 tvg-id="766" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/683.jpg" group-title="TAMIL - TV",HISTORY TV 18 HD TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=766
-#EXTINF:-1 tvg-id="625" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/542.jpg" group-title="TAMIL - TV",DISCOVERY WORLD HD TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=625
-#EXTINF:-1 tvg-id="9185" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/9101.png" group-title="TAMIL - TV",ANIMAL PLANET TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=9185
-#EXTINF:-1 tvg-id="9187" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/9103.jpg" group-title="TAMIL - TV",TRAVEL XP TAMIL HD
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=9187
-#EXTINF:-1 tvg-id="764" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/681.jpg" group-title="TAMIL - TV",DISCOVERY KIDS TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=764
-#EXTINF:-1 tvg-id="785" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/702.jpg" group-title="TAMIL - TV",SONY BBC EARTH HD
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=785
-#EXTINF:-1 tvg-id="670" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/587.jpg" group-title="TAMIL - TV",J MOVIES
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=670
-#EXTINF:-1 tvg-id="784" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/701.jpg" group-title="TAMIL - TV",NEWS J
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=784
-#EXTINF:-1 tvg-id="1096" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1013.png" group-title="TAMIL - TV",NEWS 18 TAMIL NADU
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1096
-#EXTINF:-1 tvg-id="826" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/743.jpg" group-title="TAMIL - TV",NEWS 7 TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=826
-#EXTINF:-1 tvg-id="717" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/634.jpg" group-title="TAMIL - TV",POLIMER NEWS
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=717
-#EXTINF:-1 tvg-id="942" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/859.png" group-title="TAMIL - TV",THANTHI TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=942
-#EXTINF:-1 tvg-id="951" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/868.jpg" group-title="TAMIL - TV",SATHIYAM TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=951
-#EXTINF:-1 tvg-id="847" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/764.jpg" group-title="TAMIL - TV",MAKKAL TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=847
-#EXTINF:-1 tvg-id="1008" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/925.jpg" group-title="TAMIL - TV",DD PODHIGAI
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1008
-#EXTINF:-1 tvg-id="765" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/682.png" group-title="TAMIL - TV",SAI TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=765
-#EXTINF:-1 tvg-id="44234" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/44024.png" group-title="TAMIL - TV",VAANAVIL TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=44234
-#EXTINF:-1 tvg-id="9194" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/9110.jpg" group-title="TAMIL - TV",SANKARA TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=9194
-#EXTINF:-1 tvg-id="989" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/906.jpg" group-title="TAMIL - TV",MALAI MURASU
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=989
-#EXTINF:-1 tvg-id="848" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/765.png" group-title="TAMIL - TV",MALAI MURASU SETHIGAL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=848
-#EXTINF:-1 tvg-id="611" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/528.png" group-title="TAMIL - TV",ANGEL TV HD
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=611
-#EXTINF:-1 tvg-id="938" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/855.jpg" group-title="TAMIL - TV",MADHA TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=938
-#EXTINF:-1 tvg-id="1020" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/937.jpg" group-title="TAMIL - TV",NAMBIKKAI TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1020
-#EXTINF:-1 tvg-id="9192" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/9108.jpg" group-title="TAMIL - TV",MADHIMUGAM TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=9192
-#EXTINF:-1 tvg-id="787" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/704.jpg" group-title="TAMIL - TV",POLIMER TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=787
-#EXTINF:-1 tvg-id="1104" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1021.jpg" group-title="TAMIL - TV",PUTHIYA THALIMURAI
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1104
-#EXTINF:-1 tvg-id="1007" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/924.jpg" group-title="TAMIL - TV",VASANTH TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1007
-#EXTINF:-1 tvg-id="1097" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/1014.jpg" group-title="TAMIL - TV",SONY YAY TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1097
-#EXTINF:-1 tvg-id="846" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/763.jpg" group-title="TAMIL - TV",CHUTTI TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=846
-#EXTINF:-1 tvg-id="602" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/519.jpg" group-title="TAMIL - TV",TUNE 6
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=602
-#EXTINF:-1 tvg-id="983" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/900.png" group-title="TAMIL - TV",MK SIX
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=983
-#EXTINF:-1 tvg-id="726" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/643.jpg" group-title="TAMIL - TV",VALICHAM PLUS
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=726
-#EXTINF:-1 tvg-id="1046" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/963.png" group-title="TAMIL - TV",IMAYAM TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1046
-#EXTINF:-1 tvg-id="916" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/833.jpg" group-title="TAMIL - TV",MOON TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=916
-#EXTINF:-1 tvg-id="687" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/604.png" group-title="TAMIL - TV",CAPTAIN TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=687
-#EXTINF:-1 tvg-id="11796" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11712.jpg" group-title="TAMIL - TV",MEGA 24
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11796
-#EXTINF:-1 tvg-id="58180" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/57964.png" group-title="TAMIL - TV",MEGA TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=58180
-#EXTINF:-1 tvg-id="1057" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/974.png" group-title="TAMIL - TV",GOODNEWS TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1057
-#EXTINF:-1 tvg-id="11784" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11700.jpg" group-title="TAMIL - TV",ATHAVAN TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11784
-#EXTINF:-1 tvg-id="741" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/658.jpg" group-title="TAMIL - TV",AYUSH TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=741
-#EXTINF:-1 tvg-id="11794" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11710.jpg" group-title="TAMIL - TV",JOTHI TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11794
-#EXTINF:-1 tvg-id="797" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/714.jpg" group-title="TAMIL - TV",TAMILAN TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=797
-#EXTINF:-1 tvg-id="943" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/860.jpg" group-title="TAMIL - TV",PEPPERS TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=943
-#EXTINF:-1 tvg-id="11787" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11703.jpg" group-title="TAMIL - TV",DISCOVERY 4K TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11787
-#EXTINF:-1 tvg-id="11786" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11702.png" group-title="TAMIL - TV",ANIMAL PLANET 4K TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11786
-#EXTINF:-1 tvg-id="11819" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11735.jpg" group-title="TAMIL - TV",PUTIYA THALAMURAI
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11819
-#EXTINF:-1 tvg-id="1040" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/957.jpg" group-title="TAMIL - TV",VENDHAR TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=1040
-#EXTINF:-1 tvg-id="9186" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/9102.jpg" group-title="TAMIL - TV",CARTOON NETWORK TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=9186
-#EXTINF:-1 tvg-id="11799" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11715.png" group-title="TAMIL - TV",NICK TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11799
-#EXTINF:-1 tvg-id="11800" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11716.png" group-title="TAMIL - TV",POGO TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11800
-#EXTINF:-1 tvg-id="11802" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11718.jpg" group-title="TAMIL - TV",SONIC TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11802
-#EXTINF:-1 tvg-id="11788" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11704.jpg" group-title="TAMIL - TV",D TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11788
-#EXTINF:-1 tvg-id="11785" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/11701.jpg" group-title="TAMIL - TV",&FLIX 4K TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=11785
-#EXTINF:-1 tvg-id="58184" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/57968.png" group-title="TAMIL - TV",EYE TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=58184
-#EXTINF:-1 tvg-id="58178" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/57962.png" group-title="TAMIL - TV",SHAKTHI TV TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=58178
-#EXTINF:-1 tvg-id="58179" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/57963.png" group-title="TAMIL - TV",EET TV
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=58179
-#EXTINF:-1 tvg-id="58182" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/57966.jpg" group-title="TAMIL - TV",AASTHA TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=58182
-#EXTINF:-1 tvg-id="16828" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/16741.jpg" group-title="TAMIL - TV",WIN TV NEWS
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=16828
-#EXTINF:-1 tvg-id="609" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/526.jpg" group-title="TAMIL - TV",TUNE 6 TAMIL
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=609
-#EXTINF:-1 tvg-id="66424" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/67406.png" group-title="TAMIL - TV",SUN LIFE US
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=66424
-#EXTINF:-1 tvg-id="66437" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/67419.jpg" group-title="TAMIL - TV",KALAIGNAR TV UK
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=66437
-#EXTINF:-1 tvg-id="652" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/569.jpg" group-title="TAMIL - TV",SUN MUSIC HD
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=652
-#EXTINF:-1 tvg-id="8783" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/8699.jpg" group-title="TAMIL - TV",SUN MUSIC US
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=8783
-#EXTINF:-1 tvg-id="937" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/854.jpg" group-title="TAMIL - TV",RAJ MUSIX
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=937
-#EXTINF:-1 tvg-id="8772" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/8688.jpg" group-title="TAMIL - TV",RAJ MUSIC US
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=8772
-#EXTINF:-1 tvg-id="831" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/748.jpg" group-title="TAMIL - TV",VIJAY SUPER
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=831
-#EXTINF:-1 tvg-id="8707" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/8623.jpg" group-title="TAMIL - TV",JAYA MOVIES US
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=8707
-#EXTINF:-1 tvg-id="74316" tvg-logo="http://tatatv.cc/stalker_portal/misc/logos/320/73513.jpg" group-title="TAMIL - TV",KTV US
-https://mini.allinonereborn.site/tatatv/tatatv6t.php?id=74316
-#EXTINF:-1 tvg-id="9649000" tvg-name="Zee Thirai" tvg-logo="https://imagesv2.dsp1.ott.kaltura.com/Service.svc/GetImage/p/5093/entry_id/cef53bf4b0cd4d79913452f6f645c13f/version/0" group-title="Movies",Zee Thirai
-#KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=eb6eee854107488683090ccdc5f207d3:70843a48af3207fc05528b7ce1523d13
-https://d2o8pibksxtln6.cloudfront.net/live/media/Zee_Thirai_SD/dash/Zee_Thirai_SD.mpd
-#EXTINF:-1 tvg-id="980" tvg-name="MK Six" tvg-logo="https://papaji.freetvindia.com/media/channels/mk_six.png" group-title="Tamil",MK Six
-https://mumt06.tangotv.in/qYyB8fXVMKSIX/index.m3u8
+#EXTINF:-1 tvg-chno="969" tvg-id="in_sonyyay.in" tvg-name="MALAYALAM | SONY YAY" tvg-logo="" group-title="KIDS",MALAYALAM | SONY YAY
+http://hingl.packetcdn.me:9250/86e4228d28529f5cb7bbba302ddd6f11556ebe729f200d4a29700bfb02abb0b86d58d0fc/index.m3u8?token=7c0332805358c3af0af88e9cbb93d4cbd9e2c942b1f80f8a13b617afb4743a5857ef9eee7a5c139e663105f183d8bc080fedacc97136c300c27de647773ad53c4d503bf1bb5c-faf2330cd8566ac6425e59c2df9b1b60
+#EXTINF:-1 tvg-chno="2612" tvg-id="glotv" tvg-name="7S MUSIC" tvg-logo="" group-title="TAMIL",7S MUSIC
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a0098d321f54337d1b/index.m3u8?token=bf6ddcddc16308d96e9279773cb5c97684ea4679ffa8fb89baaf0129bceb375e37e658bce8d46856691283f5fda99e40349a00e657b6d54ea797a5888747df543730d0012f91-d9c20473b698a8694451a54803f75f90
+#EXTINF:-1 tvg-chno="2712" tvg-id="glotv" tvg-name="AASEERVATHAM" tvg-logo="" group-title="TAMIL",AASEERVATHAM
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba07f9f3e1744326219f019a5b3/index.m3u8?token=71130b6042c7eacc6760b6671daf472775618b790d85eefa1c4edd7c4d616da47fb8b66b30de4b3b8161ecf00d6fe7ace7b45013ef414e87e449fb4ac76a1fa832e262636a06-149fac17ca0f0d925c1bf0fca4bbf1ab
+#EXTINF:-1 tvg-chno="2709" tvg-id="in_aastha.in" tvg-name="AASTHA TAMIL" tvg-logo="" group-title="TAMIL",AASTHA TAMIL
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a07f9f3e0649216b0ce51cadb2/index.m3u8?token=7801bf7e83a7f92e09ff6032e8f28872f4fea75bdf442babb9371800c807f3e87509a62d9b3f43640ab10c9863a008aca4a95e10772e8c88594821611b46bc19aced9a0014eb-45b9b417079c128278c4e5c5f5ea8ad3
+#EXTINF:-1 tvg-chno="2645" tvg-id="glotv" tvg-name="ADHTIYA TV" tvg-logo="" group-title="TAMIL",ADHTIYA TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a07f9a250648397507f007bbaaa07f48dd/index.m3u8?token=3db4671f29ec54c8e15e9b01f7bc986e9d0f7c756d65ddfaf51792950a8619df7046c31da3042129d552040c5fd9c5c90f1772af93e55a8532bc2021e6de826c32ff85cba805-fd708f6b2348a942c2a9e2f8517420d3
+#EXTINF:-1 tvg-chno="2646" tvg-id="glotv" tvg-name="ADHTIYA TV USA" tvg-logo="" group-title="TAMIL",ADHTIYA TV USA
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba07f9a250648397507f007bbabb273/index.m3u8?token=a80fd799bfb2100eb70c6ee206b3643466d82a3402181dc36013c3b8b8e2c80b991ec252e01643cd2e5dc433a9f81fce5d5ad66f396189ab048e97f1ff1ebc6a79ac48472500-f4be37144504dfb2576d3d79c881b0dd
+#EXTINF:-1 tvg-chno="2662" tvg-id="in_angeltv.in" tvg-name="ANGEL TV HD" tvg-logo="" group-title="TAMIL",ANGEL TV HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a07f902a174d3f600efb19a0a1b5734cd8e9/index.m3u8?token=957669290f2f811f0029b4956c7ce3470cf31c3fbc1b2ece6db0921984d41be994059fef873d1df4b804cdf8a48b1626f9773073af1d621913f441e5867f01765fb926453e57-6b6d01f330bb52e9c183f58973f8a964
+#EXTINF:-1 tvg-chno="2592" tvg-id="in.jiotv.1219" tvg-name="ANIMAL PLANET TAMIL" tvg-logo="" group-title="TAMIL",ANIMAL PLANET TAMIL
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba07f90241f402c6b08e810aabbb5/index.m3u8?token=5885b05e1163358ac850ba80c963e8dcaceb7516a45b710032bc9014744499fb810f6d9a031fcb5b691d81832b8b36570c361fa2371777e9e47b11c57bc49336832eabded276-d5846ab2b2ef94f19f3396ad1b9f6169
+#EXTINF:-1 tvg-chno="2593" tvg-id="glotv" tvg-name="ANIMAL PLANET USA" tvg-logo="" group-title="TAMIL",ANIMAL PLANET USA
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba07f90241f402c6b08e810aabbb56d54c2e4/index.m3u8?token=c0e6afb07f6e78ad7dd74509fa70b452ccf3b0dbfbb1093ff6e6544f394e83de3bce5c3f5b3a8f35d3f9b9fdf553f6e148bb49d6c953068320a74ed5c888441b9ae647ea2f2c-a5a86fbf5291a33625dfa838c0fcaade
+#EXTINF:-1 tvg-chno="2546" tvg-id="glotv" tvg-name="BIGG BOSS TAMIL 24x7" tvg-logo="" group-title="TAMIL",BIGG BOSS TAMIL 24x7
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd26c024076b261ec5d6035/index.m3u8?token=68bf95df59baad0389e9413271f10222c3deb93a5c6f9f179ca87ab22fb32de7d8579caf86b7722a561fd18ba57c769843b58a05d040a53d8fad4a6cf657cf2d60d30cd174d6-662c5ae65fac04e6fe67703c52a08e75
+#EXTINF:-1 tvg-chno="2682" tvg-id="glotv" tvg-name="CAPITAL MUSIC" tvg-logo="" group-title="TAMIL",CAPITAL MUSIC
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba07d9f3d1b55217807e904b7b7a2/index.m3u8?token=c649b83173e405da61e83dc21c6a3da5b1b45507b7354dd9dab04eb7032d1657eedae139e462a16ebe8572a32b5caabada2471f0b8b35c8defa70c7f6645715ace354dbab45c-8455499a6ef1fe9498a4a540d5c34512
+#EXTINF:-1 tvg-chno="2681" tvg-id="glotv" tvg-name="CAPITAL THARISANAM" tvg-logo="" group-title="TAMIL",CAPITAL THARISANAM
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba07d9f3d1b55217807f019a5aca86140dfe426/index.m3u8?token=daa85af1f401374700b2882e2a61f5eebf75a27554feed18edd364fb669d23b9b22932e53b84af80c5767da52e023a45416335e5089e48c4c1d0818053327b6397dfe71ec471-09c3978429d4855880655cbd81622306
+#EXTINF:-1 tvg-chno="2664" tvg-id="glotv" tvg-name="CAPITAL TV TAMIL" tvg-logo="" group-title="TAMIL",CAPITAL TV TAMIL
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba07d9f3d1b55217807f007/index.m3u8?token=b01b8759c2a2898bcecac5cec158bc390af0334d952579a1264eaee0408f563436667ee8ae388cdf94b514868c8716b096d7276ecc6bbdb553a40e815a1d66efbb53b1484861-e671ba7c9feed21d6f03ef100d61f2b0
+#EXTINF:-1 tvg-chno="2631" tvg-id="in_captainnews.in" tvg-name="CAPTAIN NEWS" tvg-logo="" group-title="TAMIL",CAPTAIN NEWS
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a07d9f3d0640297a07ea14b3adbe6640dcec27/index.m3u8?token=2fffc214cd3ad72e61ea90836b5cd4d2bf93baed7194889b82cf5dda1708e386961e2f3ec8af8325b38171e50ad7aadc594da9769ddcb8ef4af29de30c056687af06c342db74-da619ee5ed9cea6134ffcd7cd19d7975
+#EXTINF:-1 tvg-chno="2649" tvg-id="glotv" tvg-name="CAPTAIN TV" tvg-logo="" group-title="TAMIL",CAPTAIN TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a07d9f3d0640297a07f007bbaaa07f48dd/index.m3u8?token=70572e09d01d1347fb4293e13b28465707f39700e6ebc4cfd9635a4c8dae18dac5ec16b3ebc4f0cfaf196de7cc4296b990d1a8fb76a87a26676174110de38dc80282f3d62ed5-13ccc9604fbfd840694608aca6412c9d
+#EXTINF:-1 tvg-chno="2635" tvg-id="in_cauverynews.in" tvg-name="CAUVERY NEWS" tvg-logo="" group-title="TAMIL",CAUVERY NEWS
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a07d9f380444326d07ea14b3adbe6640dcec27/index.m3u8?token=d351e86acb0644994dd9683359325e80e0e22724e1ee587f1d1e959d580003effb3f6ea34d1bf75dd1d9468f952ce269b2b3927d66a67931179b82eaa986d8b9d911b428e058-df304cea89e4b37a524d2ffb58a9a9ae
+#EXTINF:-1 tvg-chno="2672" tvg-id="glotv" tvg-name="CHITHIRAM TV" tvg-logo="" group-title="TAMIL",CHITHIRAM TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd36614407fb66c9f200d55366b0ce51cadb2/index.m3u8?token=c31741e85db0abecf521bde3ee2738c822c1491f4c54b7868dcce97255d8d409e4b609b0f34e6407ec1ceef304b7b5530b67d9a75f127b39cdd543a0b01a48e2041538d6ee1c-f229184225eaa53e0faa35aa1ebba24c
+#EXTINF:-1 tvg-chno="2674" tvg-id="in_chuttitv.in" tvg-name="CHUTTI TV" tvg-logo="" group-title="TAMIL",CHUTTI TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a07d96380655296b0cf20eb0bfac7b4d/index.m3u8?token=6e948e4cb384883173db7b90e1a7e808a6af34ff5441d2c2032417f725c70d2b6b83331e4a6f34acea26fe70ca06c5bd3ea22068d6a1f10ff89661700b3092e6e41263144902-3d33e77023ca30615c3c24ee2a0700b0
+#EXTINF:-1 tvg-chno="2566" tvg-id="in_colorstamilhd.in" tvg-name="COLORS TAMIL 4K" tvg-logo="" group-title="TAMIL",COLORS TAMIL 4K
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd361115b65ac618a2c1f482c/index.m3u8?token=bfff44f68f11d57bcea672e2f79e8393a0fabf37a49d58364152571b15df6f6b6b7338dfd5f5d2bcde160483d9a8ebeb036039929ea26500add075588e5c7d4a9016962cd6e3-72ec78fdee6fa0190404796dedf3ccce
+#EXTINF:-1 tvg-chno="2567" tvg-id="in_colorstamilhd.in" tvg-name="COLORS TAMIL HD" tvg-logo="" group-title="TAMIL",COLORS TAMIL HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd361115b65ac618a2c1f482c6b10e0/index.m3u8?token=acd3e362aa496a91657db726d4d2d02ff27e08ac39579bb551f7a98cdb43758df54c2272555e24ecd4c5fdc7ad41a2db2e35beb29b42a3f97b5dab1f31e049349fa3e4265552-2d82ce65cd565454defceac56a70aa4f
+#EXTINF:-1 tvg-chno="2568" tvg-id="in_colorstamilhd.in" tvg-name="COLORS TAMIL US 4K" tvg-logo="" group-title="TAMIL",COLORS TAMIL US 4K
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd361115b65ac618a2c1f482c6b0df710/index.m3u8?token=9832145f4f3f96fb7fdd0ecc7ff9bcdc38445e0a858c5293d51bbd5f34e63f122f9065e399a11b7cd1d4d53524b0dab39b51a2dde160a39bc00f6e2be3d4096bd5873cca0e65-c89c087c3d8b4020943ab1776d98fbfc
+#EXTINF:-1 tvg-chno="2652" tvg-id="in_ddpodhigai.in" tvg-name="DD PODHIGAI" tvg-logo="" group-title="TAMIL",DD PODHIGAI
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a07a9a32024e247c11e310ada1b5734cd8e9/index.m3u8?token=3fe2842da07cc614e4f59881643a939511e20e7badc904d86e360e7ae535d5db3538e306571181f0aa8c0873d77ed62e333bdd4f2c249dfac9374728da1fbc78dcc4154ace8d-2346bb2e057be15d99ca12d51a3e5fde
+#EXTINF:-1 tvg-chno="2653" tvg-id="glotv" tvg-name="DHEERAN TV" tvg-logo="" group-title="TAMIL",DHEERAN TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc565025362a6618a0c3f680c6b07e039819b93536fc5f3/index.m3u8?token=b07473e8ef7cd9359ea657e8816bffd2536d349dc7624e9ffe51a73de642f164cb60cd68caae6f16f653f742bb40b2e995daf9b9021bec82b741c4a6a1c5d8d0b2b649bae103-3815aa51c931e49c77f650d3f7ae8b6a
+#EXTINF:-1 tvg-chno="2675" tvg-id="in_discoverykids.in" tvg-name="DISCOVERY KIDS HD" tvg-logo="" group-title="TAMIL",DISCOVERY KIDS HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba07a973e114e36710afd0eafb7a561/index.m3u8?token=07d9aa0cc99bf46f935fe0930b1beee603281befc04cc516f4203a49432d53f530bf1ec6de8d0a720fb61a73577519e1477a40240705b917b19d0503a81de3fb9e2e90c36dfc-fbb887f224af5b7c4f6122492e6fb8a5
+#EXTINF:-1 tvg-chno="2605" tvg-id="in_discoveryhd.in" tvg-name="DISCOVERY WORLD TAMIL HD" tvg-logo="" group-title="TAMIL",DISCOVERY WORLD TAMIL HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd4670e5778a97b8c340d562f6614e00eb0bfac7b4d/index.m3u8?token=62bfe7cb456d3748297a3ac2f67be0db9aa2cefdc1f8c7416e5150f88d94325d2d1916dc767d1f6d804d6f50041a953f93c10dd1724cc022fe6344afb5efda5f3c8529fd9b86-2657ea059cfd46aa4461d743adffb86b
+#EXTINF:-1 tvg-chno="2604" tvg-id="glotv" tvg-name="DISCOVERY WORLD TAMIL US 4K" tvg-logo="" group-title="TAMIL",DISCOVERY WORLD TAMIL US 4K
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd4670e5768a8718c21165e356719fb05a5b3a87e/index.m3u8?token=c552de85963c63cd9e4f6af745befa783a8a6efcdfd667ea4c899738f79f2e408bd2f09f0683077864870a8e5cc38e660cce03f6163fd23eabd45ead1f1f325c44d3a3df3a07-594929b3154b5cbd0661df95b7549378
+#EXTINF:-1 tvg-chno="2699" tvg-id="glotv" tvg-name="EET TV" tvg-logo="" group-title="TAMIL",EET TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd56b094b63a9618a2c1f482c/index.m3u8?token=99182f467971b6b1f2a8dbdbf0abf1bcb229dae8bde821e37964030139672f3b76066d77f03afffdfb4722398ab48fbc67196290ca2de6edd0b8269bc3ff3f901c0eab6aa97e-f87ed0f08d06b130c3546938576ab813
+#EXTINF:-1 tvg-chno="2603" tvg-id="in_foxlife.in" tvg-name="FOX LIFE TAMIL" tvg-logo="" group-title="TAMIL",FOX LIFE TAMIL
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd661054b7bb6789b3206402d7d14/index.m3u8?token=174c8a47f8eedc0735d28ca11a1ac9df75ffebd5d2d4cb80f73b7e7484ff5664459da487808fd1c856078e83cb56257d2044de3b63e8d7497e8df565b8027cc4f7e1b4197246-fffc8af7ffec072239a699b4736fd21a
+#EXTINF:-1 tvg-chno="2602" tvg-id="glotv" tvg-name="FOX LIFE US" tvg-logo="" group-title="TAMIL",FOX LIFE US
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd661054b7bb6789b32075221/index.m3u8?token=6342554b4b2a273344a331737161da8af120bcf97b777edc2247a1309109ef445e479958f713e7ce9378509abb50498a33d0b1ad9339bf24bc7dbcd66db16208ffa08eb53831-955006ebb3c09f556e9501b6429b7db0
+#EXTINF:-1 tvg-chno="2650" tvg-id="glotv" tvg-name="GOODNEWS TELEVISION" tvg-logo="" group-title="TAMIL",GOODNEWS TELEVISION
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba0799122164f25630b/index.m3u8?token=c3baf13faffd1bd8a8a664e9e1652ed631e1300c6b940c5aa1b76dbc21f2d3fff4d1c8c5d279d3b85bed620552269298ecd651b71af80706bc9f57fd8c870335cf505ad3d04d-41ebf2708104b5b4226de2ad62bed938
+#EXTINF:-1 tvg-chno="2713" tvg-id="glotv" tvg-name="GRACE TV" tvg-logo="" group-title="TAMIL",GRACE TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba0798c2c11443f600e/index.m3u8?token=da2998fd6cacd3fe2572a29201f4980b8066acb1247e093bc8ab26e26d9164a226b7361c9a2442280840172c292825b466086363d0da3da73728fdcffbd769e8ed6ea297c933-3416c53a47a9cefdd93e8d6e001e0951
+#EXTINF:-1 tvg-chno="2601" tvg-id="in_historytv18hd.in" tvg-name="HISTORY TV18 TAMIL HD" tvg-logo="" group-title="TAMIL",HISTORY TV18 TAMIL HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd8670e4078ad6781390430586b0ce51cadb2/index.m3u8?token=56b598f6f327cf613bf10f9d6cb1a34300fec8ab9008204da062f386129429208388f5d9c4dda0a5ffa4c9efaf4231a3af9980695ad197c5a596ee8cd3a3ddaf61ae5dc87bdc-7bfd7c45eef28d6db0dad507cd687af8
+#EXTINF:-1 tvg-chno="2600" tvg-id="glotv" tvg-name="HISTORY TV18 US" tvg-logo="" group-title="TAMIL",HISTORY TV18 US
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd8670e4078ad6781390430586b0df710/index.m3u8?token=e7d938e3a52b5a1c1472f43f6d9bb2c4d12bf596184a836db2989fa60ca5c990072ea47a162f5a436ef3e0efb820d437c56b40ae9c7c242cfff2856d332b449abf4bee7090d3-aae353c4d1b733166dc3a4f4661b6baf
+#EXTINF:-1 tvg-chno="2701" tvg-id="glotv" tvg-name="HOLYGOD TV" tvg-logo="" group-title="TAMIL",HOLYGOD TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd861114d70b07a8139045e347515ed1d/index.m3u8?token=dbab0f60b39dd72b7c7362909bc073cc097253f6affc00620b90f4a031ff9d0fb04b7b887cf36a498ed80aa65465a54a311502148d399dd912488221db80dc215a75b189007d-547615b2d6f25992ac8db13ad2df3152
+#EXTINF:-1 tvg-chno="2661" tvg-id="glotv" tvg-name="HOSANNA TV" tvg-logo="" group-title="TAMIL",HOSANNA TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd8610e5579b17f8139045e347515ed1d/index.m3u8?token=9e2d9d38b4dbea33d8929ec73df5be5d6c5fa7be1f28433517242a9591b88d83962a4ee737e2fdd26da7d4c7a2951e6d7add516195719848c6259e65f9124e73782eed820405-c783e1e9873f72a692745004573a278c
+#EXTINF:-1 tvg-chno="2580" tvg-id="glotv" tvg-name="IBC BAKTHI HD" tvg-logo="" group-title="TAMIL",IBC BAKTHI HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc565025362a6618a0c3f680c6b11e612bbbc805975f9cc/index.m3u8?token=0bf423e10e34d3cb6f9ba17b24514c3256c238e560600883d5e4f6dbed596fb9211aa9451c5855690b399c1e2270e7cba987f5637ae8f568d714da2468873a9d986207072fa0-5a84c286fcd62624c6818b8e3a3b759f
+#EXTINF:-1 tvg-chno="2550" tvg-id="glotv" tvg-name="IBC MUSIC 4K" tvg-logo="" group-title="TAMIL",IBC MUSIC 4K
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd96c1e4b7aaa6d972e0d55217911e8/index.m3u8?token=b4d9336cb6b64637dcd98475ec4297d5cac2351fbc9340a3994e461ce31654f0a7b578dc8d12c0e5edd1e02deb87f420b08fea718d02822f9401c691736fc85bc443e9003964-ced0487eb2c6da662f100a83f1e11610
+#EXTINF:-1 tvg-chno="2579" tvg-id="glotv" tvg-name="IBC TAMIL 4K" tvg-logo="" group-title="TAMIL",IBC TAMIL 4K
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc565025362a6618a0c3f680c6b07ed13a7a1b5536cf8c93462af/index.m3u8?token=60dd7125c405d08f627601a539a0df3694bc550a543372cefe3aacbc9796d0dc757ee268e2151ba9abdf4f0a5dbf74af8b71c8850ff556da5ddba15630cad4445a8ad7be4b4b-625cb4e62172a22e9f284b0045243bea
+#EXTINF:-1 tvg-chno="2578" tvg-id="glotv" tvg-name="IBC TAMIL CANADA 4K" tvg-logo="" group-title="TAMIL",IBC TAMIL CANADA 4K
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd96c1e4b63be7397210d42217a19e010/index.m3u8?token=726d6a3f306714537bd8e96d9fa0c6232ad33a01e81cce9eb716bd66b47b5a338113851b90b6a342f34e09a75402cc4c76985ac29b8bd4aa77eaae957b6dc25f337352cc25a7-0b38ebfc5fee8bd193a2af22fcaae705
+#EXTINF:-1 tvg-chno="2581" tvg-id="glotv" tvg-name="IBC TAMIL COMEDY HD" tvg-logo="" group-title="TAMIL",IBC TAMIL COMEDY HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc565025362a6618a0c3f680c6b11e612bbaa805f68fdfa284586c68681/index.m3u8?token=5aec54e3b66a5bcb17e0b3624fc0baf3294ca8d818ee30b33ebd5fae5629769671b5f7baa46df06370e00f9a84dbb674b3485e44ac7473ffa9359527ba706c4d66ee39dc4b84-d04474ff463e5d1000fc1d838201b02c
+#EXTINF:-1 tvg-chno="2582" tvg-id="glotv" tvg-name="IBC TAMIL SILUVAI HD" tvg-logo="" group-title="TAMIL",IBC TAMIL SILUVAI HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc565025362a6618a2c1f482c6b11e612bbada87e54c7e42275a3e7/index.m3u8?token=43c2434fc63bdee0192abf5144b11e0c12d335fc9921165f8f5a2f893fd74e808065b394315750b83eea829c64514eae471143caf98ee3363f7710f8fe2e1f2767456f2f7072-922412b6e9624d880d5cc2ecd51d11d3
+#EXTINF:-1 tvg-chno="2690" tvg-id="glotv" tvg-name="IMAYAM TV" tvg-logo="" group-title="TAMIL",IMAYAM TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a077932c0b402d6b0cf2/index.m3u8?token=5fef256ff973b0d140a3c397bcce1f06578b788105cabfacbd5c8b64378b8ed1534c7f98b09719c0030c06cf699bb30a630afd1e87fe95e4f93fd731826cfb27780c1c802f24-c62c594df5de4a591be0761b60cc575c
+#EXTINF:-1 tvg-chno="2668" tvg-id="in_isaiaruvi.in" tvg-name="ISAI ARUVI" tvg-logo="" group-title="TAMIL",ISAI ARUVI
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a0778d2c1b5e21660df218bbaaa07f48dd/index.m3u8?token=7e769512d13dcc17b2fd7731568736468f166365102a43b8c81fc4d648017a73fe1752b40952721d9196b8b30e5378355118bab5bf09114832231900bb008c9ab2c87a3cb2d4-80710a09e837f085f641ba80094e0830
+#EXTINF:-1 tvg-chno="2676" tvg-id="in_jmovie.in" tvg-name="J MOVIES" tvg-logo="" group-title="TAMIL",J MOVIES
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a07481201d5729710bfb05a5b3a87e/index.m3u8?token=cb3d34e3d79f89a69ff9c179a4a934d0cde66ccf1ac7054a587bc9f016a23dc5e802c1fc80e22578abb19e3270c2d032be0f248b9d38855388251ae60285f92371232b62af4d-67dbb704526d9f1144b7e0f9d17cebda
+#EXTINF:-1 tvg-chno="2700" tvg-id="glotv" tvg-name="JAFFNA TV" tvg-logo="" group-title="TAMIL",JAFFNA TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dda6f1b5279be618a3b/index.m3u8?token=055413188eb6770ed60200f724ca209a53ae11ee639461b571fa9d8901a578f19ead2c8b18f399d85c17da2721ce18a686f3872507d6c5e2e08c582321e49b85b9b6d9833763-3f45023754781683225efcb2957456bd
+#EXTINF:-1 tvg-chno="2627" tvg-id="in_jayamax.in" tvg-name="JAYA MAX" tvg-logo="" group-title="TAMIL",JAYA MAX
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dda6f045568b27f863206402d7d14/index.m3u8?token=ffe58dbb224a7f0f02f558dcbde4c568a1e44db1be1510ad6a3cc1e6b400f64ecade69b784abb589229b79845c476265a4d82d6e06277b3a8d76e0fb626ff83b18ea9c340bdb-e0a3913a46184923cf9abd6135acb3ee
+#EXTINF:-1 tvg-chno="2628" tvg-id="glotv" tvg-name="JAYA MAX HD UK" tvg-logo="" group-title="TAMIL",JAYA MAX HD UK
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dda6f045568b27f8632074a/index.m3u8?token=aeacc94a7f6558de56d2f78585ae0df29fc3dd46a3d4d907bd9506d892aaa5b9e6bb1dec3c825612bd4d89ba7140e0c28bb7144b0fa5cdac47987b6bb535740fdd3cb4f2a510-ab2cf0e772f642227258e76a8542b641
+#EXTINF:-1 tvg-chno="2626" tvg-id="glotv" tvg-name="JAYA MAX US" tvg-logo="" group-title="TAMIL",JAYA MAX US
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dda6f045568b27f8632075221/index.m3u8?token=773d97c88c126f01c423a6e837ced283fff662a8e0259e5fba360c6898beb40db4acb778538bfd3d282044d74f42841cabf632894b39a490b790d25c98b5118e4a5fa81b8d71-599cda8447c5f3a30e9a1085290e52ed
+#EXTINF:-1 tvg-chno="2621" tvg-id="in_jayamax.in" tvg-name="JAYA MOVIES HD" tvg-logo="" group-title="TAMIL",JAYA MOVIES HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dda6f045568b271882417523f6019e918a8/index.m3u8?token=9f9a2c40450b3d2dfdd15c70d207af909375768d6ea74d25e8db431d2a1f7180b0165fa91f142dfecb272b3ef738daa93d95e73546dcc5d7234af8b0445c4337befdf8fefc86-fd93c29075b37ccd654e8e1aa13437c4
+#EXTINF:-1 tvg-chno="2620" tvg-id="glotv" tvg-name="JAYA MOVIES US" tvg-logo="" group-title="TAMIL",JAYA MOVIES US
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dda6f045568b271882417523f610be5/index.m3u8?token=964edf42c1a612ae11a89c70ca8a271a0bf465087437a57b6c94320c7f7d5b5c0f49f629ece2c260db2eb79cba8d2b11be163b216d6d219f73fa7164e95c83fba13e96de173c-1c3680285bd17455600dca40617ec0d1
+#EXTINF:-1 tvg-chno="2632" tvg-id="in_jayaplus.in" tvg-name="JAYA PLUS" tvg-logo="" group-title="TAMIL",JAYA PLUS
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a0749f34135e30780df70eb0bfac7b4d/index.m3u8?token=9cd899278763fece4f7fb0af0534177a26a5c91dc7c6a5d17f5539a513ae0caee66aa861fb65557d4a4c7330910240c51628054dac506c95116be2f168e0b2e7ae33fdff8567-ccce93f91c229b95206070f70fc4965f
+#EXTINF:-1 tvg-chno="2655" tvg-id="in_jaya.in" tvg-name="JAYA TV HD" tvg-logo="" group-title="TAMIL",JAYA TV HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dda6f045568ab688139134c2978/index.m3u8?token=e702a9a07a3fd1e8c4b97d448b6583bb0f98da361602a8ee7356fb9450ef86dce3d334ec86ee4daa5fce7d9a67e29e8fb134cc05642741b365f12bd9453fafcf3d63547ca003-28f5d7301423915ac9695556a57356f8
+#EXTINF:-1 tvg-chno="2654" tvg-id="in_jaya.in" tvg-name="JAYA TV US" tvg-logo="" group-title="TAMIL",JAYA TV US
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dda6f045568ab6881380140/index.m3u8?token=01df313f6c6fd3769657251198298e41ead8c27ef5fb7bd6a963bfbad2ff98f7b336627981c959419d6df8afb72b9af89024e8706a9aa11818b599830d86cd755979ac940c04-6a7108efcb3763a245d09773b1eca68d
+#EXTINF:-1 tvg-chno="2702" tvg-id="glotv" tvg-name="JOTHI TV" tvg-logo="" group-title="TAMIL",JOTHI TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc463025e78ab7697320657/index.m3u8?token=4b0db2996577cb2bbc7475d0872607b86e8dbea9495ddf9b1431d9bdb9c6088e0040ed4f198d20d9dbed01a64d5086fc615c37ee03ea6460f7873ce6770048ead6cda7378305-e121c21b072838ddd462a13aba34de6c
+#EXTINF:-1 tvg-chno="2656" tvg-id="in_kalaignartv.in" tvg-name="KALAIGNAR TV" tvg-logo="" group-title="TAMIL",KALAIGNAR TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302ddb6f11557eb8709f3f0d55366b0ce51cadb2/index.m3u8?token=b3c63abfd8357b18661042cf010788866c522967f9b85e717343499b5ed3c2d1afa8b5d448b8856095af11c1115f691913664e9906044d0b48756f2bcf34f7730fc97ebe840e-f9b2b4b11cc283b939215d7d63549153
+#EXTINF:-1 tvg-chno="2640" tvg-id="glotv" tvg-name="KALAIGNAR TV NEWS HD" tvg-logo="" group-title="TAMIL",KALAIGNAR TV NEWS HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc565025362a6618a0c3f680c6b13c53d8597865c60e3fa3f7cb4ed878fc3554eac/index.m3u8?token=3f71b670cb924fe75288e795136eb11b7911950812d6c542c5145c34616b8acb031e6b69883c977b0bd011508169af4583eda564716ff27d902c63369d8f842ca864c017c758-52a88812fea64a304f6a7017f4457fda
+#EXTINF:-1 tvg-chno="2685" tvg-id="in_kalaignartv.in" tvg-name="KALAIGNAR TV UK HD" tvg-logo="" group-title="TAMIL",KALAIGNAR TV UK HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc565025362a6618a0c3f680c6b13c53d8597865c60e3fa3f7cb4f6a9/index.m3u8?token=e375dd1c935e15dda1e4b06ebc3662e06787fbbdc2f72dcbde2d0e05361efdef44466fc4d63c5dd7829326f475895d4e2b8018cb65c940b543e6492dc8f601426865dfb3e3e6-1f77f8a1d438ab65c5850aacf1b5bd52
+#EXTINF:-1 tvg-chno="2553" tvg-id="in_ktvhd.in" tvg-name="KTV 4K" tvg-logo="" group-title="TAMIL",KTV 4K
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302ddb7a0b4b63be739721/index.m3u8?token=0b6060cb941412c5671fdcdee55211d92da05c7f194d1819f5073c37588573dfb2947cd5e024709c6ca11584f6b9406bd8a1b1b09e14367389fc3dfad8321f1b6fe61c58c0f4-59ae302c52de6562a12973449ac924bb
+#EXTINF:-1 tvg-chno="2606" tvg-id="in_ktvhd.in" tvg-name="KTV US 4K" tvg-logo="" group-title="TAMIL",KTV US 4K
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302ddb7a0b4b62ac7f/index.m3u8?token=419f2f2c73ac3110958090d0c761f417f6b5a498940ce194c77a08ac5e1e75c8e6f1715f24fd572b7eec6d5a16cc1d88d03a2b1fb22911cd939a7ef419112730841ea4a20af3-097d34fbd28a267f64bf97b12ed16b4c
+#EXTINF:-1 tvg-chno="2633" tvg-id="glotv" tvg-name="LOTUS NEWS" tvg-logo="" group-title="TAMIL",LOTUS NEWS
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a072913907523f7a1df302bbaaa07f48dd/index.m3u8?token=321b27f4a567d263b8ae76455ec55502bbed864fdb4d6fd92575b750ed69e51770b74568665eb9ec65b0af9bf8257e3386244c76cfa6b6c487b7181c00b919158349ca1ff1fa-c670bcd9da8b4e04ebc0041cb99bfb6b
+#EXTINF:-1 tvg-chno="2663" tvg-id="in_madhatv.in" tvg-name="MADHA TV" tvg-logo="" group-title="TAMIL",MADHA TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302ddd6f195c76a06a883206402d7d14/index.m3u8?token=f3f6fa71b11910b02c1c1586c62c5038fdd103e78dea22e47966da31311402646275fb29c97c675226046ee1432b5076cf3ad4a83f716a303279f78b6f0b43f76f7a32680bd6-3c4fa974e384938fc3d382b60dcae8c3
+#EXTINF:-1 tvg-chno="2665" tvg-id="glotv" tvg-name="MADHIMUGHAM TV" tvg-logo="" group-title="TAMIL",MADHIMUGHAM TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a0739f291a482d611fec10a9a1b5645ec5e42663a7/index.m3u8?token=071eacf25c5a0d6b742d911ef0a73cd1023181bb04798dfa9c01c67a578fbe2e3bb92873592d8f5d96f5a2c7ba5bea8a46044dc470c5d59433be0ab01f649266f8773b2db191-520be5a70a3b24050f27fd4fe120d0f3
+#EXTINF:-1 tvg-chno="2648" tvg-id="in_makkaltv.in" tvg-name="MAKKAL TV" tvg-logo="" group-title="TAMIL",MAKKAL TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a0739f2619402c6b0cf20eb0bfac7b4d/index.m3u8?token=dcc11dda8b64b8dda36ba14f055b9d1b2ce4942d88fd24cd69d4a289b4e80bcfbfe418380dcc54a035f364723e43b712ecd36fa15ecf5489746e689e21eb9975e9a415630177-3e692fd2e442d93f89539a5cfbd91888
+#EXTINF:-1 tvg-chno="2651" tvg-id="in_malaimurasuseithigal.in" tvg-name="MALAI MURSUAI" tvg-logo="" group-title="TAMIL",MALAI MURSUAI
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba0739f2113483f790df602b1bfa8/index.m3u8?token=dbed4fd79506bd2d55443bebffaecaf88802797bc7ed0b45507d36730213ec355f2ffd224a6b1a6eb93ea410b3e9bc7c105998252921e4fa933a1ed924155e98932e8e60cf32-0f5830679a5531ae24142a6d6f1cd7b7
+#EXTINF:-1 tvg-chno="2591" tvg-id="glotv" tvg-name="MALAR TV" tvg-logo="" group-title="TAMIL",MALAR TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba0739f2113533f600e/index.m3u8?token=b8158b9d529942534968c68bc6daf319b7e6adf7ded1609900c9c8a7a546046f693fcfeea5ae0c9bbcdb9a1f7247acc1300e932f708d093fed006ed5844794300470d7172926-abafe9ffcc84271cfd00f766f1ba8110
+#EXTINF:-1 tvg-chno="2702" tvg-id="glotv" tvg-name="MARUTAM TV" tvg-logo="" group-title="TAMIL",MARUTAM TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302ddd6f0f4163be738139045e347515ed1d/index.m3u8?token=3fefc8305e3b19e7ac6751240d69cad697be3ef94cb6cb492a73adb6dfa7c2ce687e391759d7a2cb8cce60d9f9dbb856539833c9d63e32b9ab6063bbe1af8624f0f95ec824c5-311cda1817ec98bd2b70d0afeb4ab9de
+#EXTINF:-1 tvg-chno="2583" tvg-id="glotv" tvg-name="MASS TAMIL 4K" tvg-logo="" group-title="TAMIL",MASS TAMIL 4K
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302ddd6f0e4768ab7f93241e/index.m3u8?token=f91740aa27fb66bd4b702f0109b438bc14b6ab37bc8b658120e678423f0f1531d4d874b51524ebea1357de9229c4381bb8db1153018e1776dafd3220c712fed0870dd237ba6d-1d154c29c57e3002585454d273a44f62
+#EXTINF:-1 tvg-chno="2695" tvg-id="glotv" tvg-name="MEENAKSHI TV" tvg-logo="" group-title="TAMIL",MEENAKSHI TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a0739b281c402b6710ed0eb0a8be6640dcec27/index.m3u8?token=4839227db51445c6f56ee3f6347a7f522290666dc4e527897e5e5a285b375c8e282fa7edf941b4fd0c0a40335ef87e4470aec8295f2c2245a7eee9cc90b1ecc4078ec6db743c-cee51e3194a55ed901687b2d71e66348
+#EXTINF:-1 tvg-chno="2610" tvg-id="glotv" tvg-name="MK MUSIC" tvg-logo="" group-title="TAMIL",MK MUSIC
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a07395321f54337d1b/index.m3u8?token=58db819ecb15ffb6f78744561129f12e0973847df2fd2554be248273dda978d815afc287ac05b75c813d1942d40886bc5a439127abf5c69195851cac43c47e229d05e57d9593-a2fa038c5aea9a8d523f3ff8ce7ccdd7
+#EXTINF:-1 tvg-chno="2679" tvg-id="glotv" tvg-name="MK SIX" tvg-logo="" group-title="TAMIL",MK SIX
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba0739532014838/index.m3u8?token=25f44a1579de0fb9201e4ad5ee0cd5abc2a12385af0e0654ec904e1eeb4c443bcb3e4ae2ffd24a6a725ba7cc7762d243a8651026edb86e9ae116141bbeac52fd2762173e8802-49a64f37a0106f429b69268fb525e139
+#EXTINF:-1 tvg-chno="2692" tvg-id="glotv" tvg-name="MK TV" tvg-logo="" group-title="TAMIL",MK TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a07395320657/index.m3u8?token=02bd981912e3f767d0fd06c1b37d3875814a46d0b93c111f7d02eb6653ba250257e3fadc7d456596f07cc93b41f5a167579841cb2b00019c5f838f6ed48b7da0728da0cdf152-7efe10483bab39a2c08f50ef632290a4
+#EXTINF:-1 tvg-chno="2611" tvg-id="glotv" tvg-name="MN MUSIC" tvg-logo="" group-title="TAMIL",MN MUSIC
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba07390321f54337d1b/index.m3u8?token=2aab110073d01eeb07486c384d8b08ccf7f9f061ed187f43628d2ac4c3f1a433170a79548b7b0857b76188439b0cb98bd982939d21e25342f2793184016fee1f2d1307ad3308-7d9f7283c433ae7a084e4009243241b1
+#EXTINF:-1 tvg-chno="2688" tvg-id="in_moontv.in" tvg-name="MOON TV" tvg-logo="" group-title="TAMIL",MOON TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a07391221c5e3462/index.m3u8?token=46023d1fa38221c393ae35f0550bea3d0279fe405054df10246a3f9eb66d9131d600e91ebb8d6ef23c549cfe15ab0ce234efeb8f2c06109b136710d9d216813fc49a8ad2944d-f7fa80e10f4e072b873be2ced42a9d97
+#EXTINF:-1 tvg-chno="2622" tvg-id="in_murasutv.in" tvg-name="MURASU TV HD" tvg-logo="" group-title="TAMIL",MURASU TV HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc565025362a6618a0c3f680c6b35d123858d946d55c7/index.m3u8?token=a9168aaa43665cf9898231dbada4cccd11a99a3ffd9b0178a2500b5a87eaefbe7671744085fe9ccf26a99e4a714df4fee8ea99e017ef35682b0f04edc31f4efa172ca9337709-142dd1a9474799b9e1ae58f0b9470295
+#EXTINF:-1 tvg-chno="2664" tvg-id="in_nambikkaitv.in" tvg-name="NAMBIKKAI TV" tvg-logo="" group-title="TAMIL",NAMBIKKAI TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a0709f2010482b7f19ed0eb0a8be6640dcec27/index.m3u8?token=2f897659402cb37bfa05df0c1005d9b1bc803d5d3f46cbd9e02ab0804d315d405d952fdb2e830c36b5fe87ed11aaf9e3db40d2c30d976ab3d7e2711c9e215ba784f2f1424888-e346cc9f3bb61583e7ac5150498c32a1
+#EXTINF:-1 tvg-chno="2597" tvg-id="in_natgeowildhd.in" tvg-name="NAT GEO WILD TAMIL HD" tvg-logo="" group-title="TAMIL",NAT GEO WILD TAMIL HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dde6f094b70ba71813a1b4d246b0ce51cadb2/index.m3u8?token=99b47aa87727e87480725df91c574c699a14fcff273a9412f3eae9e3bc13beb98cce042d93ce7c63451e9d102816fe6cd33e22fb034a505113fbc8f17caa535563fe88ef9af3-3b82d188dba3246e807bc8d07fe07253
+#EXTINF:-1 tvg-chno="2596" tvg-id="in_natgeowildhd.in" tvg-name="NAT GEO WILD TAMIL US" tvg-logo="" group-title="TAMIL",NAT GEO WILD TAMIL US
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba0709f390d46257b07f318a8babe6752d0/index.m3u8?token=edaab08c98279a996e08f4826643c8d836321c847da7d6a41d59f3348195a87bb4c40e69a979b4c8142312c704b1cf73407d6ad496711a7143d7b3d4cf83c132250bf4364ddf-bc0d17ffa944433099e679c3e5d15d02
+#EXTINF:-1 tvg-chno="2595" tvg-id="in.jiotv.1335" tvg-name="NATIONAL GEOGRAPHIC TAMIL HD" tvg-logo="" group-title="TAMIL",NATIONAL GEOGRAPHIC TAMIL HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dde6f094b70ba718139134c2978/index.m3u8?token=5e68f24955a9bd353c6a1f6e2803017257a42db045bfc9cca7bfe9279336ed6a11b6b0abf503e2ba601f3835a8d493891fcc5b955efa8d0ce570c690e29fd5d2ab01a186e4eb-2d56a9483ef90c419107d11a687bdf0f
+#EXTINF:-1 tvg-chno="2594" tvg-id="in.jiotv.1335" tvg-name="NATIONAL GEOGRAPHIC TAMIL US" tvg-logo="" group-title="TAMIL",NATIONAL GEOGRAPHIC TAMIL US
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba0709f390d46257b07f102a5/index.m3u8?token=777c249804b167ee7266c795dbac361e2e364b1d55965099d84125cad20faa98ac80fb854eb06176883ad94524836ad5599b569b656ac60bdb6586f7b47a5c0805517373595f-01dc1a65c8e95625ddbb4ad553b8a308
+#EXTINF:-1 tvg-chno="2636" tvg-id="in_news18tamilnadu.in" tvg-name="NEWS 18 TAMIL" tvg-logo="" group-title="TAMIL",NEWS 18 TAMIL
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a0709b3a015e510c07f010a9b7ad6d55d0e82266/index.m3u8?token=3a8d077a6a7ac79a42c5a5b368b5421d0d217a6115f4802a657ed313f68d25b3e96f7ca93b5230dac7155629b1fe6306e3970e78846a47766bc2378c0177c4513484082ef4fd-388404ce22340f3d35fb743bb6523004
+#EXTINF:-1 tvg-chno="2637" tvg-id="in_news7tamil.in" tvg-name="NEWS 7 HD" tvg-logo="" group-title="TAMIL",NEWS 7 HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a0709b3a015e576b10e00eb0bfac7b4d/index.m3u8?token=704ec216998f8948f85b4cb80c38fe7452e39ebcc5676ae4f99de3401d56e4a61b143c4989db362022cfa81a3ff7d6719d14ccd5b5836c67a6dfa33ecbc35104efc38b9aaf7f-84d42aeca0bbefa760941e00381178e0
+#EXTINF:-1 tvg-chno="2634" tvg-id="in_newsj.in" tvg-name="NEWS J" tvg-logo="" group-title="TAMIL",NEWS J
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba0709b3a015e2a/index.m3u8?token=84fd25764b47c18d9daf8c41f5136783620632041427e05ffbc4e3cbc4508197cceadad1c442e441545fa64d0912192a1a4acdccdf2f672bd5143a4ac7dde724abe64bc95d7f-1deee4c65dd0fc5175fd9824682ab15b
+#EXTINF:-1 tvg-chno="2634" tvg-id="in_newsj.in" tvg-name="NEWS J2" tvg-logo="" group-title="TAMIL",NEWS J2
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba0709b3a015e2a06/index.m3u8?token=51c9ace6fc2e9ee0d91435bd3c433f7675e5ae4d3ed31d1a4392e41369b5b8beac7c210e5a43b7f63be8e18c1d63598bf7a55b2fbe761fedb6352f4cd2c809006de086532e25-9c0b6d8b762a740bb007f9e465e9fe6b
+#EXTINF:-1 tvg-chno="2703" tvg-id="glotv" tvg-name="PALAR TV" tvg-logo="" group-title="TAMIL",PALAR TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc06f115565a06a9f201b4d/index.m3u8?token=bfb75a8526a061043900c9c8f57bccda63764091cd402b34b9c89a62221604529eb11c2ae05e95b5b9873c8dc8cad02717ae7c14d39e35d41893c8833e6125eb6342d76484a7-b6be8d863673d75dcf1598e905db4964
+#EXTINF:-1 tvg-chno="2639" tvg-id="in_polimernews.in" tvg-name="POLIMER NEWS HD" tvg-logo="" group-title="TAMIL",POLIMER NEWS HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a06e91211b4c256607ea14b3adbe7a45cef12a67a2ef/index.m3u8?token=410301696597b7aa940cd730715e724b07f09209afc156f952bab8cc446109ea3a22a981fb34c4863d4a83b741b8f891b229b3dfbccb9170be6255ff7119c6454309d885f926-223cf41650fc4ea3bfee9939d0a104df
+#EXTINF:-1 tvg-chno="2666" tvg-id="in_polimertv.in" tvg-name="POLIMER TV" tvg-logo="" group-title="TAMIL",POLIMER TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a06e91211b4c256607f007bbaaa07f48dd/index.m3u8?token=f8cab39d351fb2201d5362bb931a14901d0643412c39a234d4e9f5763e4d15bce72fb4b8f2f0635a467a5ed848e1862dbf1a9fe0e8c91cf332f204dfdb8d73b6d7eabbf944ad-464656898e002087458434b78c7ef2f0
+#EXTINF:-1 tvg-chno="2687" tvg-id="glotv" tvg-name="PRIME MUSIC" tvg-logo="" group-title="TAMIL",PRIME MUSIC
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba06e8c241f443f790df718a7/index.m3u8?token=0884c784413a88b09c221b2da7bcfa88a7baa485d1e874b462d600a467958ee2e5160d4ef24024eebfcd57c45c4f3ff021628ed5e849453cc8f56ff5f2e7ab8ca73f72c5d887-d1eb96f211c4adea1efcb81b063957a7
+#EXTINF:-1 tvg-chno="2667" tvg-id="in_puthiyathalaimurai.in" tvg-name="PUTHIYA THALIMURAI" tvg-logo="" group-title="TAMIL",PUTHIYA THALIMURAI
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a06e8b391a48397507f019a5b2a87f54c3e42275bfe2afb1fc/index.m3u8?token=225618f69045574aeeff8a851a49e0f09ce2955164d1805b17ad47b1439e816520a30ca1f2000c7bc7463b60da8a10fc0a997bb2e9bd29b39d1a1fb5235419d74a18c49ed8d4-16ac56f437df32675e69408225e47590
+#EXTINF:-1 tvg-chno="2589" tvg-id="in_puthiyathalaimurai.in" tvg-name="PUTHUYUGAM TV" tvg-logo="" group-title="TAMIL",PUTHUYUGAM TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a06e8b391a543f6d0de310a9a1b5734cd8e9/index.m3u8?token=1c7af6bbb2adfb75890590344fea65a0dd1537f824b6052a5d3a31a6bbaadc545652908ac21f4b59e553041b1ce69fc3d92aa8ff1ed8880b596dfd53bed72972554892fc5ba2-6e032e4c1078d6c35a09f4b48e7d414c
+#EXTINF:-1 tvg-chno="2705" tvg-id="glotv" tvg-name="RAGAM TV" tvg-logo="" group-title="TAMIL",RAGAM TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc26f1a557aa06a883206402d7d14/index.m3u8?token=bc7148dd92c5e4919ec1cc8208c34cd1f091b4461ccd8aa14a778ac8475b86c9212fa80a0480a9132814267f34b84701165984896fc0bba67b4dbd59b61ceb69dd003e81eec0-f112fc7aae8c817de474f28dc6418108
+#EXTINF:-1 tvg-chno="2624" tvg-id="in_rajdigitalplus.in" tvg-name="RAJ DIGITAL PLUS" tvg-logo="" group-title="TAMIL",RAJ DIGITAL PLUS
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc26f174b73b6799739134d3f6414f102bbaaa07f48dd/index.m3u8?token=80310338917ed18fda92573615743bb721af6fb8af730a26e5b6634dd9038d569f5fb3dedda07557096dd45eda47d96f130dc59438f83da435c50f0a732dfce7ef653b14a450-5fe3ce7230bf9f086de1ac1d4af2eb6d
+#EXTINF:-1 tvg-chno="2625" tvg-id="in_rajdigitalplus.in" tvg-name="RAJ DIGITAL PLUS UK" tvg-logo="" group-title="TAMIL",RAJ DIGITAL PLUS UK
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc26f174b73b6799739134d3f6414f102bbabaa/index.m3u8?token=3a2feba64436d73332bdcf952f1a65cd5667c325a2241fb47cd9d4a5ecb6c5055545c2bf24ed7ab4edbf059a174b4cd7eb35482272907399aa6fc7424c5a16ed0ab56238fc97-ce2ca53ff96d4e867cc407126a906689
+#EXTINF:-1 tvg-chno="2623" tvg-id="glotv" tvg-name="RAJ DIGITAL PLUS US" tvg-logo="" group-title="TAMIL",RAJ DIGITAL PLUS US
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc26f174b73b6799739134d3f6414f102bbabb273/index.m3u8?token=48d61f3a52a2eec3e2c84ad957c6f533fe49f5aaa079d730e07ef4ffe7fc641771d9049ccfdec02d1bf66350137c7766ac793ddc178a68f74fffd925a5d9b4d78bf11707da0f-16f50e69bca050bdbd19d395d4a852cb
+#EXTINF:-1 tvg-chno="2552" tvg-id="in_rajmusix.in" tvg-name="RAJ MUSIX" tvg-logo="" group-title="TAMIL",RAJ MUSIX
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a06c9f270d4c356711fc0eb0bfac7b4d/index.m3u8?token=caac1321f706eba681c93377b85c8556a1d5be95ddafa051183851b5875fc93d00237a2f12a49de6c5968a367e3652d5c2e9d900434a0e28c2a4e25f9abd937d07fc189adf4e-4a6752cb9cd99cc1d6d58008aa754d5c
+#EXTINF:-1 tvg-chno="2638" tvg-id="in_rajnewstamil.in" tvg-name="RAJ NEW 24X7" tvg-logo="" group-title="TAMIL",RAJ NEW 24X7
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a06c9f270d4f25630bfb63d0a6d66d55d0e82266/index.m3u8?token=933069ffdaea641f114eb25573fde3e023e184406ab708f621db1683fd797269a1860567216e8ddcd596c0e4ccb2502f30d2f08c19191ba5d57b04454546227dc98eceab78aa-b1f3bb16a7dfe69b912424077fdbfb13
+#EXTINF:-1 tvg-chno="2614" tvg-id="in_rajtv.in" tvg-name="RAJ TV" tvg-logo="" group-title="TAMIL",RAJ TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc26f174b63a9618a2c1f482c/index.m3u8?token=b4797b74c7a2f60f750045c0a8ab0b7a8d5cf325699dc52a0df02af328a235762539d814243fd5d496a7d95c00ff13205a6621b1e1a11d1e8ebd94dc74f51d258d87c0e996f3-f478379d0fc562aad590415dd7417981
+#EXTINF:-1 tvg-chno="2615" tvg-id="in_rajtv.in" tvg-name="RAJ TV USA" tvg-logo="" group-title="TAMIL",RAJ TV USA
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc26f174b63a9618a2c1f482c6b0df710/index.m3u8?token=0868af2d5749d257e78ce3e7ac6d0546f613983e331312a604daa2ec57d7ece37cd2867e69d922fb3e34f09686de3d40b01119cfd827551cf24d3b66f51f21927f7685cdbbb9-28c6160b72a59954186be873787ce6cb
+#EXTINF:-1 tvg-chno="2694" tvg-id="glotv" tvg-name="SAHANA TV" tvg-logo="" group-title="TAMIL",SAHANA TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a06d9f25134f216b0cf20eb0bfac7b4d/index.m3u8?token=9452684ea3d3f96df247dc9aeee8992b69fcff07e7635527ad041c212c5e2059940c6bb7a4c2ae8786bb606d240983669da07a0732ee25db85b3a2f0e0db309587c83b118aeb-b5e654522b60d606f2477b546617edf0
+#EXTINF:-1 tvg-chno="2657" tvg-id="in_saitv.in" tvg-name="SAI TV" tvg-logo="" group-title="TAMIL",SAI TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a06d9f240d55366b0ce51cadb2/index.m3u8?token=9ecb1784f2cb2502328cf39cea8ab209768fba0871997b825d65bb3c954394be4909fe2c8a51b178c8dfb5561190e7e89ffb90c219591fe99f3b7828961b6e74726883ab591c-b552f05fb7ad4f28adfbdb16ef1c2b2b
+#EXTINF:-1 tvg-chno="2683" tvg-id="glotv" tvg-name="SAKHI TV" tvg-logo="" group-title="TAMIL",SAKHI TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba06d9f261a483f600e/index.m3u8?token=47fe63b9e35827a180a9fe607068981706378ab69ab87b780875ec765ddb773550be67c78bc1a60ea86b0692ebaf7fecb56b306e0785aa750b59914a5c1a147b933df9cad793-94acc4d362454339c1f8228afff4cf72
+#EXTINF:-1 tvg-chno="2693" tvg-id="glotv" tvg-name="SALVATION TV" tvg-logo="" group-title="TAMIL",SALVATION TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba06d9f210440347d17ea0eb0a8/index.m3u8?token=9e5a1f9d6c23c83197ad0e0255cd0397d51a02f572b928f0e55ee8eeb18d8be2eaf3f60dfb2fb5676676e12ad9bffc15c9b50a67c39c41442b86f7172839255aeeb4a60dffde-e8aaa5404b4caaf688ac2fdcf0b28289
+#EXTINF:-1 tvg-chno="2588" tvg-id="glotv" tvg-name="SANGAMAM" tvg-logo="" group-title="TAMIL",SANGAMAM
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc36f135376b27f933206573f6019e918a8/index.m3u8?token=d62b4d04967370fba9bbacde79d6279890d796e221223fe425991f41abc120e4520f1097fd25838f26a15ac17d116bf425a3bf0cc8e3c66296be3365d70e32656eeee2abcda4-cb0323f1f3429ed3ae4008d1cb971050
+#EXTINF:-1 tvg-chno="2714" tvg-id="glotv" tvg-name="SANTHORA TV" tvg-logo="" group-title="TAMIL",SANTHORA TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba06d9f2306492f6619fb05b2/index.m3u8?token=50eec0826f20792d0fd1f3268ce164743059874a4e06c1d44f5cef8a0f9641b7eb3eff9f130773e1174ae32e6777e7c4b050137b2d58a9f82395b70d204ac1d1f0db339e90f9-871124801478893e1be5dbc3bc7142e9
+#EXTINF:-1 tvg-chno="2644" tvg-id="in_sathiyamtv.in" tvg-name="SATHIYAM HD" tvg-logo="" group-title="TAMIL",SATHIYAM HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a06d9f391a48397515fb19a0a1b5734cd8e9/index.m3u8?token=47adcaefe026d8d30b9d2289921f30d2cc989b8cae7e992e38ff469c04d3e8ecbb85b6c02c0001e80b50348d72a9640ff528dbbc8e7ecc490665f2a91a41d81c90edb1870afa-5ab4a69eca98f5478afe235e94a3aaf5
+#EXTINF:-1 tvg-chno="2643" tvg-id="in_seithigal.in" tvg-name="SEITHIGAL TV" tvg-logo="" group-title="TAMIL",SEITHIGAL TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc36b14407fb6799f210d55366b0ce51cadb2/index.m3u8?token=2e2f6336e1a2fd524322257f4c1409fc5464930994cd7ec6aaece4c137c376f754446676d56260c0c490ef1df83b7e28b7d2b3549484206edd0b66d4d79bd178d7bb988f1e19-f6857d6f17e5966aff6f25ccfbe51932
+#EXTINF:-1 tvg-chno="2590" tvg-id="glotv" tvg-name="SHAKTHI TV" tvg-logo="" group-title="TAMIL",SHAKTHI TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc3661c5f63b7778139045e347515ed1d/index.m3u8?token=3c5a89ba5abaf65f48b571a29a82d7cd1b61d997a2189e964c4544da08be1be78e59e37bde990b12c4f0c5b858bc47cbc638a51983c73ba21bac0edc2e47eece7daba9470e67-bb9da2bcd0179753f356e2aa1937c767
+#EXTINF:-1 tvg-chno="2715" tvg-id="glotv" tvg-name="SHALINI TV" tvg-logo="" group-title="TAMIL",SHALINI TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba06d962c1e482e7d07f007/index.m3u8?token=6cfda66602e5a4ba81d444866164e32b8b1167e55a5c86c699a6ed96336b828e25de7aa126cea2d91c6e5bf9c44c6750b0d0ca2830f05a39c4f996cae97dd4942b5bad73dec3-4f2b25621cda2cac30f4bb11530d10f6
+#EXTINF:-1 tvg-chno="2647" tvg-id="in_sirippoli.in" tvg-name="SIRIPPOLI TV" tvg-logo="" group-title="TAMIL",SIRIPPOLI TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc3670f5d67af7192240d55366b0ce51cadb2/index.m3u8?token=5631c84550c87fad85c8c529ade193c1e3ad551896e19845f9af4fcfd2fcb273db7ff1e64eee85542cd3df4541ebc4651c272e18ac2f137a194f8eff498eee6811d98de7e552-613bb40377985ed242b30428333a991c
+#EXTINF:-1 tvg-chno="2706" tvg-id="glotv" tvg-name="SIVAN" tvg-logo="" group-title="TAMIL",SIVAN
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc3670b5579a06a9f201b4d/index.m3u8?token=bcd8b9c5897e7e1b0aa833e7fefdaf2b66da73155da4485ca7d256a63fb53d5c17e8fdcad2b8b1f98b1f8693f2b7ab23daec3a48e29a0085e6e6f334acbdebb613d8d9709689-6e148c63f0f734f2c58e0ff2de121ea0
+#EXTINF:-1 tvg-chno="2599" tvg-id="in.jiotv.852" tvg-name="SONY BBC EARTH TAMIL HD" tvg-logo="" group-title="TAMIL",SONY BBC EARTH TAMIL HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc361134d68bd7c9d321740326010fb05a5b3a87e/index.m3u8?token=d326cb2582f5fbac5a286d23fa8a128fdd8597e640fe1e61b6238edd2a9561760bc76384c90b07b2bb049030e056d12d78e8275b3bbe064d4ceebb4050df061929fd78164e24-151ff8c58b284f00ffc6a48c3efefe94
+#EXTINF:-1 tvg-chno="2598" tvg-id="in.jiotv.852" tvg-name="SONY BBC EARTH US" tvg-logo="" group-title="TAMIL",SONY BBC EARTH US
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc361134d68bd7c9d321740326010fb04b7bf/index.m3u8?token=5d2d53c9f1d772281db6f0f21cfbb40715d6a67300655ebe326685c25d42899b312244667b46766716e1de56f78c6f05aedae844ef6811ab82809b766f2b60cd8a3347ed6a3c-f55ea32181edb93123b65aa23c53f092
+#EXTINF:-1 tvg-chno="2673" tvg-id="in_sonyyay.in" tvg-name="SONY YAY TAMIL" tvg-logo="" group-title="TAMIL",SONY YAY TAMIL
+http://hingl.packetcdn.me:9250/86e4228d28529f5cb7bbba302dc46f105d7ba0759729015e337b16fd0ebdbfb8/index.m3u8?token=f20fadda2a5dcdeb3f7c652179e28df0b8c3aca84d77c4ba5592e0a53dba53725a3c08f35523706af8570ed3ba036b837c3ae9c83874fa0bffd631633ab2d56098ba0a60e420-205d8e933acdd8bc7e1b9f379da18a6c
+#EXTINF:-1 tvg-chno="2717" tvg-id="glotv" tvg-name="SOORIYAN CINEMA" tvg-logo="" group-title="TAMIL",SOORIYAN CINEMA
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba06d91220048397516fb12adb0a47f40/index.m3u8?token=aa671095d2298c1e45b1aeff7f0c911a12d64b76496abdf104d27c433f729374387e7834e7077858fb2d577a3aff0a3bf5511da65022861f2fdda5d993cbc2a203a76239734b-04442913749ab869976c7e4e03a4be04
+#EXTINF:-1 tvg-chno="2716" tvg-id="glotv" tvg-name="SOORIYAN TV" tvg-logo="" group-title="TAMIL",SOORIYAN TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba06d91220048397516fb05b2/index.m3u8?token=2dae55648e11d1b2ad1f9fe4e32e09b684e906761296c54eec114dd07d3311921dcbcd2efaaa2ba5e95991adc0d1723d9aa597f1e888c605d70e86102d12ebdfa51fb2da878c-6e77d34386852f4574a262e5373578ae
+#EXTINF:-1 tvg-chno="2658" tvg-id="in_srisankaratv.in" tvg-name="SRI SANKARA TAMIL" tvg-logo="" group-title="TAMIL",SRI SANKARA TAMIL
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc565025362a6618a0c3f680c6b07f7238da1b2536ffac4194bb4f7b4/index.m3u8?token=ab327bbfd1b8ed74b107be9f26847e74c2c37fa99584c0031771e91094eb7b91892030279c8d9f21f49d678d095a71412d9c25e915b137a16c85ac432110b4d19588d213438e-e1023a6c9d731d3911aaa8f223d19886
+#EXTINF:-1 tvg-chno="2560" tvg-id="in.jiotv.368" tvg-name="STAR VIJAY INDIA 4K" tvg-logo="" group-title="TAMIL",STAR VIJAY INDIA 4K
+http://hingl.packetcdn.me:9250/86e4228d28529f5cb7bbba302dc46f105d7ba06d8a2c005e367d12e508bbcaaa/index.m3u8?token=735740c159b5edd7cf4c056b4e6a80c141c17cbb62a179c2d7ee29f6034e5bcbfb582793b0617f7aee53d2d537fc1be27151acf95542815c47f6e7c5bcd93bbbcc1e23c28275-85101f158ee7fef7f5e2d1f0c277a363
+#EXTINF:-1 tvg-chno="2561" tvg-id="in.jiotv.368" tvg-name="STAR VIJAY INDIA FHD" tvg-logo="" group-title="TAMIL",STAR VIJAY INDIA FHD
+http://hingl.packetcdn.me:9250/86e4228d28529f5cb7bbba302dc46f105d7ba06d8a2c005e367d12e508bbb8a976/index.m3u8?token=72450b9962a9c60f6afa6bd4b7d863810181d2a79a271fbcc76868c831ee3e3e70be8453db6af06e7869657ba73cbd1f10ecbec9decb37a2d653e987a7c734c913b729cce0de-69bf547026c9c8b54bcc02aee6de934d
+#EXTINF:-1 tvg-chno="2562" tvg-id="in.jiotv.368" tvg-name="STAR VIJAY INDIA HD" tvg-logo="" group-title="TAMIL",STAR VIJAY INDIA HD
+http://hingl.packetcdn.me:9250/86e4228d28529f5cb7bbba302dc46f105d7ba06d8a2c005e367d12e508bbb6a5/index.m3u8?token=83ef46958ff0892b7b32088fbcc879d3d209dbe5c38e10842ff867af4b25008d54240c36c9eab404e5d65a61d0059785ee4b2b57c2e9bda3bdd83ffee4ff14395b1134700675-a1cb129373b831e213f1f8588dee7e31
+#EXTINF:-1 tvg-chno="2577" tvg-id="in_vijaymusic.in" tvg-name="STAR VIJAY TAKKAR" tvg-logo="" group-title="TAMIL",STAR VIJAY TAKKAR
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba068972713583f790df718a7/index.m3u8?token=5af1ea6acd9269db1358ae75fde60c1b3b6ecc67ca1bfc471c269212a5a7495beb7ef2a70f5c9fcdcc7275e7c0d49f1d0863cf623dc765978429abd13af19e61d45220ee0868-abe8838d190d9193df3fa2e11435e719
+#EXTINF:-1 tvg-chno="2565" tvg-id="in.jiotv.368" tvg-name="STAR VIJAY UK" tvg-logo="" group-title="TAMIL",STAR VIJAY UK
+http://hingl.packetcdn.me:9250/86e4228d28529f5cb7bbba302dc46f105d7ba06d8a2c005e367d12e508bbabaa/index.m3u8?token=30b6ad6674fda86e4093810ba0ac0a69f97fc0ef8352b353966e4d522abc17273a0658aad513a16f591957caa73c22514be23374933ba434911d8f26adf86eb820403dadb305-98f5b39453ceb265dad8f9847f46e12c
+#EXTINF:-1 tvg-chno="2564" tvg-id="in.jiotv.368" tvg-name="STAR VIJAY US PACIFIC 4K" tvg-logo="" group-title="TAMIL",STAR VIJAY US PACIFIC 4K
+http://hingl.packetcdn.me:9250/86e4228d28529f5cb7bbba302dc46f105d7ba06d8a2c005e367d12e508bbabb26d51d0e6226ca2e0/index.m3u8?token=2467e7acd3c96b883f8d9b34841d7cb45fb29737464848680fe2f04d43ac0a52c321481783f34785ceb5b899270de081951572277d77ad4e0a64dea89ffe46fc50c9fc6ef403-3a4e0ac80616ebd3ef665e165508a30c
+#EXTINF:-1 tvg-chno="2563" tvg-id="in.jiotv.368" tvg-name="STAR VIJAY USA 4K" tvg-logo="" group-title="TAMIL",STAR VIJAY USA 4K
+http://hingl.packetcdn.me:9250/86e4228d28529f5cb7bbba302dc46f105d7ba06d8a2c005e367d12e508bbabb273/index.m3u8?token=ecdb00de40ff347f215648190932f170d82040386925c5c00ea0f485d9e9b9c11c0b583e127edb4b5105083cf9f2a74404fd26967ffa016f0b55cd2260a96c710a6cc33b8c2b-6c2273b9bae80edf59538d7af858a337
+#EXTINF:-1 tvg-chno="2710" tvg-id="glotv" tvg-name="STUDIO ONE PMC" tvg-logo="" group-title="TAMIL",STUDIO ONE PMC
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba06d8a3816482f6b17ea14bbaeac71/index.m3u8?token=88bb4756fb9a11004473cc50c751a3692adcb17e4637725450f4b849e93077402a93444740428fa4e8884221a023943daf499c1eb6d646599807727313c720aa4d0439e44ef7-394ad7f10e47e313c1842388b1e14c2f
+#EXTINF:-1 tvg-chno="2608" tvg-id="in_sunlife.in" tvg-name="SUN LIFE" tvg-logo="" group-title="TAMIL",SUN LIFE
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc37b134b7bb6789b3206402d7d14/index.m3u8?token=ae96a35021a947335d44f11c4d5d51e7d2fab600a563819cdc7be95c62c4a7abd5f7143a0a81b38bf35481cf4fac9a336180ea684a0adee88cf2aec96e8a8b3a45ec88055b0c-756b9d84e60ca71f8ea35a9973942248
+#EXTINF:-1 tvg-chno="2607" tvg-id="glotv" tvg-name="SUN LIFE US" tvg-logo="" group-title="TAMIL",SUN LIFE US
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc37b134b7bb6789b32075221/index.m3u8?token=0920f75a6e515fda8832be156bd65e34fb9a40183b86f4f4f05c4c0fe9ef618e8317fb4dc9cb59928e392db8431ddcf005346f765f514e6a9d9d70f0a89c28a090f571153c41-7f24efc413b4dc06ce5e43dfe21fd740
+#EXTINF:-1 tvg-chno="2551" tvg-id="in_sunmusichd.in" tvg-name="SUN MUSIC HD" tvg-logo="" group-title="TAMIL",SUN MUSIC HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc37b134b7aaa6d972e0d55217911e8/index.m3u8?token=10ce5acbe2addc0d72bf6003adba995a477ed60254efb23200c293e444284f4beb75349510b212a68895dbc4accf5e99d8470a03e3a853104082324a73e4f4d7f82c3e69450f-46b78a7a55100da34c34b2855155371a
+#EXTINF:-1 tvg-chno="2609" tvg-id="in_sunmusic.in" tvg-name="SUN MUSIC US" tvg-logo="" group-title="TAMIL",SUN MUSIC US
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc37b134b7aaa6d972e0d543375/index.m3u8?token=2ac99ca032d1cce3badad625e67223b15d431d5c59772f1a909e579b98b34fe408f8bc9dc792c113ea0907fe7a23f0064f1ba0924cbdbdc865be773f272b9ac09615b135b9a4-4d772672946c13313c7a4a6710ece19b
+#EXTINF:-1 tvg-chno="2630" tvg-id="in_sunnews.in" tvg-name="SUN NEWS" tvg-logo="" group-title="TAMIL",SUN NEWS
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc37b134b79ba698d3206402d7d14/index.m3u8?token=adb8c63b6856275a85b84e69e651899a343add54f6e2c495d39733e8c5185146ecdc1f71ccc01bba974a3b4090eadfe0f35f660904687f40b6216213d95c4fd2c76ceb6d0423-82bcd1f5823124b4fe45a668cabe930b
+#EXTINF:-1 tvg-chno="2629" tvg-id="glotv" tvg-name="SUN NEWS US" tvg-logo="" group-title="TAMIL",SUN NEWS US
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc37b134b79ba698d32075221/index.m3u8?token=d3a87d9a1487a38c18012bf3b846cfd7583517a786a2f847341bb73d71c92e6a0ecefb5a41f18249d8e2c8acd96c758e6be76292313db1e1924e96055938e73e0d04a133fcce-5bd9c366f4774d1567e42147cd4a27f1
+#EXTINF:-1 tvg-chno="2569" tvg-id="in.jiotv.896" tvg-name="SUN TV 4K" tvg-logo="" group-title="TAMIL",SUN TV 4K
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc37b134b63a9618a2c1f482c/index.m3u8?token=d27ed2eb3811f7f10b76cc60e27dd9a4861f59c821cb16322f6cf2edc80b8f56926b1ab056c35496f0f54204f994d53687406f4672f1e6469e63bf4068529cebe025934fe6cf-7497afe98157ee06b3b2c27ea1ebe1c3
+#EXTINF:-1 tvg-chno="2570" tvg-id="in_suntvhd.in" tvg-name="SUN TV HD" tvg-logo="" group-title="TAMIL",SUN TV HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba06d8b230d55366b10e0/index.m3u8?token=e2406e4593c507d74ef12b251ee32599983a5a4987be3aa262827cabc83553dfe43464a138ec243c1d8456248f043cb7bb3e89e06ce4b77720263a7cdcae9856cc3fef9e9ab8-edb9276135794f832ad1bf7769c808f6
+#EXTINF:-1 tvg-chno="2572" tvg-id="in.jiotv.896" tvg-name="SUN TV UK HD" tvg-logo="" group-title="TAMIL",SUN TV UK HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc37b134b63a9618b26/index.m3u8?token=671c4baab1da4a7639d3b520b9b80bed5540b927f42b72d11de9a794d8764a596ab72d9fb79a7401ca02ab3c5bad4408d60b23072c1f8e38eb4a9c2508a24aac4ed4b9d52ead-a644b9a5a17cef0ace474b2205da312d
+#EXTINF:-1 tvg-chno="2571" tvg-id="in.jiotv.896" tvg-name="SUN TV US" tvg-logo="" group-title="TAMIL",SUN TV US
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc37b134b63a9618b3e13/index.m3u8?token=6f030133efc0a611f070666fc06c51073f9216ff3ff60f322b7a0464a154f28a33d1cb63baa59b3f1d0028f83f331346a6eb6a16fcaecc7d0bf6b18eb8cf2f26bdbab57d696e-938432f0e6b59a2397ccf088724d4321
+#EXTINF:-1 tvg-chno="2678" tvg-id="in_svbc.in" tvg-name="SVBC TV" tvg-logo="" group-title="TAMIL",SVBC TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc565025362a6618a0c3f680c6b07f707a6bdbe6657/index.m3u8?token=5da427f5c8ac4eed491616282856041148f7d32a68e8978691f34ed07f3de4f4cfbeda141bd7da5b65d60a2cbb36f6769e71506d771cc09104bb2ef04db2ddbb8b7d021c2087-2e00841810b2197e060fb1f40f0a7790
+#EXTINF:-1 tvg-chno="2659" tvg-id="glotv" tvg-name="SWASTHIK TV" tvg-logo="" group-title="TAMIL",SWASTHIK TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc3791c4763b777953206573f6019e918a8/index.m3u8?token=d8fc2ae220d1c5179043e8c7506164dd50027999aeb240f9ee6ea805d0286891aaebed0baa43331ec2c1d773d9abe1b49c4ff8b17442e4660f09a681b3151f7974534213b939-95f337e4e9dae4147a42893bdfa81448
+#EXTINF:-1 tvg-chno="2587" tvg-id="ca_tamilone.ca" tvg-name="TAMIL ONE" tvg-logo="" group-title="TAMIL",TAMIL ONE
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a06a9f201b4d3f7b16e1/index.m3u8?token=64fd4bc5dc0d0f0715af4537a7ca9407491ba5efdcf4d74c7f4cb04c80a254906151dfe7f19980598bd8d60c47976011bffcfaccdf198480087207722f455c4d86c6cfc14fdb-60a58a9928c2c1f370d7cd52f5ae3800
+#EXTINF:-1 tvg-chno="2698" tvg-id="glotv" tvg-name="TAMIL VIEW CHANNEL" tvg-logo="" group-title="TAMIL",TAMIL VIEW CHANNEL
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba0689728055e237c19ea1fa1b2/index.m3u8?token=8aa6ec5bec96c4c035f73f02546c20237090287a841d93ab15664aefb711106deb5709d43eb8e0a37e37536e7b4c2aa141396f09966d46ad4077f9a0ad37f49808d77281d528-5df687495a078e40cb9ac8d3e63d01d1
+#EXTINF:-1 tvg-chno="2691" tvg-id="glotv" tvg-name="TAMILAN TV" tvg-logo="" group-title="TAMIL",TAMILAN TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a06a9f201b4d217a07f007/index.m3u8?token=61aa88dd6bc28f64e7ba4df7b1b242461480d6ac8eb6d288cebaccafdb4a464418e6325adba3822cdcd7ea5b3318c4077c6cbefdd66853297df589f076b06dfec66d1efb0697-995f222e8c7b26931621a45823882243
+#EXTINF:-1 tvg-chno="2549" tvg-id="glotv" tvg-name="TATA SKY HOLLYWOOD LOCAL TAMIL" tvg-logo="" group-title="TAMIL",TATA SKY HOLLYWOOD LOCAL TAMIL
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba06a9f39135e337f01fb19abb2ad6b56deea2f75a7eca1b9fc/index.m3u8?token=c78ce5f1e769f30b3bf2eb04174c6ed2be11d9bd3fdcc049ab79a4ee40e6a42e47caa78d57397bf5303531f2a965658666dff53a440d5cc20fcdd9e5b7691c096312d0b070d8-7f325cbd2744e13f248578dced61e475
+#EXTINF:-1 tvg-chno="2548" tvg-id="in.tataplay.663" tvg-name="TATA SKY TAMIL CINEMA 4K" tvg-logo="" group-title="TAMIL",TATA SKY TAMIL CINEMA 4K
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba06a9f39135e337f01fb12adb0a47f40/index.m3u8?token=c941d34ac672ed8f34d2aa95539f6986437a878f6c2b37fe2ac71758530c4ffb94d07eaa280860d68e036b6215f22fbb28f08345442517d076bb3b62f151bd223e980cca1674-46554aa766b6f6430ced9d1dc96be9cd
+#EXTINF:-1 tvg-chno="2586" tvg-id="ca_tamilentertainmenttelevision.ca" tvg-name="TET 4K" tvg-logo="" group-title="TAMIL",TET 4K
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46b094b63be739721/index.m3u8?token=5f93ef8b73c4c24019aa01b55b28f529b9f12226ab136b4fd3bd5464f7d4b36033475bbf389f8f239a968f2d53f684436e2d4e163e51e51319698880b92424b382d7af41db05-a1e1822cfe22006542028a5ff8a37c35
+#EXTINF:-1 tvg-chno="2642" tvg-id="in_thanthitv.in" tvg-name="THANTHI TV HD" tvg-logo="" group-title="TAMIL",THANTHI TV HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a06a962c1c55287d07f007bbb6a56d55d0e82266/index.m3u8?token=e0dd58cb7b0265f146252870a924dcca7e7102fc5d1db3279adbb0f5d80c681258aef8b151a71fa6dfcaf69c274811cd4e53e7eede6d7d806cc43a7e1df0541a47f7a376ac7f-53e65f0d044a9cdea3d6420ef5d80355
+#EXTINF:-1 tvg-chno="2707" tvg-id="glotv" tvg-name="THIRUMALAI TV" tvg-logo="" group-title="TAMIL",THIRUMALAI TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc466144662b27f922c1b5e346207f010a9b7ad/index.m3u8?token=39208f01cd3961d7ac432d4bacbd24551ddfc9db098aee7ba7caf7c0b58538acdf105b14ae654412c6853cbc6a8b20556eda56511454c67c4a48286218cc6f5c25f70f3e23f5-6eb25dd42da8a98b42e47fb5ae0f11d3
+#EXTINF:-1 tvg-chno="2613" tvg-id="glotv" tvg-name="TUNEFUL TV" tvg-logo="" group-title="TAMIL",TUNEFUL TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba06a8b231747357807f007/index.m3u8?token=16f14d8bf26de1ac9b536160a699f5ba2a9a6226c6f0945e49026249573e1f35dd855b1286c64ada0d51a56a20860ab0cef73123c26962926b7c366c697302b1429ded4e0859-554d3a07cb26cee1d1d4b8803c7ff5fb
+#EXTINF:-1 tvg-chno="2677" tvg-id="glotv" tvg-name="TUNES 6" tvg-logo="" group-title="TAMIL",TUNES 6
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a06a8b2317523f0207f010a9b7ad/index.m3u8?token=c060ee394505b4eff1c42d12945ef88f7eff7d53a5ab482d17bdfe9737a9f43ba45399dd853da0b065f5d0c4ab6df5dbea34ce781dd7121e74b54a83d97c59460bb2cf5fdeb5-56b3b027644320b19b77df29233ee1ba
+#EXTINF:-1 tvg-chno="2641" tvg-id="in_tv9.in" tvg-name="TV9 NEWS TAMIL" tvg-logo="" group-title="TAMIL",TV9 NEWS TAMIL
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba06a88540d4f25630b/index.m3u8?token=4981a56068921733aa636fa1cf2ae9dd3d673adf6a035c6bc996b402810982ec638a93ee54285f9f1f1a5f9f4effa0ee5b0d26a87f170617c5416164e6a83164d01aa47bbb7a-cd8d47a42b6bd3fde6a5c11a6650817a
+#EXTINF:-1 tvg-chno="2585" tvg-id="ca_tamilvision.ca" tvg-name="TVI HD" tvg-logo="" group-title="TAMIL",TVI HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a06a88240d49246b0ce51cadb2/index.m3u8?token=f484272f1a746aaa419d43b1bbe0575371a32b631fa87160037b4031e759fbfbf3be39be0c57b38d2bac3b1ef8557defee19e5c9bfce4a938282e148dba4d8c6bc082c53de06-076dae75be87a20352e0f734fe950669
+#EXTINF:-1 tvg-chno="2704" tvg-id="astrovaanavil.my" tvg-name="VAANAVIL TV" tvg-logo="" group-title="TAMIL",VAANAVIL TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dd17d094678a0689f2c1c40367d14/index.m3u8?token=8d709027f92fa62a5c0d8087024cd61fb5e2f0770342ffe4028a9bd837d3a79027d9c1c278b155c42c510cd07d1ce1d1ee5a16bc22340dd7b0f1e17b04fd0fc5f1a9623f091c-800be002cc0d1a2b7c4b2d3398097006
+#EXTINF:-1 tvg-chno="2689" tvg-id="glotv" tvg-name="VALICHAM PLUS" tvg-logo="" group-title="TAMIL",VALICHAM PLUS
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a0689f211b42287515fb01a8abb26d55d0e82266/index.m3u8?token=58ab74e7d4f2a07f34ba121dc53575313e2eee530a189e4d354f819785fcc9abf8a3c0d6fb99057507441833cffd3cd7d0ace7cec5c13e80a9f2786a14340c2a95b4355f66ec-1bbb9df7b9c60b861084b3f7bf753686
+#EXTINF:-1 tvg-chno="2711" tvg-id="glotv" tvg-name="VANAVHIL TV" tvg-logo="" group-title="TAMIL",VANAVHIL TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba0689f231357287d14fb05b2/index.m3u8?token=7f91692ae00e41b854c4cb0d9bd969eb8b8381f0d7e46f242d9dc6f0fdd83fe65a9a731154dcafca7e5f31bd256dbbb0abd435a10a09bbb49d8aeb22d946bf469a42086451d7-bef211df511edfa36ddb066680b5eb86
+#EXTINF:-1 tvg-chno="2686" tvg-id="glotv" tvg-name="VANDHAR TV" tvg-logo="" group-title="TAMIL",VANDHAR TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a0689f231649216607f007/index.m3u8?token=c1c7b91c90874eede7297071058e109fce7f7ae35758e7b198beb6abb677fa16e8c8d8ba84605bb8f712a5a8736e043f2f32043485c2e3e231a4521f19f38cb96749664f8e97-68a2536a1707294162f38164bbc8ea27
+#EXTINF:-1 tvg-chno="2669" tvg-id="in_vasanthtv.in" tvg-name="VASANTH TV" tvg-logo="" group-title="TAMIL",VASANTH TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a0689f3e134f347c07f007bbaaa07f48dd/index.m3u8?token=23894fbeabd3781aa8864a7f9c603129a81d3651f45f62895c7f824e63e3e9fb4368e0a5cc1f4b3ff7b3f3aab2317814b33d74534bf3a10fa5b78caec9d8a80461c1c1b391b2-0608c7beb385f064f518e156d6070387
+#EXTINF:-1 tvg-chno="2708" tvg-id="glotv" tvg-name="VATHANAM TV" tvg-logo="" group-title="TAMIL",VATHANAM TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc66f095c76b17f933206573f6019e918a8/index.m3u8?token=8cb5e5f460bb10a7d50a95080b4017af935d8f207ae81d655d12dd58da5b76d42b7eab5e6b56a56b7c041aeb0d48c5f030ba90df6583f9ed026ad35e87823c33996fe7780091-6d98af8b70ad791a59e7fc8c9cd64efc
+#EXTINF:-1 tvg-chno="2670" tvg-id="in_vendhartv.in" tvg-name="VENDHAR TV" tvg-logo="" group-title="TAMIL",VENDHAR TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a0689b231649216607f007bbaaa07f48dd/index.m3u8?token=51a42b88ee826b8a93bea695d30ca6ac898321d8c5d43cc4a03c96faf22b3765d8da1b501e1f4ef4a70ce94a79849af801f559449489ccba9941c1894c3ba9f649f60903147e-d225fc46f7ec9d0ac9ae751380c155a3
+#EXTINF:-1 tvg-chno="2554" tvg-id="in.jiotv.3266" tvg-name="VIJAY SUPER FHD" tvg-logo="" group-title="TAMIL",VIJAY SUPER FHD
+http://hingl.packetcdn.me:9250/86e4228d28529f5cb7bbba302dc46f105d7ba068972713583f670df414b6/index.m3u8?token=1d788d116ae128e0d15ed2a88e9337d215626ad3b2a352ca85f1d37a5bdefcf9dc324b142ba826bd22341de8182ba6a1fea3a4ce0318e9b779536abc96ab7e6ccb4a0845bddb-eb6fbbf1a848d0bf1fc2a8cad440061d
+#EXTINF:-1 tvg-chno="2557" tvg-id="in.jiotv.3266" tvg-name="VIJAY SUPER UK" tvg-logo="" group-title="TAMIL",VIJAY SUPER UK
+http://hingl.packetcdn.me:9250/86e4228d28529f5cb7bbba302dc46f105d7ba068972713583f670df414b6a1b479/index.m3u8?token=e012aaaf6196e08486d2b599a5bf2483a9d339e4a31f685bc972cbcb8e1ef065fcc269d4eafb273de35f00d406fa0757c2937b3953327f048d8b187ae4b9fb3b840a511cefb5-29cef7f0270edc2f4275b3caae37721c
+#EXTINF:-1 tvg-chno="2555" tvg-id="in.jiotv.3266" tvg-name="VIJAY SUPER US" tvg-logo="" group-title="TAMIL",VIJAY SUPER US
+http://hingl.packetcdn.me:9250/86e4228d28529f5cb7bbba302dc46f105d7ba068972713583f670df414b6a1b46140/index.m3u8?token=fef62c8ea588ab407d1248529d15f3cbbc11cc21193c6d3c73cadb360d7c8ba85bdc15cb433e664d9cf2eddda672dcfbc72eddcbf3c7be2b1508b741db055c6064565d755e2f-278d6b3dc5a6500c95f78a732a107eed
+#EXTINF:-1 tvg-chno="2556" tvg-id="in.jiotv.3266" tvg-name="VIJAY SUPER USA PACIFIC" tvg-logo="" group-title="TAMIL",VIJAY SUPER USA PACIFIC
+http://hingl.packetcdn.me:9250/86e4228d28529f5cb7bbba302dc46f105d7ba068972713583f670df414b6a1b46140cef52a69a2e5abbb/index.m3u8?token=2320ae354473ec3bbbb1f01d795ec3f865efd3fe597aa559302e973d6f1c7860b0eeb17c319b7da8f4f900ac1af075d9be43c502e889d26ba26a63cdafe81f2391385c72f8b9-6293ec10b0bc1d67db1894e5f0a3b298
+#EXTINF:-1 tvg-chno="2684" tvg-id="glotv" tvg-name="VISION TV TAMIL" tvg-logo="" group-title="TAMIL",VISION TV TAMIL
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba068973e1b4e2e6b0cf2/index.m3u8?token=3ae21077680dbf431c9ca277252e33cfc38b27ec6ae95b8efc6b1032fbb096aa65367035724513bd24460198d0d2320fb484715a1244ad850c0bd8a4f65d2206724f0899a981-a49ae07c102c51ab77f8dfaf1a417eb8
+#EXTINF:-1 tvg-chno="2671" tvg-id="in_wintv.in" tvg-name="WIN TV" tvg-logo="" group-title="TAMIL",WIN TV
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a06997230d55366b0ce51cadb2/index.m3u8?token=a1700616da29f994e1eaced430c90349c3a39fd7a00399833fc1157255a9927ebfeee5de2f51797f25400107616a3d56b32cb06ac67c63227e327681ea9c3df8afa37532e756-e487fc78ebbc55d96175883b441c9591
+#EXTINF:-1 tvg-chno="2559" tvg-id="glotv" tvg-name="YUPP VEDA" tvg-logo="" group-title="TAMIL",YUPP VEDA
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba0678b3d025e36711ce5/index.m3u8?token=eefcab814819b1fef70a688e910ab3e453e8630c0c76f6db5f7b6c0818a7c2e7cf1fd6554d035195e6629163b2ff1c8e802662bf77bbd9c755dbfceb925936e57b61d1cb6d20-6cc213c8cd646584fb6f3a9e9b73979a
+#EXTINF:-1 tvg-chno="2573" tvg-id="in.tataplay.608" tvg-name="ZEE TAMIL 4K" tvg-logo="" group-title="TAMIL",ZEE TAMIL 4K
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dca6b184b63be739721/index.m3u8?token=ed4a700518b937284915fd08727b619c2328dbbb3ec1f058e976888f05b08774c5c91a59e1c31c2d8d04be4e1603156c9f1dcee72a30aeb19602eb799bf443291ae356b1f00b-0c938fe7db83ecc97f19b074ee53a64c
+#EXTINF:-1 tvg-chno="2574" tvg-id="in.tataplay.608" tvg-name="ZEE TAMIL HD" tvg-logo="" group-title="TAMIL",ZEE TAMIL HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dca6b184b63be7397210d4924/index.m3u8?token=1811aa065c4500e1b3f51ad4451e131eab4c33423277bffc36ef9f98d15de75dbc6affebd0d332d17de7c9b67b81b3702af5a703370ef256767bed8acebaa125e31822696ece-6dcf9cec26456d3fa81170d3da1f8944
+#EXTINF:-1 tvg-chno="2575" tvg-id="in.tataplay.608" tvg-name="ZEE TAMIL US 4K" tvg-logo="" group-title="TAMIL",ZEE TAMIL US 4K
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc46f105d7ba0649b280d55217911e80eb1ada0/index.m3u8?token=e36634ad7e987744874bfe3c54a9ff385dc171f805d6e67e7cdaa4b17bdbe1217d20966822cf137cb4ae962a3781e36346ca4873c96e3ceabcdf020addb0953acc2ac3c7d5b9-fbe950496685e51f4a3601a60de73599
+#EXTINF:-1 tvg-chno="2576" tvg-id="in.tataplay.608" tvg-name="ZEE TAMIL US HD" tvg-logo="" group-title="TAMIL",ZEE TAMIL US HD
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dca6b184b63be7397210d543375/index.m3u8?token=503af9740dc955a2272490c251e20d31bfe3feefab6bae4212c7af59b02141fd8c2b92b834574cbfb8d6e56ae68f6d8dd3131f0e6b718937b993e84ad9dbb7dad4e9531e9922-d18a8fb6e9cbcefe69c364f2ae9b0432
+#EXTINF:-1 tvg-chno="2558" tvg-id="glotv" tvg-name="ZEE THIRAI" tvg-logo="" group-title="TAMIL",ZEE THIRAI
+http://78.40.140.206:9326/86e4228d28529f5cb7bbba302dc27a025d79a0649b280d55287d0ae518/index.m3u8?token=e8c6148c3003ec183af28fe6a800d2ce9fe522667326052315c96dec5457a4147d8b68080fdc0a5adf4360839251d13b723758579f37727143f8e70af1935c6292ab19d4d563-d5236d6463fc22c934fc0e1da80ceda7
