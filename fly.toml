@@ -1,0 +1,25 @@
+# Fly.io: bom = Mumbai, so the server has an Indian IP (needed for India-only streams).
+# Change "app" to a name nobody else uses (letters, numbers, dashes).
+app = "tamil-iptv-player"
+primary_region = "bom"
+
+[env]
+  PORT = "8080"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "off"   # keep it running so the guide and streams are always ready
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    grace_period = "30s"
+    interval = "30s"
+    method = "GET"
+    path = "/health"
+    timeout = "5s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"           # 256mb is too tight for the TV guide + cache
