@@ -30,6 +30,32 @@ Put your playlist in `public/playlist.m3u` (or set `PLAYLIST_URL`). `Scripts/cle
 node Scripts/clean-m3u.js input.m3u public/playlist.m3u
 ```
 
+## DRM channels (ClearKey / Widevine / PlayReady)
+
+Put the keys in the playlist with Kodi-style `#KODIPROP` lines, between the `#EXTINF` line and the stream URL:
+
+```m3u
+#EXTINF:-1 group-title="Premium",Channel name
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=KEYID:KEY
+https://provider/stream/manifest.mpd
+```
+
+| `license_type` | `license_key` |
+| --- | --- |
+| `clearkey` | `KID:KEY` in hex (32 + 32 chars). Several keys: `KID1:KEY1,KID2:KEY2`. Dashes in KID are fine. |
+| `com.widevine.alpha` (or `widevine`) | license server URL, optionally with headers: `https://lic/url\|X-Token=abc&Origin=https%3A%2F%2Fsite` |
+| `com.microsoft.playready` (or `playready`) | license server URL (same format as Widevine) |
+
+`public/playlist.m3u` contains working public ClearKey and Widevine test streams (Axinom test vectors) and one
+template line to replace with your own channel.
+
+What a device can play: ClearKey works on every browser. Widevine needs Chrome / Edge / Android. iPhone and Safari
+need FairPlay, which this player does not support. The license request is sent through this server's proxy, so the
+license server does not need CORS. Keys and tokens are only as good as your provider's: a wrong or expired key shows
+"DRM license/key problem" under the channel.
+
 ## TV guide (EPG) settings
 
 Nothing is needed: when no guide is configured, the free guides from `github.com/mitthu786/tvepg` (Tata Play, all-in-one, JioTV) are used.
