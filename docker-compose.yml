@@ -1,0 +1,27 @@
+# Oracle Cloud Always Free VM (Mumbai / Hyderabad) - run:  docker compose up -d --build
+services:
+  app:
+    build: .
+    restart: always
+    environment:
+      - PORT=8080
+    # env: EPG_URL, PLAYLIST_URL, TMDB_API_KEY, YOUTUBE_API_KEY go here or in a .env file next to this file
+
+  caddy:                       # gives the site https (needed for DRM and the phone player) with a free certificate
+    image: caddy:2
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - DOMAIN=${DOMAIN}       # set in a .env file:  DOMAIN=iptv.yourdomain.duckdns.org
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  caddy_data:
+  caddy_config:

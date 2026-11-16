@@ -56,6 +56,17 @@ need FairPlay, which this player does not support. The license request is sent t
 license server does not need CORS. Keys and tokens are only as good as your provider's: a wrong or expired key shows
 "DRM license/key problem" under the channel.
 
+## Deploy on an Indian server (Oracle Cloud Always Free, Mumbai / Hyderabad)
+
+Some streams only answer Indian IPs (HTTP 451 from US / EU servers). Render, Railway and Fly.io have no India region, so use an
+Oracle Cloud Always Free VM in `ap-mumbai-1` or `ap-hyderabad-1`:
+
+1. Create an Ubuntu ARM (Ampere A1) VM. Pay As You Go upgrade gets better capacity; a Visa / Mastercard credit card works (RuPay usually fails).
+2. Open ports 80 and 443 in the VM's security list, and on the VM: `sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT` and the same for 443, then `sudo netfilter-persistent save`.
+3. Point a free domain (DuckDNS, etc.) at the VM's public IP.
+4. Install Docker (`curl -fsSL https://get.docker.com | sh`), copy this folder to the VM, `cp .env.example .env` and set `DOMAIN`.
+5. `docker compose up -d --build`. Caddy gets the https certificate by itself.
+
 ## TV guide (EPG) settings
 
 Nothing is needed: when no guide is configured, the free guides from `github.com/mitthu786/tvepg` (Tata Play, all-in-one, JioTV) are used.
@@ -78,8 +89,19 @@ Check what matched: `/api/epg/match?q=yay` (channels whose name contains `yay`) 
 
 ## Render
 
-`render.yaml` is included (build `npm install`, start `npm start`, health check `/health`). Set `PLAYLIST_URL` if the
-playlist is not in the repository.
+`render.yaml` is included (build `npm install`, start `npm start`, health check `/health`).
+
+1. Push this repo to GitHub, then on Render: New > Blueprint (or Web Service) and pick the repo.
+2. In the Render dashboard, set `PLAYLIST_URL` to the link of your M3U (for example the output URL of your
+   Xtream / MAC portal converter). Leave it empty to use `public/playlist.m3u` from the repo.
+3. Open `https://<your-app>.onrender.com`.
+
+**Auto refresh:** the server re-downloads `PLAYLIST_URL` when its copy is older than 60 seconds, so a playlist that your
+converter rewrites is picked up by itself. The TV guide refreshes every 3 hours (`EPG_REFRESH_HOURS`).
+
+**Free plan limits:** the service sleeps after about 15 minutes without visitors. The first open after that is slow and
+the guide is re-downloaded then. Streams from providers that only allow Indian IPs return HTTP 451 on Render, because
+Render's servers are in the US / Europe. Those channels need a host inside India or a playlist whose links are not region-locked.
 
 ## Other settings
 
