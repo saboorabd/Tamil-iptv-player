@@ -1,0 +1,21 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="drm.clearkey.single" group-title="DRM Test",DRM Test - ClearKey (single key)
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=4060a865887842679cbf91ae5bae1e72:fc35340837310cc0fb53de97e22a69e0
+https://media.axprod.net/TestVectors/Dash/protected_dash_1080p_h264_singlekey/manifest.mpd
+#EXTINF:-1 tvg-id="drm.clearkey.multi" group-title="DRM Test",DRM Test - ClearKey (multi key)
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=426d1a3278fd4f22873068db3974dda9:36bd3359241d4ba6f9cba62c1e041e01,9dc8e80acbfa41c3984fb6043440391a:495a038c79dd5af4290f0850435832e5,41baa59969054fc0a8c6355dcd1ab39f:02ee51601e6cd506846de4468f22ad7f
+https://media.axprod.net/TestVectors/MultiKey/Dash_h264_1080p_cenc/manifest.mpd
+#EXTINF:-1 tvg-id="drm.widevine" group-title="DRM Test",DRM Test - Widevine (needs Chrome / Android)
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=https://drm-widevine-licensing.axtest.net/AcquireLicense
+https://media.axprod.net/TestVectors/v7-MultiDRM-SingleKey/Manifest.mpd
+#EXTINF:-1 tvg-id="drm.yourchannel" group-title="Premium",Your DRM Channel (replace the keys)
+#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=https://YOUR-LICENSE-SERVER/wv|X-Custom-Token=YOUR_TOKEN
+https://YOUR-SERVER/path/manifest.mpd
