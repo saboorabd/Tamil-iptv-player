@@ -402,16 +402,20 @@ function shakaMsg(err) {
 const b64hex = s => Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), ch => ch.charCodeAt(0).toString(16).padStart(2, '0')).join('');
 const parseHeaders = s => { const o = {}; (s || '').split('&').forEach(p => { const i = p.indexOf('='); if (i > 0) o[p.slice(0, i).trim()] = decodeURIComponent(p.slice(i + 1).trim()); }); return o; };
 
+// Playlists write the DRM system in several ways ("widevine", "playready", "com.widevine.alpha" ...). Shaka needs the full name.
+const DRM_NAMES = { widevine: 'com.widevine.alpha', playready: 'com.microsoft.playready', fairplay: 'com.apple.fps', clearkey: 'org.w3.clearkey' };
+
 // Converts the playlist's DRM info (Kodi style) to a Shaka drm config. Returns { drm, licenseHeaders }.
 function drmConfig(drm) {
   if (!drm || !drm.key) return {};
-  const type = (drm.type || '').trim().toLowerCase();
+  const t = (drm.type || '').trim().toLowerCase();
+  const type = DRM_NAMES[t] || t;
   const raw = drm.key.trim();
-  const clearish = !type || type.includes('clearkey');
+  const clearish = !type || type === 'org.w3.clearkey';
 
   if (clearish) {
     const clearKeys = {};
-    raw.split(',').map(s => s.trim()).forEach(p => {                  // "kidhex:keyhex[,kidhex:keyhex]"
+    raw.split(',').map(s => s.trim().replace(/-/g, '')).forEach(p => {  // "kidhex:keyhex[,kidhex:keyhex]" (dashes allowed: UUID style KIDs)
       const m = p.match(/^([0-9a-f]{32}):([0-9a-f]{32})$/i);
       if (m) clearKeys[m[1].toLowerCase()] = m[2].toLowerCase();
     });
@@ -429,7 +433,7 @@ function drmConfig(drm) {
   // Widevine / PlayReady etc.: "https://license/url|Header=Value&H2=V2|R{SSM}|"
   const [url, headers] = raw.split('|');
   if (!/^https?:/i.test(url)) throw new Error('DRM license server URL is missing or invalid');
-  return { drm: { servers: { [drm.type.trim()]: url } }, licenseHeaders: parseHeaders(headers) };
+  return { drm: { servers: { [type]: url } }, licenseHeaders: parseHeaders(headers) };
 }
 
 async function startShaka(c, my, viaProxy) {
