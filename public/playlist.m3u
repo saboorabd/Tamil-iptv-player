@@ -1,21 +1,493 @@
 #EXTM3U
-#EXTINF:-1 tvg-id="drm.clearkey.single" group-title="DRM Test",DRM Test - ClearKey (single key)
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#EXTINF:-1 tvg-id="290" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/sonic_Tamil.png" http-user-agent="@allinone_reborn",sonic Tamil
 #KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key=4060a865887842679cbf91ae5bae1e72:fc35340837310cc0fb53de97e22a69e0
-https://media.axprod.net/TestVectors/Dash/protected_dash_1080p_h264_singlekey/manifest.mpd
-#EXTINF:-1 tvg-id="drm.clearkey.multi" group-title="DRM Test",DRM Test - ClearKey (multi key)
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=290
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=290
+#EXTINF:-1 tvg-id="368" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Star_Vijay_HD.png" http-user-agent="@allinone_reborn",Star Vijay HD
 #KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key=426d1a3278fd4f22873068db3974dda9:36bd3359241d4ba6f9cba62c1e041e01,9dc8e80acbfa41c3984fb6043440391a:495a038c79dd5af4290f0850435832e5,41baa59969054fc0a8c6355dcd1ab39f:02ee51601e6cd506846de4468f22ad7f
-https://media.axprod.net/TestVectors/MultiKey/Dash_h264_1080p_cenc/manifest.mpd
-#EXTINF:-1 tvg-id="drm.widevine" group-title="DRM Test",DRM Test - Widevine (needs Chrome / Android)
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
-#KODIPROP:inputstream.adaptive.license_key=https://drm-widevine-licensing.axtest.net/AcquireLicense
-https://media.axprod.net/TestVectors/v7-MultiDRM-SingleKey/Manifest.mpd
-#EXTINF:-1 tvg-id="drm.yourchannel" group-title="Premium",Your DRM Channel (replace the keys)
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
-#KODIPROP:inputstream.adaptive.license_key=https://YOUR-LICENSE-SERVER/wv|X-Custom-Token=YOUR_TOKEN
-https://YOUR-SERVER/path/manifest.mpd
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=368
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=368
+#EXTINF:-1 tvg-id="417" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/J_Movies.png" http-user-agent="@allinone_reborn",J Movies
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=417
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=417
+#EXTINF:-1 tvg-id="418" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Jaya_Plus.png" http-user-agent="@allinone_reborn",Jaya Plus
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=418
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=418
+#EXTINF:-1 tvg-id="419" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Jaya_TV_HD.png" http-user-agent="@allinone_reborn",Jaya TV HD
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=419
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=419
+#EXTINF:-1 tvg-id="420" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Jaya_Max.png" http-user-agent="@allinone_reborn",Jaya Max
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=420
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=420
+#EXTINF:-1 tvg-id="429" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/ColorsTamilHD.png" http-user-agent="@allinone_reborn",Colors Tamil HD
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=429
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=429
+#EXTINF:-1 tvg-id="542" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Pogo_Tamil.png" http-user-agent="@allinone_reborn",Pogo Tamil
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=542
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=542
+#EXTINF:-1 tvg-id="546" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Nick_Tamil.png" http-user-agent="@allinone_reborn",Nick Tamil
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=546
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=546
+#EXTINF:-1 tvg-id="550" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/DiscoveryKidsTam.png" http-user-agent="@allinone_reborn",Discovery Kids Tamil
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=550
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=550
+#EXTINF:-1 tvg-id="557" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Chutti_TV.png" http-user-agent="@allinone_reborn",Chutti TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=557
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=557
+#EXTINF:-1 tvg-id="569" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Discovery_Channel_Tamil.png" http-user-agent="@allinone_reborn",D Tamil
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=569
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=569
+#EXTINF:-1 tvg-id="579" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/History_18_Tamil.png" http-user-agent="@allinone_reborn",History TV18 HD Tamil
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=579
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=579
+#EXTINF:-1 tvg-id="603" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Nambikkai.png" http-user-agent="@allinone_reborn",Nambikkai
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=603
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=603
+#EXTINF:-1 tvg-id="615" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/News18TamilNadu.png" http-user-agent="@allinone_reborn",News18 Tamil nadu
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=615
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=615
+#EXTINF:-1 tvg-id="628" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/ZeeTamil.png" http-user-agent="@allinone_reborn",Zee Tamil
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=628
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794400696~exp=1794404296~acl=/bpk-tv/ZeeTamil_BTS/WDVLive/*~hmac=3666c3bb9da96864daf97bb3df9c7bd68fbaba684698defb7114aefa661e98c1"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=628
+#EXTINF:-1 tvg-id="636" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Polimer_News.png" http-user-agent="@allinone_reborn",Polimer News
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=636
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=636
+#EXTINF:-1 tvg-id="671" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Sathiyam.png" http-user-agent="@allinone_reborn",Sathiyam TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=671
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=671
+#EXTINF:-1 tvg-id="673" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/News7_Tamil.png" http-user-agent="@allinone_reborn",News7 Tamil
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=673
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=673
+#EXTINF:-1 tvg-id="676" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Sun_News.png" http-user-agent="@allinone_reborn",Sun News
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=676
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=676
+#EXTINF:-1 tvg-id="677" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Puthiya_Thalimurai.png" http-user-agent="@allinone_reborn",Puthiya Thalimurai
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=677
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=677
+#EXTINF:-1 tvg-id="682" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Sun_Life.png" http-user-agent="@allinone_reborn",Sun Life
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=682
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=682
+#EXTINF:-1 tvg-id="683" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Raj_Digital_Plus.png" http-user-agent="@allinone_reborn",Raj Digital Plus
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=683
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=683
+#EXTINF:-1 tvg-id="705" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Polimer_TV.png" http-user-agent="@allinone_reborn",Polimer TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=705
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=705
+#EXTINF:-1 tvg-id="707" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Raj_TV.png" http-user-agent="@allinone_reborn",Raj TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=707
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=707
+#EXTINF:-1 tvg-id="708" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Makkal_TV.png" http-user-agent="@allinone_reborn",Makkal TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=708
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=708
+#EXTINF:-1 tvg-id="709" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Adithya_TV.png" http-user-agent="@allinone_reborn",Adithya TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=709
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=709
+#EXTINF:-1 tvg-id="726" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/DD5_Podhigai.png" http-user-agent="@allinone_reborn",DD5 Podhigai
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=726
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=726
+#EXTINF:-1 tvg-id="727" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Vasanth_TV.png" http-user-agent="@allinone_reborn",Vasanth TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=727
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=727
+#EXTINF:-1 tvg-id="748" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Raj_Musix.png" http-user-agent="@allinone_reborn",Raj Musix
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=748
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=748
+#EXTINF:-1 tvg-id="767" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Raj_News_24x7.png" http-user-agent="@allinone_reborn",Raj News 24x7
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=767
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=767
+#EXTINF:-1 tvg-id="796" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Peppers_TV.png" http-user-agent="@allinone_reborn",Peppers TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=796
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=796
+#EXTINF:-1 tvg-id="803" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Tunes_6.png" http-user-agent="@allinone_reborn",Tunes 6
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=803
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=803
+#EXTINF:-1 tvg-id="814" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Travel_XP_Tamil.png" http-user-agent="@allinone_reborn",Travelxp Tamil
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=814
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=814
+#EXTINF:-1 tvg-id="817" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/CNTamil.png" http-user-agent="@allinone_reborn",Cartoon Network Tamil
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=817
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=817
+#EXTINF:-1 tvg-id="824" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Puthu_Yugam.png" http-user-agent="@allinone_reborn",Puthu Yugam
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=824
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=824
+#EXTINF:-1 tvg-id="826" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Malai_Murasu.png" http-user-agent="@allinone_reborn",Malaimurasu Seithigal
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=826
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=826
+#EXTINF:-1 tvg-id="830" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Thanthi_TV.png" http-user-agent="@allinone_reborn",Thanthi TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=830
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=830
+#EXTINF:-1 tvg-id="843" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Madhimugam_TV.png" http-user-agent="@allinone_reborn",Madhimugam TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=843
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=843
+#EXTINF:-1 tvg-id="857" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Vendhar_TV.png" http-user-agent="@allinone_reborn",Vendhar TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=857
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=857
+#EXTINF:-1 tvg-id="873" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/SonyYAYTam.png" http-user-agent="@allinone_reborn",Sony Yay Tamil
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=873
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=873
+#EXTINF:-1 tvg-id="894" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/KTV_HD.png" http-user-agent="@allinone_reborn",KTV HD
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=894
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=894
+#EXTINF:-1 tvg-id="895" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Sun_Music_HD.png" http-user-agent="@allinone_reborn",Sun Music HD
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=895
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=895
+#EXTINF:-1 tvg-id="896" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Sun_TV_HD.png" http-user-agent="@allinone_reborn",Sun TV HD
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=896
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=896
+#EXTINF:-1 tvg-id="937" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/SaiTV.png" http-user-agent="@allinone_reborn",Sai TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=937
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=937
+#EXTINF:-1 tvg-id="970" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Win_TV.png" http-user-agent="@allinone_reborn",Win TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=970
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=970
+#EXTINF:-1 tvg-id="971" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Vaanavil_TV.png" http-user-agent="@allinone_reborn",Vaanavil TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=971
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=971
+#EXTINF:-1 tvg-id="1081" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/CNHDTamil.png" http-user-agent="@allinone_reborn",Cartoon Network HD+ Tamil
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1081
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1081
+#EXTINF:-1 tvg-id="1131" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Vijay_Super.png" http-user-agent="@allinone_reborn",Vijay Super
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1131
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1131
+#EXTINF:-1 tvg-id="1136" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Star_Utsav_Movies.png" http-user-agent="@allinone_reborn",Star Utsav Movies
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1136
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1136
+#EXTINF:-1 tvg-id="1209" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Kalaignar_TV.png" http-user-agent="@allinone_reborn",Kalaignar TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1209
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1209
+#EXTINF:-1 tvg-id="1210" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Kalaignar_Seithigal_.png" http-user-agent="@allinone_reborn",Kalaignar Seithigal
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1210
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1210
+#EXTINF:-1 tvg-id="1219" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/AnimalPlanetHDTam.png" http-user-agent="@allinone_reborn",Animal Planet HD Tamil
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1219
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1219
+#EXTINF:-1 tvg-id="1255" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Aastha_Tamil.png" http-user-agent="@allinone_reborn",Aastha Gujarati
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1255
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1255
+#EXTINF:-1 tvg-id="1356" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/ZeeTamilHD.png" http-user-agent="@allinone_reborn",Zee Tamil HD
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1356
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794400094~exp=1794403694~acl=/bpk-tv/ZeeTamilHD_BTS/WDVLive/*~hmac=7045f297199a958ebb39f3a676a474e892534f092054a36b72e629357a7188ec"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1356
+#EXTINF:-1 tvg-id="1371" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Colors_Tamil.png" http-user-agent="@allinone_reborn",Colors Tamil
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1371
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1371
+#EXTINF:-1 tvg-id="1417" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/SVBC2.png" http-user-agent="@allinone_reborn",SVBC2
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1417
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1417
+#EXTINF:-1 tvg-id="1515" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/News_J.png" http-user-agent="@allinone_reborn",News J
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1515
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1515
+#EXTINF:-1 tvg-id="1518" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Moon_Tv.png" http-user-agent="@allinone_reborn",Moon TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1518
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1518
+#EXTINF:-1 tvg-id="1537" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/RadheKrishna_TV.png" http-user-agent="@allinone_reborn",RadheKrishna TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1537
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1537
+#EXTINF:-1 tvg-id="1647" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/MK_Six.png" http-user-agent="@allinone_reborn",MK Six
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1647
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1647
+#EXTINF:-1 tvg-id="1655" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Madha_TV.png" http-user-agent="@allinone_reborn",Madha TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1655
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1655
+#EXTINF:-1 tvg-id="1850" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/SVBC.png" http-user-agent="@allinone_reborn",SVBC
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1850
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1850
+#EXTINF:-1 tvg-id="1858" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/SVBC3.png" http-user-agent="@allinone_reborn",SVBC3
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1858
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1858
+#EXTINF:-1 tvg-id="1859" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/SVBC4.png" http-user-agent="@allinone_reborn",SVBC4
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1859
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1859
+#EXTINF:-1 tvg-id="1954" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/News_Tamil_24x7.png" http-user-agent="@allinone_reborn",News Tamil 24x7
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1954
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1954
+#EXTINF:-1 tvg-id="2434" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/M_Nadu.png" http-user-agent="@allinone_reborn",M Nadu
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=2434
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=2434
+#EXTINF:-1 tvg-id="2768" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Jothi_TV.png" http-user-agent="@allinone_reborn",Jothi TV
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=2768
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=2768
+#EXTINF:-1 tvg-id="2958" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Tamilan_Television.png" http-user-agent="@allinone_reborn",Tamilan Television
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=2958
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=2958
+#EXTINF:-1 tvg-id="3004" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Velicham_Tv.png" http-user-agent="@allinone_reborn",Velicham Tv
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=3004
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=3004
+#EXTINF:-1 tvg-id="3045" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Janam_Tamil.png" http-user-agent="@allinone_reborn",Tamil Janam
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=3045
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=3045
+#EXTINF:-1 tvg-id="3051" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/ZeeThiraiHD.png" http-user-agent="@allinone_reborn",Zee Thirai HD
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=3051
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794400696~exp=1794404296~acl=/bpk-tv/ZeeThiraiHD_BTS/WDVLive/*~hmac=1baf2bbd1f4c6947703109c39d6bb0da60376f6d8708420a7a1ac4cc436d550a"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=3051
+#EXTINF:-1 tvg-id="3059" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Thanti_One.png" http-user-agent="@allinone_reborn",Thanthi One
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=3059
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=3059
+#EXTINF:-1 tvg-id="3088" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/SUN_Neo.png" http-user-agent="@allinone_reborn",Sun Neo HD
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=3088
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=3088
+#EXTINF:-1 tvg-id="3175" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Tamil_Naaptol.png" http-user-agent="@allinone_reborn",Tamil Naaptol
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=3175
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=3175
+#EXTINF:-1 tvg-id="3266" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Vijay_Super_HD.png" http-user-agent="@allinone_reborn",Vijay Super HD
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=3266
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=3266
+#EXTINF:-1 tvg-id="3269" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Vijay_Takkar.png" http-user-agent="@allinone_reborn",Vijay Takkar
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=3269
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=3269
+#EXTINF:-1 tvg-id="3430" group-title="Tamil" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/DiscoveryTam.png" http-user-agent="@allinone_reborn",Discovery Tamil
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=3430
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=3430
+#EXTINF:-1 tvg-id="1391" group-title="Kids" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Hungama.png" http-user-agent="@allinone_reborn",Hungama
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1391
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1391
+#EXTINF:-1 tvg-id="1392" group-title="Kids" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Super_Hungama.png" http-user-agent="@allinone_reborn",Super Hungama
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1392
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1392
+#EXTINF:-1 tvg-id="1373" group-title="Kids" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/Disney_Channel.png" http-user-agent="@allinone_reborn",Disney Channel
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=https://allinonereborn2.online/jtv-fetch/keyid.php?id=1373
+#EXTVLCOPT:http-user-agent=@allinone_reborn
+#EXTHTTP:{"cookie":"__hdnea__=st=1794391211~exp=1794477611~acl=/*~hmac=7042ea21caf942b396ff9809c4b38c56a48ecd87c3eca273ab372703f4da7b14"}
+https://allinonereborn2.online/jiotv-m3u/jtv2.mpd?id=1373
+#EXTINF:-1 tvg-id="1" tvg-name="kalaignar sirippoli" tvg-logo="https://i.imgur.com/nsplwFc.png" tvg-country="india" tvg-language="tamil" group-title="comedy",sirippoli (source 2)
+https://segment.yuppcdn.net/240122/siripoli/playlist.m3u8
+#EXTINF:-1 tvg-id="4" tvg-name="murasu" tvg-logo="https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Murasu%20TV.png" tvg-country="india" tvg-language="tamil" group-title="Entertainment",murasu tv (source 1)
+https://segment.yuppcdn.net/050522/murasu/050522/murasu_1800/chunks.m3u8
+#EXTINF:-1 tvg-id="3" tvg-name="isai aruvi" tvg-logo="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_ISAI_ARUVI/images/LOGO_HD/image.png" tvg-country="india" tvg-language="tamil" group-title="music",isai aruvi (source 1)
+https://segment.yuppcdn.net/140622/isaiaruvi/playlist.m3u8
